@@ -2,6 +2,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { InfoIcon } from "lucide-react";
 
 const RegistrationSuccess = () => {
   return (
@@ -16,25 +18,34 @@ const RegistrationSuccess = () => {
             </svg>
           </div>
           
-          <h1 className="text-3xl font-bold mb-3">Registration Successful!</h1>
+          <h1 className="text-3xl font-bold mb-3">Inscription réussie !</h1>
           <p className="text-gray-600 mb-8">
-            Thank you for registering for Student Hive Hackathon. We've received your application and will be in touch soon with next steps.
+            Merci pour votre inscription au Hackathon Student Hive. Nous avons reçu votre candidature et vous contacterons prochainement avec les prochaines étapes.
           </p>
           
+          <Alert variant="info" className="mb-6 text-left">
+            <InfoIcon className="h-4 w-4 mr-2" />
+            <AlertTitle>Information sur l'email</AlertTitle>
+            <AlertDescription>
+              Dans cette version de démonstration, les emails ne sont pas réellement envoyés. 
+              Dans un environnement de production, vous recevriez un email de confirmation à l'adresse fournie.
+            </AlertDescription>
+          </Alert>
+          
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 className="font-medium mb-4">What's Next?</h2>
+            <h2 className="font-medium mb-4">Prochaines étapes</h2>
             <ol className="text-left text-gray-600 space-y-3">
               <li className="flex gap-3">
                 <div className="flex-none bg-primary/10 text-primary rounded-full h-6 w-6 flex items-center justify-center font-medium text-sm">1</div>
-                <div>Check your email for a confirmation message</div>
+                <div>Vérifier votre boîte de réception pour un message de confirmation</div>
               </li>
               <li className="flex gap-3">
                 <div className="flex-none bg-primary/10 text-primary rounded-full h-6 w-6 flex items-center justify-center font-medium text-sm">2</div>
-                <div>Join our Discord community for updates and team formation</div>
+                <div>Rejoindre notre communauté Discord pour les mises à jour et la formation d'équipes</div>
               </li>
               <li className="flex gap-3">
                 <div className="flex-none bg-primary/10 text-primary rounded-full h-6 w-6 flex items-center justify-center font-medium text-sm">3</div>
-                <div>Prepare for the hackathon by reviewing resources and workshops</div>
+                <div>Se préparer pour le hackathon en consultant les ressources et ateliers</div>
               </li>
             </ol>
           </div>
@@ -42,7 +53,7 @@ const RegistrationSuccess = () => {
           <div className="space-y-4">
             <Link to="/">
               <Button variant="outline" className="w-full">
-                Return to Home
+                Retour à l'accueil
               </Button>
             </Link>
           </div>
