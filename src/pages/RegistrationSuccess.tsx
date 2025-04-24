@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -50,6 +51,11 @@ const RegistrationSuccess = () => {
           </div>
           
           <div className="space-y-4">
+            <Link to="/submission">
+              <Button className="w-full mb-3">
+                Soumettre un projet
+              </Button>
+            </Link>
             <Link to="/">
               <Button variant="outline" className="w-full">
                 Retour à l'accueil

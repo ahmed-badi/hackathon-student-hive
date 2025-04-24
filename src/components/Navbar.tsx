@@ -18,13 +18,16 @@ const Navbar = () => {
         </Link>
         <div className="flex items-center space-x-4">
           <Link to="/about" className="text-sm text-gray-600 hover:text-accent hidden md:block">
-            About
+            À propos
           </Link>
           <Link to="/faq" className="text-sm text-gray-600 hover:text-accent hidden md:block">
             FAQ
           </Link>
+          <Link to="/submission" className="text-sm text-gray-600 hover:text-accent hidden md:block">
+            Soumettre
+          </Link>
           <Link to="/register">
-            <Button>Register Now</Button>
+            <Button>S'inscrire</Button>
           </Link>
         </div>
       </div>
