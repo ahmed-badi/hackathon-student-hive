@@ -1,9 +1,39 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
+import { Timer } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const Index = () => {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const eventDate = new Date('2024-06-12T00:00:00');
+      const now = new Date();
+      const difference = eventDate.getTime() - now.getTime();
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60)
+        });
+      }
+    };
+
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
@@ -13,8 +43,35 @@ const Index = () => {
         <div className="relative bg-gradient-to-br from-primary to-accent py-16 md:py-24">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center text-white">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">Student Hive Hackathon 2025</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">Student Hive Hackathon 2024</h1>
               <p className="text-lg md:text-xl mb-8">Join the most innovative student hackathon and turn your ideas into reality</p>
+              
+              {/* Countdown Timer */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 mb-8">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Timer className="w-5 h-5" />
+                  <span className="font-semibold">Temps restant jusqu'au hackathon</span>
+                </div>
+                <div className="grid grid-cols-4 gap-4 text-center">
+                  <div>
+                    <div className="text-3xl font-bold">{timeLeft.days}</div>
+                    <div className="text-sm opacity-80">Jours</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold">{timeLeft.hours}</div>
+                    <div className="text-sm opacity-80">Heures</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold">{timeLeft.minutes}</div>
+                    <div className="text-sm opacity-80">Minutes</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold">{timeLeft.seconds}</div>
+                    <div className="text-sm opacity-80">Secondes</div>
+                  </div>
+                </div>
+              </div>
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/register">
                   <Button size="lg" className="bg-white text-accent hover:bg-gray-100">
@@ -135,7 +192,7 @@ const Index = () => {
                   <div className="bg-primary rounded-md p-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
                       <path d="M17 6.5a3 3 0 0 0-5.5-1.5 3 3 0 0 0-2.5 5 3 3 0 0 0 5.5 1.5 3 3 0 0 0 2.5-5Z" />
-                      <path d="M9 17.5a3 3 0 0 0-2.5 5 3 3 0 0 0 5.5-1.5 3 3 0 0 0 2.5-5 3 3 0 0 0-5.5 1.5Z" />
+                      <path d="M9 17.5a3 3 0 0 0-2.5 5 3 3 0 0 0 5.5-1.5 3 3 0 0 0 2.5-5 3 3 0 0 0-5-2.5Z" />
                       <path d="M7.5 6.5a3 3 0 0 0-5 2.5 3 3 0 0 0 5 2.5 3 3 0 0 0 5-2.5 3 3 0 0 0-5-2.5Z" />
                     </svg>
                   </div>
