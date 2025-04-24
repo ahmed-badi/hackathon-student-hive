@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import { Link } from "react-router-dom";
 
 const Mentors = () => {
   return (
@@ -79,7 +80,6 @@ const Mentors = () => {
         </div>
       </div>
       
-      {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-12 mt-auto">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between">
@@ -101,18 +101,18 @@ const Mentors = () => {
               <div>
                 <h3 className="text-white font-semibold mb-3">Event</h3>
                 <ul className="space-y-2 text-sm">
-                  <li><a href="#" className="hover:text-white">About</a></li>
-                  <li><a href="#" className="hover:text-white">FAQ</a></li>
-                  <li><a href="#" className="hover:text-white">Schedule</a></li>
+                  <li><Link to="/about" className="hover:text-white">About</Link></li>
+                  <li><Link to="/faq" className="hover:text-white">FAQ</Link></li>
+                  <li><Link to="/schedule" className="hover:text-white">Schedule</Link></li>
                 </ul>
               </div>
               
               <div>
                 <h3 className="text-white font-semibold mb-3">Resources</h3>
                 <ul className="space-y-2 text-sm">
-                  <li><a href="#" className="hover:text-white">Sponsors</a></li>
-                  <li><a href="#" className="hover:text-white">Mentors</a></li>
-                  <li><a href="#" className="hover:text-white">Prizes</a></li>
+                  <li><Link to="/sponsors" className="hover:text-white">Sponsors</Link></li>
+                  <li><Link to="/mentors" className="hover:text-white">Mentors</Link></li>
+                  <li><Link to="/prizes" className="hover:text-white">Prizes</Link></li>
                 </ul>
               </div>
               
