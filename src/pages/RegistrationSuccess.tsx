@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -23,7 +22,7 @@ const RegistrationSuccess = () => {
             Merci pour votre inscription au Hackathon Student Hive. Nous avons reçu votre candidature et vous contacterons prochainement avec les prochaines étapes.
           </p>
           
-          <Alert variant="info" className="mb-6 text-left">
+          <Alert className="mb-6 text-left">
             <InfoIcon className="h-4 w-4 mr-2" />
             <AlertTitle>Information sur l'email</AlertTitle>
             <AlertDescription>
