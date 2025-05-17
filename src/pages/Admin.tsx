@@ -4,7 +4,11 @@ import Navbar from "@/components/Navbar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Download, Info } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useToast } from "@/components/ui/use-toast";
 import { registrationStore } from "@/lib/registration-store";
 
 interface Registration {
@@ -23,6 +27,7 @@ const Admin = () => {
   const [filteredRegistrations, setFilteredRegistrations] = useState<Registration[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [trackFilter, setTrackFilter] = useState("all");
+  const { toast } = useToast();
 
   useEffect(() => {
     // Load registrations
@@ -71,14 +76,43 @@ const Admin = () => {
     return acc;
   }, {});
 
+  const handleExportExcel = () => {
+    try {
+      registrationStore.exportToExcel();
+      toast({
+        title: "Succès",
+        description: "Le fichier Excel des inscriptions a été téléchargé",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error("Export Excel error:", error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de générer le fichier Excel",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
-          <p className="text-gray-600">Manage hackathon registrations</p>
+        <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
+            <p className="text-gray-600">Manage hackathon registrations</p>
+          </div>
+          
+          <Button 
+            onClick={handleExportExcel} 
+            className="mt-4 sm:mt-0 flex items-center gap-2"
+          >
+            <Download className="h-4 w-4" />
+            Exporter Excel
+          </Button>
         </div>
         
         {/* Stats */}
@@ -133,6 +167,26 @@ const Admin = () => {
         
         {/* Registrations List */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
+          <div className="p-4 bg-white border-b border-gray-100 flex justify-between items-center">
+            <h2 className="text-lg font-medium">Liste des inscrits</h2>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex items-center text-sm text-gray-500">
+                    <Info className="h-4 w-4 mr-1" />
+                    <span className="hidden sm:inline">À propos des données</span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">
+                    Les inscriptions sont automatiquement exportées au format Excel à chaque nouvelle inscription.
+                    Vous pouvez aussi télécharger manuellement avec le bouton "Exporter Excel".
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+          
           {filteredRegistrations.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full">

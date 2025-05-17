@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { InfoIcon } from "lucide-react";
+import { InfoIcon, FileSpreadsheet } from "lucide-react";
 
 const RegistrationSuccess = () => {
   return (
@@ -49,6 +49,17 @@ const RegistrationSuccess = () => {
               </li>
             </ol>
           </div>
+          
+          <Alert className="mb-6 flex items-start text-left border-green-100 bg-green-50">
+            <FileSpreadsheet className="h-4 w-4 mr-2 mt-1 text-green-600 flex-shrink-0" />
+            <div>
+              <AlertTitle className="text-green-800">Données enregistrées</AlertTitle>
+              <AlertDescription className="text-green-700">
+                Vos informations d'inscription ont été enregistrées avec succès et ajoutées à notre base de données.
+                Les administrateurs peuvent les consulter et les exporter au format Excel.
+              </AlertDescription>
+            </div>
+          </Alert>
           
           <div className="space-y-4">
             <Link to="/submission">
