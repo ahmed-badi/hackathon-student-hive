@@ -27,46 +27,66 @@ export const supabase = createClient<Database>(
     db: {
       schema: 'public',
     },
-    // Ajout de la configuration pour améliorer la stabilité des connexions
+    // Configuration for improving connection stability
     realtime: {
-      timeout: 60000, // Augmentation du timeout
+      timeout: 60000, // Increased timeout
     }
   }
 );
 
-// Fonction utilitaire pour vérifier la connexion à Supabase avec plus de détails
+// Utility function to check connection to Supabase with more details
 export const checkSupabaseConnection = async () => {
-  console.log("Tentative de connexion à Supabase...");
-  try {
-    const { data, error } = await supabase.from('registrations').select('count').limit(1);
-    
-    if (error) {
-      console.error("Erreur de connexion à Supabase:", error);
-      console.error("Code d'erreur:", error.code);
-      console.error("Message d'erreur:", error.message);
-      console.error("Détails:", error.details);
+  console.log("Attempting to connect to Supabase...");
+  let attempts = 0;
+  const maxAttempts = 3;
+  
+  while (attempts < maxAttempts) {
+    try {
+      const { data, error } = await supabase.from('registrations').select('count').limit(1);
       
-      // Notification pour l'utilisateur
-      toast.error(`Erreur de connexion à la base de données: ${error.message}`);
-      return false;
+      if (error) {
+        console.error(`Supabase connection error (attempt ${attempts + 1}/${maxAttempts}):`, error);
+        console.error("Error code:", error.code);
+        console.error("Error message:", error.message);
+        console.error("Details:", error.details);
+        
+        // Only show error toast on last attempt
+        if (attempts === maxAttempts - 1) {
+          toast.error(`Database connection error: ${error.message}`);
+          return false;
+        }
+      } else {
+        console.log("Supabase connection established successfully", data);
+        toast.success("Connected to database successfully");
+        return true;
+      }
+    } catch (e) {
+      console.error(`Exception during Supabase connection attempt ${attempts + 1}/${maxAttempts}:`, e);
+      if (e instanceof Error) {
+        console.error("Error message:", e.message);
+        console.error("Stack trace:", e.stack);
+        
+        // Only show error toast on last attempt
+        if (attempts === maxAttempts - 1) {
+          toast.error(`Database connection exception: ${e.message}`);
+          return false;
+        }
+      }
     }
     
-    console.log("Connexion à Supabase établie avec succès", data);
-    return true;
-  } catch (e) {
-    console.error("Exception lors de la tentative de connexion à Supabase:", e);
-    if (e instanceof Error) {
-      console.error("Message d'erreur:", e.message);
-      console.error("Stack trace:", e.stack);
-      
-      // Notification pour l'utilisateur
-      toast.error(`Exception lors de la connexion à la base de données: ${e.message}`);
+    // Wait before retrying
+    if (attempts < maxAttempts - 1) {
+      console.log(`Waiting before retry attempt ${attempts + 2}/${maxAttempts}...`);
+      await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay between retries
     }
-    return false;
+    
+    attempts++;
   }
+  
+  return false;
 };
 
-// Fonction utilitaire pour tester la capacité à insérer des données
+// Utility function to test the ability to insert data
 export const testSupabaseInsert = async () => {
   try {
     const testData = {
@@ -83,7 +103,7 @@ export const testSupabaseInsert = async () => {
       team_preference: "solo"
     };
     
-    console.log("Tentative d'insertion de données de test dans Supabase...", testData);
+    console.log("Attempting to insert test data into Supabase...", testData);
     
     const { data, error } = await supabase
       .from('registrations')
@@ -91,15 +111,14 @@ export const testSupabaseInsert = async () => {
       .select();
     
     if (error) {
-      console.error("Erreur lors de l'insertion de test dans Supabase:", error);
+      console.error("Error during test insert into Supabase:", error);
       return false;
     }
     
-    console.log("Insertion de test réussie dans Supabase:", data);
+    console.log("Test insert into Supabase successful:", data);
     return true;
   } catch (e) {
-    console.error("Exception lors du test d'insertion dans Supabase:", e);
+    console.error("Exception during Supabase test insert:", e);
     return false;
   }
 };
-

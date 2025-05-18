@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -10,6 +11,7 @@ import { toast } from "sonner";
 import FormStep from "@/components/FormStep";
 import StepIndicator from "@/components/StepIndicator";
 import { registrationStore } from "@/lib/registration-store";
+import { checkSupabaseConnection } from "@/integrations/supabase/client";
 
 const STEPS = [
   { label: "Personal" },
@@ -22,9 +24,17 @@ const STEPS = [
 const Register = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState(registrationStore.init());
+  const [formData, setFormData] = useState(() => registrationStore.init());
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Ensure Supabase connection on component mount
+  useEffect(() => {
+    const checkConnection = async () => {
+      await checkSupabaseConnection();
+    };
+    checkConnection();
+  }, []);
 
   const updateForm = (field: string, value: any) => {
     const updatedData = registrationStore.update({ [field]: value });
@@ -253,7 +263,7 @@ const Register = () => {
                       <label className="block text-sm font-medium mb-1">Skills & Technologies</label>
                       <Input
                         placeholder="e.g., React, Python, Data Science, etc."
-                        value={formData.skills.join(", ")}
+                        value={formData.skills ? formData.skills.join(", ") : ""}
                         onChange={(e) => updateForm("skills", e.target.value.split(", "))}
                       />
                       <p className="text-xs text-gray-500 mt-1">Separate skills with commas</p>
@@ -397,7 +407,7 @@ const Register = () => {
                         </div>
                         <div>
                           <span className="text-sm text-gray-500">Skills:</span>
-                          <p>{formData.skills.join(", ") || "None specified"}</p>
+                          <p>{formData.skills && formData.skills.length > 0 ? formData.skills.join(", ") : "None specified"}</p>
                         </div>
                         <div>
                           <span className="text-sm text-gray-500">Experience:</span>
