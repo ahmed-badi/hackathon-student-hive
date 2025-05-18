@@ -1,5 +1,6 @@
 
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, checkSupabaseConnection } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 type HackathonTrack = "ai-ml" | "web3" | "healthtech" | "sustainability" | "edtech" | "open";
 
@@ -59,6 +60,17 @@ export const registrationStore = {
         console.error('Failed to parse saved registration data');
       }
     }
+    
+    // Vérifier la connexion à Supabase au chargement
+    checkSupabaseConnection()
+      .then(isConnected => {
+        if (isConnected) {
+          console.log("Supabase prêt à recevoir les données");
+        } else {
+          console.warn("Problème de connexion à Supabase");
+        }
+      });
+      
     return this.data;
   },
   
@@ -89,12 +101,14 @@ export const registrationStore = {
       
       if (error) {
         console.error('Failed to get registrations:', error);
+        toast.error("Erreur lors de la récupération des données");
         return [];
       }
       
       return data || [];
     } catch (e) {
       console.error('Failed to get registrations:', e);
+      toast.error("Exception lors de la récupération des données");
       return [];
     }
   },
@@ -102,6 +116,9 @@ export const registrationStore = {
   // Submit the registration to Supabase
   async submit() {
     try {
+      // Afficher un message de debug pour tracer le problème
+      console.log("Tentative d'envoi des données à Supabase:", this.data);
+      
       // Create a copy without the file object
       const registrationToSave = { ...this.data };
       delete (registrationToSave as any).resumeFile;
@@ -129,41 +146,72 @@ export const registrationStore = {
         */
       }
       
-      // Insert registration data into Supabase
-      const { data, error } = await supabase
-        .from('registrations')
-        .insert([
-          {
-            first_name: registrationToSave.firstName,
-            last_name: registrationToSave.lastName,
-            email: registrationToSave.email,
-            phone: registrationToSave.phone,
-            university: registrationToSave.university,
-            major: registrationToSave.major,
-            graduation_year: registrationToSave.graduationYear,
-            skills: registrationToSave.skills,
-            track: registrationToSave.track,
-            experience: registrationToSave.experience,
-            team_preference: registrationToSave.teamPreference,
-            team_name: registrationToSave.teamName,
-            team_members: registrationToSave.teamMembers,
-            project_idea: registrationToSave.projectIdea,
-            resume_url: resumeUrl
-          }
-        ])
-        .select();
+      // Vérifier la connexion avant d'envoyer
+      const isConnected = await checkSupabaseConnection();
+      if (!isConnected) {
+        console.error("Impossible de se connecter à Supabase");
+        toast.error("Impossible de se connecter à la base de données");
+        throw new Error("Connexion à Supabase impossible");
+      }
+      
+      // Insert registration data into Supabase avec retry
+      let attempts = 0;
+      let data;
+      let error;
+      
+      while (attempts < 3) {
+        const result = await supabase
+          .from('registrations')
+          .insert([
+            {
+              first_name: registrationToSave.firstName,
+              last_name: registrationToSave.lastName,
+              email: registrationToSave.email,
+              phone: registrationToSave.phone,
+              university: registrationToSave.university,
+              major: registrationToSave.major,
+              graduation_year: registrationToSave.graduationYear,
+              skills: registrationToSave.skills,
+              track: registrationToSave.track,
+              experience: registrationToSave.experience,
+              team_preference: registrationToSave.teamPreference,
+              team_name: registrationToSave.teamName,
+              team_members: registrationToSave.teamMembers,
+              project_idea: registrationToSave.projectIdea,
+              resume_url: resumeUrl
+            }
+          ])
+          .select();
+          
+        data = result.data;
+        error = result.error;
+        
+        if (!error) {
+          console.log("Insertion réussie à Supabase:", data);
+          break;
+        }
+        
+        console.error(`Tentative ${attempts + 1} échouée:`, error);
+        attempts++;
+        // Attendre avant de réessayer
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
       
       if (error) {
-        console.error('Error submitting registration:', error);
+        console.error('Error submitting registration after retries:', error);
+        toast.error("Erreur lors de l'envoi de l'inscription. Veuillez réessayer.");
         throw error;
       }
+      
+      toast.success("Inscription enregistrée avec succès!");
       
       // Clear the current form data
       this.reset();
       
-      return data[0];
+      return data ? data[0] : null;
     } catch (e) {
       console.error('Failed to submit registration:', e);
+      toast.error("Échec de l'enregistrement. Veuillez réessayer plus tard.");
       throw e;
     }
   }

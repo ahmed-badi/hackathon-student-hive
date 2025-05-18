@@ -9,4 +9,34 @@ const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiO
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+export const supabase = createClient<Database>(
+  SUPABASE_URL, 
+  SUPABASE_PUBLISHABLE_KEY,
+  {
+    auth: {
+      // Utiliser l'URL actuelle comme URL de redirection pour l'authentification
+      // Cela garantit que l'URL de redirection est correcte dans tous les environnements
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true
+    }
+  }
+);
+
+// Fonction utilitaire pour vérifier la connexion à Supabase
+export const checkSupabaseConnection = async () => {
+  try {
+    const { data, error } = await supabase.from('registrations').select('count').limit(1);
+    
+    if (error) {
+      console.error("Erreur de connexion à Supabase:", error);
+      return false;
+    }
+    
+    console.log("Connexion à Supabase établie avec succès");
+    return true;
+  } catch (e) {
+    console.error("Exception lors de la tentative de connexion à Supabase:", e);
+    return false;
+  }
+};
