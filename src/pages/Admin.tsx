@@ -6,16 +6,18 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { registrationStore } from "@/lib/registration-store";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Registration {
-  id?: string;
-  firstName: string;
-  lastName: string;
+  id: string;
+  first_name: string;
+  last_name: string;
   email: string;
   university: string;
   track: string;
-  teamPreference: string;
-  teamName?: string;
+  team_preference: string;
+  team_name?: string;
+  created_at: string;
 }
 
 const Admin = () => {
@@ -23,12 +25,32 @@ const Admin = () => {
   const [filteredRegistrations, setFilteredRegistrations] = useState<Registration[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [trackFilter, setTrackFilter] = useState("all");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Load registrations
-    const allRegistrations = registrationStore.getAllRegistrations();
-    setRegistrations(allRegistrations);
-    setFilteredRegistrations(allRegistrations);
+    // Load registrations from Supabase
+    const fetchRegistrations = async () => {
+      setIsLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('registrations')
+          .select('*');
+        
+        if (error) {
+          console.error('Error fetching registrations:', error);
+          return;
+        }
+        
+        setRegistrations(data || []);
+        setFilteredRegistrations(data || []);
+      } catch (e) {
+        console.error('Failed to fetch registrations:', e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchRegistrations();
   }, []);
 
   useEffect(() => {
@@ -38,8 +60,8 @@ const Admin = () => {
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(reg => 
-        reg.firstName?.toLowerCase().includes(query) || 
-        reg.lastName?.toLowerCase().includes(query) || 
+        reg.first_name?.toLowerCase().includes(query) || 
+        reg.last_name?.toLowerCase().includes(query) || 
         reg.email?.toLowerCase().includes(query) ||
         reg.university?.toLowerCase().includes(query)
       );
@@ -133,7 +155,11 @@ const Admin = () => {
         
         {/* Registrations List */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
-          {filteredRegistrations.length > 0 ? (
+          {isLoading ? (
+            <div className="p-8 text-center text-gray-500">
+              Chargement des inscriptions...
+            </div>
+          ) : filteredRegistrations.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -146,18 +172,18 @@ const Admin = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredRegistrations.map((reg, index) => (
-                    <tr key={reg.id || index} className="border-b hover:bg-gray-50">
-                      <td className="py-3 px-4">{reg.firstName} {reg.lastName}</td>
+                  {filteredRegistrations.map((reg) => (
+                    <tr key={reg.id} className="border-b hover:bg-gray-50">
+                      <td className="py-3 px-4">{reg.first_name} {reg.last_name}</td>
                       <td className="py-3 px-4">{reg.email}</td>
                       <td className="py-3 px-4">{reg.university}</td>
                       <td className="py-3 px-4">
                         <Badge variant="secondary">{getTrackName(reg.track)}</Badge>
                       </td>
                       <td className="py-3 px-4">
-                        {reg.teamPreference === "solo" && "Solo"}
-                        {reg.teamPreference === "join-team" && "Looking"}
-                        {reg.teamPreference === "have-team" && (reg.teamName || "Team")}
+                        {reg.team_preference === "solo" && "Solo"}
+                        {reg.team_preference === "join-team" && "Looking"}
+                        {reg.team_preference === "have-team" && (reg.team_name || "Team")}
                       </td>
                     </tr>
                   ))}
@@ -166,7 +192,7 @@ const Admin = () => {
             </div>
           ) : (
             <div className="p-8 text-center text-gray-500">
-              {registrations.length === 0 ? "No registrations yet" : "No matching registrations found"}
+              {registrations.length === 0 ? "Aucune inscription pour l'instant" : "Aucune inscription correspondant aux critères"}
             </div>
           )}
         </div>

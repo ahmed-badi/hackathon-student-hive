@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -7,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
+import { toast } from "sonner";
 import FormStep from "@/components/FormStep";
 import StepIndicator from "@/components/StepIndicator";
 import { registrationStore } from "@/lib/registration-store";
@@ -24,6 +24,7 @@ const Register = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState(registrationStore.init());
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const updateForm = (field: string, value: any) => {
     const updatedData = registrationStore.update({ [field]: value });
@@ -74,12 +75,21 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateStep()) {
-      // Submit the form data
-      registrationStore.submit();
-      navigate("/success");
+      setIsSubmitting(true);
+      
+      try {
+        // Submit the form data to Supabase
+        await registrationStore.submit();
+        navigate("/success");
+      } catch (error) {
+        console.error("Erreur lors de l'enregistrement:", error);
+        toast.error("Une erreur s'est produite lors de l'inscription. Veuillez réessayer.");
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -438,7 +448,7 @@ const Register = () => {
                 
                 <div className="mt-8 flex justify-between">
                   {currentStep > 1 && (
-                    <Button type="button" variant="outline" onClick={prevStep}>
+                    <Button type="button" variant="outline" onClick={prevStep} disabled={isSubmitting}>
                       Back
                     </Button>
                   )}
@@ -448,8 +458,12 @@ const Register = () => {
                       Continue
                     </Button>
                   ) : (
-                    <Button type="submit" className="bg-accent hover:bg-accent/90 ml-auto">
-                      Submit Registration
+                    <Button 
+                      type="submit" 
+                      className="bg-accent hover:bg-accent/90 ml-auto"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Submitting..." : "Submit Registration"}
                     </Button>
                   )}
                 </div>
