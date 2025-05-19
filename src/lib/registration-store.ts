@@ -1,4 +1,3 @@
-
 import { supabase, checkSupabaseConnection } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -137,6 +136,7 @@ export const registrationStore = {
       let error;
       
       while (attempts < 3) {
+        console.log("Tentative d'inscription:", attempts + 1);
         const result = await supabase
           .from('registrations')
           .insert([
@@ -144,18 +144,18 @@ export const registrationStore = {
               first_name: registrationToSave.firstName,
               last_name: registrationToSave.lastName,
               email: registrationToSave.email,
-              phone: registrationToSave.phone,
+              phone: registrationToSave.phone || '', // Assurez-vous qu'une valeur vide est envoyée si null
               university: registrationToSave.university,
               major: registrationToSave.major,
-              graduation_year: registrationToSave.graduationYear,
-              skills: registrationToSave.skills,
+              graduation_year: registrationToSave.graduationYear || '', // Assurez-vous qu'une valeur vide est envoyée si null
+              skills: registrationToSave.skills || [],
               track: registrationToSave.track,
               experience: registrationToSave.experience,
               team_preference: registrationToSave.teamPreference,
-              team_name: registrationToSave.teamName,
-              team_members: registrationToSave.teamMembers,
-              project_idea: registrationToSave.projectIdea,
-              specialization: registrationToSave.specialization
+              team_name: registrationToSave.teamName || null,
+              team_members: registrationToSave.teamMembers || null,
+              project_idea: registrationToSave.projectIdea || null,
+              specialization: registrationToSave.specialization || null // Ajout du champ de spécialisation
             }
           ])
           .select();
@@ -164,7 +164,7 @@ export const registrationStore = {
         error = result.error;
         
         if (!error) {
-          console.log("Insertion réussie à Supabase:", data);
+          console.log("Inscription réussie à Supabase:", data);
           break;
         }
         

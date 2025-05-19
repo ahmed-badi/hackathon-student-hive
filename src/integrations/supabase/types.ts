@@ -65,6 +65,7 @@ export type Database = {
           project_idea: string | null
           resume_url: string | null
           skills: string[]
+          specialization: string | null
           team_members: string | null
           team_name: string | null
           team_preference: string
@@ -84,6 +85,7 @@ export type Database = {
           project_idea?: string | null
           resume_url?: string | null
           skills?: string[]
+          specialization?: string | null
           team_members?: string | null
           team_name?: string | null
           team_preference: string
@@ -103,6 +105,7 @@ export type Database = {
           project_idea?: string | null
           resume_url?: string | null
           skills?: string[]
+          specialization?: string | null
           team_members?: string | null
           team_name?: string | null
           team_preference?: string
