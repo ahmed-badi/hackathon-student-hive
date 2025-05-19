@@ -37,6 +37,7 @@ const Feedback = () => {
     setIsSubmitting(true);
 
     try {
+      // Insérer directement dans la table feedback nouvellement créée
       const { error } = await supabase
         .from('feedback')
         .insert([
