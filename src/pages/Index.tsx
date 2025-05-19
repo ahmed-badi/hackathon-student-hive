@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -44,7 +45,7 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center text-white">
               <h1 className="text-4xl md:text-5xl font-bold mb-6">Student Hive Hackathon 2024</h1>
-              <p className="text-lg md:text-xl mb-8">Join the most innovative student hackathon and turn your ideas into reality</p>
+              <p className="text-lg md:text-xl mb-8">Participez au hackathon étudiant le plus innovant et transformez vos idées en réalité</p>
               
               {/* Countdown Timer */}
               <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 mb-8">
@@ -75,11 +76,11 @@ const Index = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/register">
                   <Button size="lg" className="bg-white text-accent hover:bg-gray-100">
-                    Register Now
+                    S'inscrire maintenant
                   </Button>
                 </Link>
                 <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/20">
-                  <Link to="/about">Learn More</Link>
+                  <Link to="/about">En savoir plus</Link>
                 </Button>
               </div>
             </div>
@@ -99,8 +100,8 @@ const Index = () => {
                   <path d="m7 21 5-5 5 5"></path>
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Learn & Grow</h3>
-              <p className="text-gray-600">Expand your skills with workshops and mentoring from industry experts.</p>
+              <h3 className="text-xl font-semibold mb-2">Apprendre & Évoluer</h3>
+              <p className="text-gray-600">Développez vos compétences avec des ateliers et le mentorat d'experts de l'industrie.</p>
             </div>
 
             <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-shadow">
@@ -111,8 +112,8 @@ const Index = () => {
                   <line x1="12" x2="15.5" y1="12" y2="14"></line>
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">48 Hours</h3>
-              <p className="text-gray-600">Two days of coding, collaboration, and creativity to build amazing projects.</p>
+              <h3 className="text-xl font-semibold mb-2">48 Heures</h3>
+              <p className="text-gray-600">Deux jours de codage, de collaboration et de créativité pour construire des projets incroyables.</p>
             </div>
 
             <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-shadow">
@@ -122,8 +123,8 @@ const Index = () => {
                   <path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"></path>
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Build Your Network</h3>
-              <p className="text-gray-600">Connect with fellow hackers, mentors and potential employers.</p>
+              <h3 className="text-xl font-semibold mb-2">Construire Votre Réseau</h3>
+              <p className="text-gray-600">Connectez-vous avec d'autres participants, mentors et employeurs potentiels.</p>
             </div>
           </div>
         </div>
@@ -132,39 +133,39 @@ const Index = () => {
         <div className="bg-gray-50 py-16">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Hackathon Tracks</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Choose from multiple innovation tracks based on your interests and expertise</p>
+              <h2 className="text-3xl font-bold mb-4">Catégories du Hackathon</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">Choisissez parmi plusieurs catégories d'innovation en fonction de vos intérêts et de votre expertise</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
               <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
-                <div className="text-accent text-xl mb-3 font-semibold">AI & Machine Learning</div>
-                <p className="text-gray-600">Build innovative solutions using artificial intelligence and machine learning algorithms.</p>
+                <div className="text-accent text-xl mb-3 font-semibold">IA & Machine Learning</div>
+                <p className="text-gray-600">Développez des solutions innovantes à l'aide d'intelligence artificielle et d'algorithmes d'apprentissage automatique.</p>
               </div>
               
               <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
-                <div className="text-accent text-xl mb-3 font-semibold">Web3 & Blockchain</div>
-                <p className="text-gray-600">Create decentralized applications, smart contracts, or blockchain-based solutions.</p>
+                <div className="text-accent text-xl mb-3 font-semibold">Cyber Sécurité</div>
+                <p className="text-gray-600">Créez des applications et solutions pour améliorer la sécurité informatique et la protection des données.</p>
               </div>
               
               <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
-                <div className="text-accent text-xl mb-3 font-semibold">HealthTech</div>
-                <p className="text-gray-600">Develop applications that address healthcare challenges and improve patient outcomes.</p>
+                <div className="text-accent text-xl mb-3 font-semibold">Analyse de Données</div>
+                <p className="text-gray-600">Développez des applications qui abordent les défis d'analyse et de visualisation des données.</p>
               </div>
               
               <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
-                <div className="text-accent text-xl mb-3 font-semibold">Sustainability</div>
-                <p className="text-gray-600">Build solutions for environmental challenges and sustainable development.</p>
+                <div className="text-accent text-xl mb-3 font-semibold">Durabilité & RSE</div>
+                <p className="text-gray-600">Construisez des solutions pour les défis environnementaux et le développement durable.</p>
               </div>
               
               <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
-                <div className="text-accent text-xl mb-3 font-semibold">EdTech</div>
-                <p className="text-gray-600">Create tools and platforms to improve learning experiences and educational outcomes.</p>
+                <div className="text-accent text-xl mb-3 font-semibold">Développement Web</div>
+                <p className="text-gray-600">Créez des outils et plateformes web innovants pour résoudre des problèmes réels.</p>
               </div>
               
               <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
-                <div className="text-accent text-xl mb-3 font-semibold">Open Innovation</div>
-                <p className="text-gray-600">Have a different idea? Join the open track and innovate without boundaries.</p>
+                <div className="text-accent text-xl mb-3 font-semibold">Blockchain</div>
+                <p className="text-gray-600">Développez des applications décentralisées, des contrats intelligents ou des solutions basées sur la blockchain.</p>
               </div>
             </div>
           </div>
@@ -173,11 +174,11 @@ const Index = () => {
         {/* CTA Section */}
         <div className="bg-gradient-to-br from-accent to-primary text-white py-16">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-6">Ready to Hack?</h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto">Join hundreds of student innovators and build something amazing in 48 hours</p>
+            <h2 className="text-3xl font-bold mb-6">Prêt à Hacker?</h2>
+            <p className="text-xl mb-8 max-w-2xl mx-auto">Rejoignez des centaines d'étudiants innovants et créez quelque chose d'incroyable en 48 heures</p>
             <Link to="/register">
               <Button size="lg" className="bg-white text-accent hover:bg-gray-100">
-                Register Now
+                S'inscrire Maintenant
               </Button>
             </Link>
           </div>
@@ -198,30 +199,30 @@ const Index = () => {
                   </div>
                   <div className="text-lg font-bold text-white">Student Hive</div>
                 </div>
-                <p className="text-sm text-gray-400 max-w-xs">The premier hackathon platform for students to collaborate, innovate, and build amazing projects.</p>
+                <p className="text-sm text-gray-400 max-w-xs">La première plateforme de hackathon pour les étudiants, où collaboration, innovation et projets extraordinaires se rencontrent.</p>
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
                 <div>
-                  <h3 className="text-white font-semibold mb-3">Event</h3>
+                  <h3 className="text-white font-semibold mb-3">Événement</h3>
                   <ul className="space-y-2 text-sm">
-                    <li><Link to="/about" className="hover:text-white">About</Link></li>
+                    <li><Link to="/about" className="hover:text-white">À propos</Link></li>
                     <li><Link to="/faq" className="hover:text-white">FAQ</Link></li>
-                    <li><Link to="/schedule" className="hover:text-white">Schedule</Link></li>
+                    <li><Link to="/schedule" className="hover:text-white">Programme</Link></li>
                   </ul>
                 </div>
                 
                 <div>
-                  <h3 className="text-white font-semibold mb-3">Resources</h3>
+                  <h3 className="text-white font-semibold mb-3">Ressources</h3>
                   <ul className="space-y-2 text-sm">
                     <li><Link to="/sponsors" className="hover:text-white">Sponsors</Link></li>
                     <li><Link to="/mentors" className="hover:text-white">Mentors</Link></li>
-                    <li><Link to="/prizes" className="hover:text-white">Prizes</Link></li>
+                    <li><Link to="/prizes" className="hover:text-white">Prix</Link></li>
                   </ul>
                 </div>
                 
                 <div>
-                  <h3 className="text-white font-semibold mb-3">Connect</h3>
+                  <h3 className="text-white font-semibold mb-3">Connexion</h3>
                   <ul className="space-y-2 text-sm">
                     <li><a href="#" className="hover:text-white">Twitter</a></li>
                     <li><a href="#" className="hover:text-white">Instagram</a></li>
@@ -232,7 +233,7 @@ const Index = () => {
             </div>
             
             <div className="border-t border-gray-800 mt-12 pt-8 text-sm text-gray-500 text-center">
-              <p>&copy; {new Date().getFullYear()} Student Hive. All rights reserved.</p>
+              <p>&copy; {new Date().getFullYear()} Student Hive. Tous droits réservés.</p>
             </div>
           </div>
         </footer>

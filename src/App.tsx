@@ -14,6 +14,8 @@ import FAQ from "./pages/FAQ";
 import TeamSubmission from "./pages/TeamSubmission";
 import Sponsors from "./pages/Sponsors";
 import Mentors from "./pages/Mentors";
+import Jury from "./pages/Jury";
+import Feedback from "./pages/Feedback";
 import Prizes from "./pages/Prizes";
 import Schedule from "./pages/Schedule";
 
@@ -35,6 +37,8 @@ const App = () => (
           <Route path="/submission" element={<TeamSubmission />} />
           <Route path="/sponsors" element={<Sponsors />} />
           <Route path="/mentors" element={<Mentors />} />
+          <Route path="/jury" element={<Jury />} />
+          <Route path="/feedback" element={<Feedback />} />
           <Route path="/prizes" element={<Prizes />} />
           <Route path="/schedule" element={<Schedule />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

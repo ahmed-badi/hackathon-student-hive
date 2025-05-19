@@ -2,19 +2,20 @@
 import { supabase, checkSupabaseConnection } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-type HackathonTrack = "ai-ml" | "web3" | "healthtech" | "sustainability" | "edtech" | "open";
+type HackathonTrack = "ai-ml" | "cybersecurity" | "data-analysis" | "web-dev" | "blockchain" | "sustainability" | "open";
 
 interface RegistrationData {
   // Personal Info
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
+  phone?: string;
   
   // Education
   university: string;
   major: string;
-  graduationYear: string;
+  graduationYear?: string;
+  specialization?: string;
   
   // Skills & Experience
   skills: string[];
@@ -22,7 +23,7 @@ interface RegistrationData {
   experience: string;
   
   // Team & Project
-  teamPreference: "solo" | "join-team" | "have-team";
+  teamPreference: "join-team" | "have-team";
   teamName?: string;
   teamMembers?: string;
   projectIdea?: string;
@@ -38,11 +39,10 @@ const initialData: RegistrationData = {
   phone: "",
   university: "",
   major: "",
-  graduationYear: "",
   skills: [],
   track: "open",
   experience: "",
-  teamPreference: "solo",
+  teamPreference: "join-team",
 };
 
 // Registration store using localStorage for persistence with Supabase integration
@@ -57,7 +57,7 @@ export const registrationStore = {
         const parsedData = JSON.parse(savedData);
         this.data = { ...initialData, ...parsedData };
       } catch (e) {
-        console.error('Failed to parse saved registration data');
+        console.error('Échec de l\'analyse des données d\'inscription sauvegardées');
       }
     }
     
@@ -100,14 +100,14 @@ export const registrationStore = {
         .select('*');
       
       if (error) {
-        console.error('Failed to get registrations:', error);
+        console.error('Échec de récupération des inscriptions:', error);
         toast.error("Erreur lors de la récupération des données");
         return [];
       }
       
       return data || [];
     } catch (e) {
-      console.error('Failed to get registrations:', e);
+      console.error('Échec de récupération des inscriptions:', e);
       toast.error("Exception lors de la récupération des données");
       return [];
     }
@@ -122,29 +122,6 @@ export const registrationStore = {
       // Create a copy without the file object
       const registrationToSave = { ...this.data };
       delete (registrationToSave as any).resumeFile;
-      
-      // Handle file upload if there is one
-      let resumeUrl = null;
-      if (this.data.resumeFile) {
-        const fileExt = this.data.resumeFile.name.split('.').pop();
-        const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
-        const filePath = `resumes/${fileName}`;
-        
-        // Upload file to Supabase Storage (Note: You need to create the bucket first)
-        // This is commented out as we need to create a storage bucket first
-        /*
-        const { error: uploadError } = await supabase.storage
-          .from('resumes')
-          .upload(filePath, this.data.resumeFile);
-        
-        if (uploadError) {
-          console.error('Error uploading file:', uploadError);
-        } else {
-          const { data } = supabase.storage.from('resumes').getPublicUrl(filePath);
-          resumeUrl = data.publicUrl;
-        }
-        */
-      }
       
       // Vérifier la connexion avant d'envoyer
       const isConnected = await checkSupabaseConnection();
@@ -178,7 +155,7 @@ export const registrationStore = {
               team_name: registrationToSave.teamName,
               team_members: registrationToSave.teamMembers,
               project_idea: registrationToSave.projectIdea,
-              resume_url: resumeUrl
+              specialization: registrationToSave.specialization
             }
           ])
           .select();
@@ -198,7 +175,7 @@ export const registrationStore = {
       }
       
       if (error) {
-        console.error('Error submitting registration after retries:', error);
+        console.error('Erreur lors de l\'inscription après plusieurs tentatives:', error);
         toast.error("Erreur lors de l'envoi de l'inscription. Veuillez réessayer.");
         throw error;
       }
@@ -210,7 +187,7 @@ export const registrationStore = {
       
       return data ? data[0] : null;
     } catch (e) {
-      console.error('Failed to submit registration:', e);
+      console.error('Échec de l\'inscription:', e);
       toast.error("Échec de l'enregistrement. Veuillez réessayer plus tard.");
       throw e;
     }

@@ -2,59 +2,101 @@
 import Navbar from "@/components/Navbar";
 import { Link } from "react-router-dom";
 
-const Mentors = () => {
+const Jury = () => {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
       
       <div className="container mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold mb-8">Nos Mentors</h1>
+        <h1 className="text-3xl font-bold mb-8">Notre Jury</h1>
         
         <div className="max-w-3xl mx-auto mb-8 text-center">
           <p className="text-lg text-gray-600">
-            Nos mentors, issus des meilleures entreprises tech, vous accompagneront tout au long du hackathon 
-            pour vous aider à réaliser votre projet.
+            Notre jury d'experts évaluera vos projets et sélectionnera les meilleurs
+            pour les récompenses finales du hackathon.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {[
             {
-              name: "Ahmed BADI",
-              role: "Data Scientist @ Michelin",
+              name: "Marie Dupont",
+              role: "Directrice de l'Innovation @ BigTech",
+              expertise: "IA & Stratégie",
+              image: null
+            },
+            {
+              name: "Jean Martin",
+              role: "CTO @ StartupInnovante",
+              expertise: "Architecture Logicielle",
+              image: null
+            },
+            {
+              name: "Sarah Lemoine",
+              role: "Responsable R&D @ TechCorp",
+              expertise: "Expérience Utilisateur",
+              image: null
+            },
+            {
+              name: "Paul Dubois",
+              role: "Directeur Technique @ DataFirm",
               expertise: "Machine Learning",
               image: null
             },
             {
-              name: "Ayoub BAHEND",
-              role: "Dev Ops Engineer @ Michelin",
-              expertise: "Développement",
+              name: "Émilie Rousseau",
+              role: "VP Engineering @ CloudCo",
+              expertise: "Cloud & DevOps",
               image: null
             },
             {
-              name: "Aymane AMALLAH",
-              role: "Security Analyste @ Michelin",
-              expertise: "Sécurité",
-              image: null
-            },
-            {
-              name: "Hiba BARY",
-              role: "Data Engineer @ Michelin",
-              expertise: "Analyse de Données",
+              name: "Thomas Bernard",
+              role: "Investisseur @ VentureCap",
+              expertise: "Business Model",
               image: null
             }
-          ].map((mentor, index) => (
+          ].map((juror, index) => (
             <div key={index} className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center">
               <div className="w-32 h-32 bg-gray-200 rounded-full mb-4 flex items-center justify-center">
-                <span className="text-gray-400">{mentor.name.split(' ').map(n => n[0]).join('')}</span>
+                <span className="text-gray-400">{juror.name.split(' ').map(n => n[0]).join('')}</span>
               </div>
-              <h3 className="text-xl font-semibold mb-1">{mentor.name}</h3>
-              <p className="text-gray-600 mb-2">{mentor.role}</p>
+              <h3 className="text-xl font-semibold mb-1">{juror.name}</h3>
+              <p className="text-gray-600 mb-2">{juror.role}</p>
               <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
-                {mentor.expertise}
+                {juror.expertise}
               </span>
             </div>
           ))}
+        </div>
+
+        <div className="max-w-3xl mx-auto mt-16 p-6 bg-gray-50 rounded-lg">
+          <h2 className="text-2xl font-bold mb-4 text-center">Critères d'Évaluation</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white p-4 rounded-md shadow">
+              <h3 className="text-lg font-semibold mb-2 text-primary">Innovation</h3>
+              <p className="text-gray-600">Originalité de la solution et approche innovante</p>
+            </div>
+            <div className="bg-white p-4 rounded-md shadow">
+              <h3 className="text-lg font-semibold mb-2 text-primary">Impact</h3>
+              <p className="text-gray-600">Potentiel d'impact positif sur l'industrie ou la société</p>
+            </div>
+            <div className="bg-white p-4 rounded-md shadow">
+              <h3 className="text-lg font-semibold mb-2 text-primary">Faisabilité</h3>
+              <p className="text-gray-600">Viabilité technique et potentiel de mise en œuvre</p>
+            </div>
+            <div className="bg-white p-4 rounded-md shadow">
+              <h3 className="text-lg font-semibold mb-2 text-primary">Design</h3>
+              <p className="text-gray-600">Expérience utilisateur et qualité de l'interface</p>
+            </div>
+            <div className="bg-white p-4 rounded-md shadow">
+              <h3 className="text-lg font-semibold mb-2 text-primary">Présentation</h3>
+              <p className="text-gray-600">Clarté et efficacité de la présentation du projet</p>
+            </div>
+            <div className="bg-white p-4 rounded-md shadow">
+              <h3 className="text-lg font-semibold mb-2 text-primary">Travail d'Équipe</h3>
+              <p className="text-gray-600">Collaboration et complémentarité des compétences</p>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -90,6 +132,7 @@ const Mentors = () => {
                 <ul className="space-y-2 text-sm">
                   <li><Link to="/sponsors" className="hover:text-white">Sponsors</Link></li>
                   <li><Link to="/mentors" className="hover:text-white">Mentors</Link></li>
+                  <li><Link to="/jury" className="hover:text-white">Jury</Link></li>
                   <li><Link to="/prizes" className="hover:text-white">Prix</Link></li>
                 </ul>
               </div>
@@ -114,4 +157,4 @@ const Mentors = () => {
   );
 };
 
-export default Mentors;
+export default Jury;
