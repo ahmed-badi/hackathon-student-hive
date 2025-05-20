@@ -75,14 +75,14 @@ const TeamSubmission = () => {
           github_link: gitHubLink || null,
           demo_link: demoLink || null,
           presentation_url: presentationUrl,
+          submitted_at: new Date().toISOString(),
         })
         .select();
 
       if (error) {
         console.error('Erreur lors de l\'enregistrement du projet:', error);
-        toast.error("Erreur lors de l'enregistrement du projet");
+        toast.error("Erreur lors de l'enregistrement du projet : " + error.message);
         setIsSubmitting(false);
-        return;
       }
 
       setIsSubmitting(false);
