@@ -18,6 +18,7 @@ import Jury from "./pages/Jury";
 import Feedback from "./pages/Feedback";
 import Prizes from "./pages/Prizes";
 import Schedule from "./pages/Schedule";
+import OrganizerPresentation from "./pages/OrganizerPresentation";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/prizes" element={<Prizes />} />
           <Route path="/schedule" element={<Schedule />} />
+          <Route path="/organizer-presentation" element={<OrganizerPresentation />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

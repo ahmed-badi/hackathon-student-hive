@@ -2,8 +2,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { InfoIcon } from "lucide-react";
 
 const RegistrationSuccess = () => {
   return (
@@ -22,15 +20,6 @@ const RegistrationSuccess = () => {
           <p className="text-gray-600 mb-8">
             Merci pour votre inscription au Hackathon Student Hive. Nous avons reçu votre candidature et vous contacterons prochainement avec les prochaines étapes.
           </p>
-          
-          <Alert className="mb-6 text-left">
-            <InfoIcon className="h-4 w-4 mr-2" />
-            <AlertTitle>Information sur l'email</AlertTitle>
-            <AlertDescription>
-              Dans cette version de démonstration, les emails ne sont pas réellement envoyés. 
-              Dans un environnement de production, vous recevriez un email de confirmation à l'adresse fournie.
-            </AlertDescription>
-          </Alert>
           
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
             <h2 className="font-medium mb-4">Prochaines étapes</h2>
