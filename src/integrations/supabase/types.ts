@@ -114,6 +114,45 @@ export type Database = {
         }
         Relationships: []
       }
+      team_submissions: {
+        Row: {
+          demo_link: string | null
+          github_link: string | null
+          id: string
+          presentation_url: string | null
+          project_description: string
+          project_title: string
+          submitted_at: string
+          team_members: string[]
+          team_name: string
+          track: string
+        }
+        Insert: {
+          demo_link?: string | null
+          github_link?: string | null
+          id?: string
+          presentation_url?: string | null
+          project_description: string
+          project_title: string
+          submitted_at?: string
+          team_members: string[]
+          team_name: string
+          track: string
+        }
+        Update: {
+          demo_link?: string | null
+          github_link?: string | null
+          id?: string
+          presentation_url?: string | null
+          project_description?: string
+          project_title?: string
+          submitted_at?: string
+          team_members?: string[]
+          team_name?: string
+          track?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

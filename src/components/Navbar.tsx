@@ -75,6 +75,10 @@ const Navbar = () => {
                       <div className="text-sm font-medium">Mentors</div>
                       <div className="text-sm text-muted-foreground">Ceux qui vous aideront</div>
                     </Link>
+                    <Link to="/jury" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
+                      <div className="text-sm font-medium">Jury</div>
+                      <div className="text-sm text-muted-foreground">Les évaluateurs des projets</div>
+                    </Link>
                     <Link to="/prizes" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
                       <div className="text-sm font-medium">Prix</div>
                       <div className="text-sm text-muted-foreground">Prix à gagner</div>
@@ -125,6 +129,9 @@ const Navbar = () => {
               </Link>
               <Link to="/mentors" className="block py-2 hover:text-accent" onClick={toggleMenu}>
                 Mentors
+              </Link>
+              <Link to="/jury" className="block py-2 hover:text-accent" onClick={toggleMenu}>
+                Jury
               </Link>
               <Link to="/prizes" className="block py-2 hover:text-accent" onClick={toggleMenu}>
                 Prix

@@ -8,10 +8,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Upload, CheckCircle, AlertCircle } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const TeamSubmission = () => {
-  const { toast } = useToast();
   const [teamName, setTeamName] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
@@ -29,39 +29,68 @@ const TeamSubmission = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate submission process
-    setTimeout(() => {
-      // Store submission in local storage for demo
-      const submission = {
-        teamName,
-        projectTitle,
-        projectDescription,
-        track,
-        teamMembers: teamMembers.split(',').map(member => member.trim()),
-        gitHubLink,
-        demoLink,
-        presentationFileName: presentationFile?.name || "Aucun fichier",
-        submittedAt: new Date().toISOString(),
-      };
+    try {
+      let presentationUrl = null;
+      
+      // Si un fichier de présentation a été téléchargé, stockons-le dans Supabase Storage
+      if (presentationFile) {
+        const fileExt = presentationFile.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+        const filePath = `${teamName}/${fileName}`;
 
-      // Get existing submissions or initialize empty array
-      const existingSubmissions = JSON.parse(localStorage.getItem("teamSubmissions") || "[]");
-      existingSubmissions.push(submission);
-      localStorage.setItem("teamSubmissions", JSON.stringify(existingSubmissions));
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('project_presentations')
+          .upload(filePath, presentationFile);
+
+        if (uploadError) {
+          console.error('Erreur lors du téléchargement du fichier:', uploadError);
+          toast.error("Erreur lors du téléchargement de la présentation");
+          setIsSubmitting(false);
+          return;
+        }
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('project_presentations')
+          .getPublicUrl(filePath);
+          
+        presentationUrl = publicUrl;
+      }
+
+      // Convertir la liste des membres en tableau
+      const teamMembersArray = teamMembers.split(',').map(member => member.trim());
+
+      // Enregistrer la soumission dans Supabase
+      const { data, error } = await supabase
+        .from('team_submissions')
+        .insert({
+          team_name: teamName,
+          project_title: projectTitle,
+          project_description: projectDescription,
+          track: track,
+          team_members: teamMembersArray,
+          github_link: gitHubLink || null,
+          demo_link: demoLink || null,
+          presentation_url: presentationUrl,
+        })
+        .select();
+
+      if (error) {
+        console.error('Erreur lors de l\'enregistrement du projet:', error);
+        toast.error("Erreur lors de l'enregistrement du projet");
+        setIsSubmitting(false);
+        return;
+      }
 
       setIsSubmitting(false);
       setSubmissionStatus("success");
       
-      toast({
-        title: "Projet soumis avec succès",
-        description: "Votre projet a été enregistré. Merci pour votre participation!",
-      });
+      toast.success("Projet soumis avec succès");
 
-      // Reset form after successful submission
+      // Réinitialiser le formulaire après une soumission réussie
       setTeamName("");
       setProjectTitle("");
       setProjectDescription("");
@@ -70,7 +99,12 @@ const TeamSubmission = () => {
       setGitHubLink("");
       setDemoLink("");
       setPresentationFile(null);
-    }, 2000);
+    } catch (error) {
+      console.error('Erreur:', error);
+      toast.error("Une erreur inattendue s'est produite");
+      setIsSubmitting(false);
+      setSubmissionStatus("error");
+    }
   };
 
   return (
@@ -193,14 +227,13 @@ const TeamSubmission = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="githubLink">Lien GitHub *</Label>
+                    <Label htmlFor="githubLink">Lien GitHub (optionnel)</Label>
                     <Input 
                       id="githubLink"
                       type="url"
                       value={gitHubLink}
                       onChange={(e) => setGitHubLink(e.target.value)}
                       placeholder="https://github.com/votre-username/votre-projet"
-                      required
                     />
                   </div>
                   
@@ -242,16 +275,6 @@ const TeamSubmission = () => {
                           </div>
                         )}
                       </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-md p-4 flex items-start gap-3">
-                    <AlertCircle className="h-5 w-5 text-yellow-500 mt-0.5 flex-shrink-0" />
-                    <div className="text-sm text-yellow-700">
-                      <p className="font-medium">Note importante</p>
-                      <p>Dans cette version de démonstration, les fichiers ne sont pas réellement téléchargés sur un serveur. 
-                      Pour implémenter cette fonctionnalité en production, il faudrait connecter l'application à un service 
-                      de stockage comme Supabase.</p>
                     </div>
                   </div>
                 </CardContent>

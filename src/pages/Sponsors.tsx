@@ -1,3 +1,4 @@
+
 import Navbar from "@/components/Navbar";
 
 const Sponsors = () => {
@@ -76,17 +77,6 @@ const Sponsors = () => {
               ))}
             </div>
           </div>
-        </div>
-        
-        <div className="mt-12 text-center">
-          <h2 className="text-2xl font-bold mb-4">Devenez Sponsor</h2>
-          <p className="max-w-2xl mx-auto text-gray-600 mb-6">
-            Vous souhaitez soutenir l'innovation étudiante et valoriser votre marque auprès des talents de demain ? 
-            Découvrez nos différentes formules de partenariat.
-          </p>
-          <button className="bg-primary text-white px-6 py-3 rounded-md hover:bg-primary/90 transition-colors">
-            Contactez-nous
-          </button>
         </div>
       </div>
       
