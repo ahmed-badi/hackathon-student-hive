@@ -1,3 +1,4 @@
+
 import { supabase, checkSupabaseConnection } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -112,6 +113,48 @@ export const registrationStore = {
     }
   },
   
+  // Send confirmation email
+  async sendConfirmationEmail(registrationData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  }) {
+    try {
+      const registrationDate = new Date().toLocaleString('fr-FR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      const response = await fetch('https://gibsyygowtzieicrnqyv.supabase.co/functions/v1/send-confirmation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabase.auth.getSession()?.data?.session?.access_token || ''}`,
+        },
+        body: JSON.stringify({
+          firstName: registrationData.firstName,
+          lastName: registrationData.lastName,
+          email: registrationData.email,
+          registrationDate
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Erreur lors de l\'envoi de l\'email de confirmation:', errorData);
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      console.error('Exception lors de l\'envoi de l\'email de confirmation:', e);
+      return false;
+    }
+  },
+  
   // Submit the registration to Supabase
   async submit() {
     try {
@@ -180,7 +223,19 @@ export const registrationStore = {
         throw error;
       }
       
-      toast.success("Inscription enregistrée avec succès!");
+      // Envoyer l'email de confirmation
+      const emailSent = await this.sendConfirmationEmail({
+        firstName: registrationToSave.firstName,
+        lastName: registrationToSave.lastName,
+        email: registrationToSave.email
+      });
+      
+      if (emailSent) {
+        toast.success("Inscription enregistrée et email de confirmation envoyé!");
+      } else {
+        toast.success("Inscription enregistrée avec succès!");
+        toast.warning("L'email de confirmation n'a pas pu être envoyé.");
+      }
       
       // Clear the current form data
       this.reset();
