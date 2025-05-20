@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import { Timer } from "lucide-react";
 import { useEffect, useState } from "react";
 
+const EVENT_DATE = new Date("2025-06-12T00:00:00"); 
+
 const Index = () => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -15,9 +17,8 @@ const Index = () => {
 
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const eventDate = new Date('2024-06-12T00:00:00');
       const now = new Date();
-      const difference = eventDate.getTime() - now.getTime();
+      const difference = EVENT_DATE.getTime() - now.getTime();
 
       if (difference > 0) {
         setTimeLeft({
@@ -27,7 +28,6 @@ const Index = () => {
           seconds: Math.floor((difference / 1000) % 60)
         });
       } else {
-        // Si la date est passée
         setTimeLeft({
           days: 0,
           hours: 0,
@@ -52,7 +52,7 @@ const Index = () => {
         <div className="relative bg-gradient-to-br from-primary to-accent py-16 md:py-24">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center text-white">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">Student Hive Hackathon 2024</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">HackathonZZ 2025</h1>
               <p className="text-lg md:text-xl mb-8">Participez au hackathon étudiant le plus innovant et transformez vos idées en réalité</p>
               
               {/* Countdown Timer */}
@@ -87,7 +87,7 @@ const Index = () => {
                     S'inscrire maintenant
                   </Button>
                 </Link>
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/20">
+                <Button  size="lg" className="border-white text-white hover:bg-white/20">
                   <Link to="/about">En savoir plus</Link>
                 </Button>
               </div>
@@ -152,7 +152,7 @@ const Index = () => {
               </div>
               
               <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
-                <div className="text-accent text-xl mb-3 font-semibold">Cyber Sécurité</div>
+                <div className="text-accent text-xl mb-3 font-semibold">Cybersécurité</div>
                 <p className="text-gray-600">Créez des applications et solutions pour améliorer la sécurité informatique et la protection des données.</p>
               </div>
               
