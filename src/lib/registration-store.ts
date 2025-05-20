@@ -1,4 +1,3 @@
-
 import { supabase, checkSupabaseConnection } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -128,11 +127,15 @@ export const registrationStore = {
         minute: '2-digit'
       });
 
+      // Corriger l'accès au token d'authentification en attendant la promesse
+      const sessionResponse = await supabase.auth.getSession();
+      const accessToken = sessionResponse?.data?.session?.access_token || '';
+      
       const response = await fetch('https://gibsyygowtzieicrnqyv.supabase.co/functions/v1/send-confirmation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${supabase.auth.getSession()?.data?.session?.access_token || ''}`,
+          'Authorization': `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           firstName: registrationData.firstName,
