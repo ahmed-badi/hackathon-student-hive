@@ -36,7 +36,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           <p>Bonjour <strong>${firstName} ${lastName}</strong>,</p>
           
-          <p>Nous vous confirmons votre inscription au Hackathon Student Hive.</p>
+          <p>Nous vous confirmons votre inscription au HackathonZZ.</p>
           
           <div style="background-color: #f3f4f6; padding: 15px; border-radius: 5px; margin: 20px 0;">
             <p style="margin: 5px 0;"><strong>Date d'inscription:</strong> ${registrationDate}</p>
@@ -47,7 +47,11 @@ const handler = async (req: Request): Promise<Response> => {
           <p>Pour toute question, n'hésitez pas à nous contacter.</p>
           
           <p style="margin-top: 30px;">Cordialement,</p>
-          <p><strong>L'équipe Hackathon Student Hive</strong></p>
+          <p><strong>L'équipe HackathonZZ</strong></p>
+          <p><strong>BADI Ahmed</strong></p>
+          <p><strong>BAHEND Ayoub</strong></p>
+          <p><strong>AMALLAH Aymane</strong></p>
+          <p><strong>BARY Hiba</strong></p>
         </div>
       `,
     });
