@@ -83,6 +83,10 @@ const Navbar = () => {
                       <div className="text-sm font-medium">Prix</div>
                       <div className="text-sm text-muted-foreground">Prix à gagner</div>
                     </Link>
+                    <Link to="/organizer-presentation" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
+                      <div className="text-sm font-medium">Présentations</div>
+                      <div className="text-sm text-muted-foreground">Gérer les présentations</div>
+                    </Link>
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -135,6 +139,9 @@ const Navbar = () => {
               </Link>
               <Link to="/prizes" className="block py-2 hover:text-accent" onClick={toggleMenu}>
                 Prix
+              </Link>
+              <Link to="/organizer-presentation" className="block py-2 hover:text-accent" onClick={toggleMenu}>
+                Présentations
               </Link>
             </div>
             
