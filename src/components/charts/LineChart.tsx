@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Line } from 'recharts';
+import { Line, LineChart as RechartsLineChart } from 'recharts';
 import { ChartContainer } from '@/components/ui/chart';
 
 interface LineChartProps {
@@ -38,11 +38,9 @@ export function LineChart({
       className={className} 
       config={config}
     >
-      {(props) => (
-        <Line
-          data={data}
-          {...props}
-        >
+      {({ children }) => (
+        <RechartsLineChart data={data}>
+          {children}
           {categories.map((category, i) => (
             <Line
               key={category}
@@ -52,7 +50,7 @@ export function LineChart({
               activeDot={{ r: 8 }}
             />
           ))}
-        </Line>
+        </RechartsLineChart>
       )}
     </ChartContainer>
   );

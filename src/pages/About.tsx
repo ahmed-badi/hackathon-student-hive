@@ -10,13 +10,13 @@ const About = () => {
       
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8 text-center">À propos du Student Hive Hackathon</h1>
+          <h1 className="text-4xl font-bold mb-8 text-center">À propos du Hackazzon</h1>
           
           {/* Mission Section */}
           <div className="bg-white rounded-lg shadow-md p-8 mb-8">
             <h2 className="text-2xl font-semibold mb-4">Notre Mission</h2>
             <p className="text-gray-600 mb-6">
-              Le Student Hive Hackathon est conçu pour encourager l'innovation et la créativité chez les étudiants. 
+              Le Hackazzon est conçu pour encourager l'innovation et la créativité chez les étudiants. 
               Pendant 48 heures intenses, vous aurez l'opportunité de transformer vos idées en projets concrets tout 
               en collaborant avec d'autres passionnés de technologie.
             </p>
@@ -31,8 +31,17 @@ const About = () => {
                   <span className="text-primary font-semibold">Jour 1</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-2">Lancement & Formation des Équipes</h3>
-                  <p className="text-gray-600">Cérémonie d'ouverture, présentation des thèmes, formation des équipes et début du hackathon.</p>
+                  <h3 className="font-semibold mb-2">12 juin</h3>
+                  <p className="text-gray-600">
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>08h30 - Accueil et enregistrement et formation des équipes</li>
+                      <li>09h00 - Présentation du hackathon et des règles</li>
+                      <li>11h00 - Début du hackathon, brainstorming</li>
+                      <li>11h30 - Développement des projets</li>
+                      <li>14h00 - Mentorat</li>
+                      <li>21h00 - Avancement des projets et tests</li>
+                    </ul>
+                  </p>
                 </div>
               </div>
               
@@ -41,18 +50,16 @@ const About = () => {
                   <span className="text-primary font-semibold">Jour 2</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-2">Développement & Mentorat</h3>
-                  <p className="text-gray-600">Sessions de mentorat, ateliers techniques, et développement intensif des projets.</p>
-                </div>
-              </div>
-              
-              <div className="flex gap-4">
-                <div className="flex-none w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                  <span className="text-primary font-semibold">Final</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-2">Présentations & Prix</h3>
-                  <p className="text-gray-600">Présentation des projets devant le jury, remise des prix et networking.</p>
+                  <h3 className="font-semibold mb-2">13 juin</h3>
+                  <p className="text-gray-600">
+                    <ul className="list-disc pl-5 space-y-1">
+                      <li>08h00 - Finalisation des projets</li>
+                      <li>10h30 - Préparation des présentations</li>
+                      <li>15h00 - Présentation finale des projets devant jury</li>
+                      <li>17h00 - Délibération et remise des prix</li>
+                      <li>17h30 - Clôture</li>
+                    </ul>
+                  </p>
                 </div>
               </div>
             </div>
@@ -64,20 +71,20 @@ const About = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center p-6 bg-gradient-to-b from-[#FFD700]/10 to-transparent rounded-lg">
                 <div className="text-2xl font-bold text-[#FFD700] mb-2">1er Prix</div>
-                <div className="font-semibold mb-2">5000 €</div>
-                <p className="text-gray-600">+ Mentorat avec des experts</p>
+                <div className="font-semibold mb-2">?????</div>
+                <p className="text-gray-600">Surprise</p>
               </div>
               
               <div className="text-center p-6 bg-gradient-to-b from-[#C0C0C0]/10 to-transparent rounded-lg">
                 <div className="text-2xl font-bold text-[#C0C0C0] mb-2">2ème Prix</div>
-                <div className="font-semibold mb-2">3000 €</div>
-                <p className="text-gray-600">+ Accès à des ressources premium</p>
+                <div className="font-semibold mb-2">?????</div>
+                <p className="text-gray-600">Surprise</p>
               </div>
               
               <div className="text-center p-6 bg-gradient-to-b from-[#CD7F32]/10 to-transparent rounded-lg">
                 <div className="text-2xl font-bold text-[#CD7F32] mb-2">3ème Prix</div>
-                <div className="font-semibold mb-2">1500 €</div>
-                <p className="text-gray-600">+ Opportunités de stage</p>
+                <div className="font-semibold mb-2">?????</div>
+                <p className="text-gray-600">Surprise</p>
               </div>
             </div>
           </div>
@@ -98,7 +105,7 @@ const About = () => {
               
               <div>
                 <h3 className="font-semibold mb-2">Comment former une équipe ?</h3>
-                <p className="text-gray-600">Vous pouvez former votre équipe à l'avance ou rencontrer d'autres participants lors de l'événement.</p>
+                <p className="text-gray-600">Idéalement, les équipes sont composées de 4 personnes. Des équipes de 3 sont acceptées dans des cas exceptionnels.</p>
               </div>
             </div>
           </div>

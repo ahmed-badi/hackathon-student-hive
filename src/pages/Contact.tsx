@@ -172,13 +172,13 @@ const Contact = () => {
                   </div>
                   
                   <div>
-                    <p className="font-medium">Email</p>
-                    <p className="text-gray-600">hackathon@isima.fr</p>
-                  </div>
-                  
-                  <div>
-                    <p className="font-medium">Téléphone</p>
-                    <p className="text-gray-600">+33 4 73 40 50 00</p>
+                    <p className="font-medium">L'équipe Hackathon</p>
+                    <p className="text-gray-600">
+                      BADI Ahmed<br />
+                      BAHEND Ayoub<br />
+                      AMALLAH Aymane<br />
+                      BARY Hiba
+                    </p>
                   </div>
                 </div>
               </Card>

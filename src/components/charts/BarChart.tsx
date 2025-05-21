@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Bar } from 'recharts';
+import { Bar, BarChart as RechartsBarChart } from 'recharts';
 import { ChartContainer } from '@/components/ui/chart';
 
 interface BarChartProps {
@@ -38,11 +38,9 @@ export function BarChart({
       className={className} 
       config={config}
     >
-      {(props) => (
-        <Bar
-          data={data}
-          {...props}
-        >
+      {({ children }) => (
+        <RechartsBarChart data={data}>
+          {children}
           {categories.map((category, i) => (
             <Bar
               key={category}
@@ -51,7 +49,7 @@ export function BarChart({
               radius={[4, 4, 0, 0]}
             />
           ))}
-        </Bar>
+        </RechartsBarChart>
       )}
     </ChartContainer>
   );

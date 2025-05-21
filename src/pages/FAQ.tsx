@@ -13,7 +13,7 @@ const FAQ = () => {
     },
     {
       question: "Comment former une équipe ?",
-      answer: "Vous pouvez former votre équipe à l'avance ou lors de l'événement. Les équipes doivent être composées de 2 à 5 personnes. Nous organiserons une session de formation d'équipe au début de l'événement pour ceux qui cherchent des coéquipiers."
+      answer: "Idéalement, les équipes sont composées de 4 personnes. Des équipes de 3 sont acceptées dans des cas exceptionnels (si le nombre total de participants n'est pas un multiple de 4). Vous pouvez former votre équipe à l'avance ou lors de l'événement."
     },
     {
       question: "Quelles sont les technologies autorisées ?",
