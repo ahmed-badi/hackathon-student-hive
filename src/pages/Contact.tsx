@@ -1,61 +1,78 @@
 
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Card } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { Mail, Send } from "lucide-react";
-
-const contactFormSchema = z.object({
-  name: z.string().min(2, { message: "Le nom doit contenir au moins 2 caractères" }),
-  email: z.string().email({ message: "Veuillez entrer une adresse email valide" }),
-  subject: z.string().min(5, { message: "Le sujet doit contenir au moins 5 caractères" }),
-  message: z.string().min(10, { message: "Le message doit contenir au moins 10 caractères" }),
-});
-
-type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 const Contact = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-
-  const form = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    },
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
   });
 
-  const onSubmit = async (data: ContactFormValues) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validation
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez remplir tous les champs du formulaire.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
+    
     try {
+      // Submit to Supabase
       const { error } = await supabase
         .from('contact_messages')
-        .insert([data]);
+        .insert({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        });
       
       if (error) throw error;
       
       toast({
         title: "Message envoyé",
-        description: "Votre message a été envoyé avec succès. Nous vous répondrons dès que possible.",
+        description: "Nous avons bien reçu votre message et reviendrons vers vous rapidement.",
       });
       
-      form.reset();
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: ""
+      });
+      
     } catch (error) {
-      console.error("Erreur lors de l'envoi du message:", error);
+      console.error("Error submitting message:", error);
       toast({
-        variant: "destructive",
         title: "Erreur",
-        description: "Une erreur est survenue lors de l'envoi de votre message. Veuillez réessayer.",
+        description: "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.",
+        variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
@@ -63,122 +80,108 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
       
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-2">Contactez-nous</h1>
-          <p className="text-gray-600 mb-8">
-            Vous avez des questions ou des suggestions ? N'hésitez pas à nous contacter en remplissant le formulaire ci-dessous.
-          </p>
+          <p className="text-gray-600 mb-8">Une question ? Une suggestion ? N'hésitez pas à nous contacter.</p>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="md:col-span-2 bg-white p-6 rounded-lg shadow-sm border">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Nom</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Votre nom" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input type="email" placeholder="votre@email.com" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="md:col-span-2">
+              <Card className="p-6">
+                <form onSubmit={handleSubmit}>
+                  <div className="space-y-4">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium mb-1">Nom</label>
+                      <Input 
+                        id="name" 
+                        name="name" 
+                        placeholder="Votre nom"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
+                      <Input 
+                        id="email" 
+                        name="email" 
+                        type="email" 
+                        placeholder="votre.email@exemple.com"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="subject" className="block text-sm font-medium mb-1">Sujet</label>
+                      <Input 
+                        id="subject" 
+                        name="subject" 
+                        placeholder="Sujet de votre message"
+                        value={formData.subject}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-medium mb-1">Message</label>
+                      <Textarea 
+                        id="message" 
+                        name="message" 
+                        placeholder="Votre message..."
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        rows={6} 
+                        required
+                      />
+                    </div>
+                    
+                    <div className="pt-2">
+                      <Button 
+                        type="submit" 
+                        className="w-full" 
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? "Envoi en cours..." : "Envoyer"}
+                      </Button>
+                    </div>
                   </div>
-                  
-                  <FormField
-                    control={form.control}
-                    name="subject"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Sujet</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Sujet de votre message" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Message</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="Écrivez votre message ici..." 
-                            className="min-h-32"
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <Button type="submit" className="w-full md:w-auto" disabled={isSubmitting}>
-                    {isSubmitting ? (
-                      "Envoi en cours..."
-                    ) : (
-                      <>
-                        <Send className="mr-2 h-4 w-4" /> Envoyer le message
-                      </>
-                    )}
-                  </Button>
                 </form>
-              </Form>
+              </Card>
             </div>
             
-            <div className="bg-gray-50 p-6 rounded-lg shadow-sm border">
-              <h2 className="text-lg font-semibold mb-4">Informations</h2>
-              
-              <div className="space-y-4">
-                <div>
-                  <p className="font-medium">Adresse</p>
-                  <p className="text-gray-600">Campus Universitaire des Cézeaux, 63170 Aubière</p>
-                </div>
+            <div>
+              <Card className="p-6">
+                <h3 className="text-lg font-medium mb-4">Informations</h3>
                 
-                <div>
-                  <p className="font-medium">Email</p>
-                  <p className="text-gray-600">contact@hackathon-isima.fr</p>
+                <div className="space-y-4">
+                  <div>
+                    <p className="font-medium">Adresse</p>
+                    <p className="text-gray-600">
+                      Campus des Cézeaux<br />
+                      1 Rue de la Chebarde<br />
+                      63178 Aubière
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <p className="font-medium">Email</p>
+                    <p className="text-gray-600">hackathon@isima.fr</p>
+                  </div>
+                  
+                  <div>
+                    <p className="font-medium">Téléphone</p>
+                    <p className="text-gray-600">+33 4 73 40 50 00</p>
+                  </div>
                 </div>
-                
-                <div>
-                  <p className="font-medium">Heures d'ouverture</p>
-                  <p className="text-gray-600">Lun - Ven: 9h00 - 17h00</p>
-                </div>
-              </div>
-              
-              <div className="mt-6">
-                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
-                  <Mail className="h-6 w-6 text-primary" />
-                </div>
-                <p className="text-sm text-gray-600">
-                  Notre équipe vous répondra dans les plus brefs délais, généralement sous 24 heures.
-                </p>
-              </div>
+              </Card>
             </div>
           </div>
         </div>

@@ -1,12 +1,13 @@
-
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { BarChart, LineChart } from "@/components/ui/chart";
+import { BarChart } from "@/components/charts/BarChart";
+import { LineChart } from "@/components/charts/LineChart";
 import { registrationStore } from "@/lib/registration-store";
 import { supabase } from "@/integrations/supabase/client";
 

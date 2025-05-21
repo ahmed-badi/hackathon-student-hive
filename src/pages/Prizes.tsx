@@ -1,116 +1,106 @@
 
 import Navbar from "@/components/Navbar";
 import { Card, CardContent } from "@/components/ui/card";
-import { QuestionMark } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 
 const Prizes = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
       
       <div className="container mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold mb-2">Prix du Hackathon</h1>
-        <p className="text-gray-600 mb-8 max-w-3xl">
-          Les gagnants du hackathon recevront des prix exceptionnels. Restez à l'écoute pour la grande révélation lors de l'événement !
-        </p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          {/* 1er Prix */}
-          <Card className="border-2 border-yellow-400 bg-gradient-to-b from-yellow-50 to-white">
-            <CardContent className="p-6 text-center">
-              <div className="mx-auto w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl font-bold text-yellow-600">1</span>
-              </div>
-              <h2 className="text-xl font-bold mb-4">Premier Prix</h2>
-              <div className="bg-gray-100 rounded-lg p-6 mb-4 flex items-center justify-center">
-                <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center">
-                  <QuestionMark className="h-12 w-12 text-gray-500" />
-                </div>
-              </div>
-              <p className="text-gray-600">
-                Une surprise exceptionnelle attend l'équipe gagnante ! Restez jusqu'à la fin de l'événement pour découvrir ce premier prix incroyable.
-              </p>
-            </CardContent>
-          </Card>
+        <div className="max-w-5xl mx-auto">
+          <h1 className="text-3xl font-bold mb-2">Prix et Récompenses</h1>
+          <p className="text-gray-600 mb-8">
+            Les meilleures équipes seront récompensées ! Les prix seront dévoilés lors de l'événement.
+          </p>
           
-          {/* 2ème Prix */}
-          <Card className="border-2 border-gray-300 bg-gradient-to-b from-gray-50 to-white">
-            <CardContent className="p-6 text-center">
-              <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl font-bold text-gray-600">2</span>
-              </div>
-              <h2 className="text-xl font-bold mb-4">Deuxième Prix</h2>
-              <div className="bg-gray-100 rounded-lg p-6 mb-4 flex items-center justify-center">
-                <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center">
-                  <QuestionMark className="h-12 w-12 text-gray-500" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <Card className="bg-gradient-to-br from-amber-50 to-amber-100 border-amber-200">
+              <CardContent className="pt-6">
+                <div className="flex justify-center mb-4">
+                  <div className="w-16 h-16 bg-amber-400 rounded-full flex items-center justify-center">
+                    <HelpCircle size={32} className="text-white" />
+                  </div>
                 </div>
-              </div>
-              <p className="text-gray-600">
-                Une récompense mystère sera révélée pour l'équipe arrivant en deuxième position. Anticipation garantie !
-              </p>
-            </CardContent>
-          </Card>
-          
-          {/* 3ème Prix */}
-          <Card className="border-2 border-amber-700 bg-gradient-to-b from-amber-50 to-white">
-            <CardContent className="p-6 text-center">
-              <div className="mx-auto w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl font-bold text-amber-600">3</span>
-              </div>
-              <h2 className="text-xl font-bold mb-4">Troisième Prix</h2>
-              <div className="bg-gray-100 rounded-lg p-6 mb-4 flex items-center justify-center">
-                <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center">
-                  <QuestionMark className="h-12 w-12 text-gray-500" />
-                </div>
-              </div>
-              <p className="text-gray-600">
-                Une surprise attend également les troisièmes du classement. Suspense jusqu'à la cérémonie de remise des prix !
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-        
-        {/* Prix spéciaux */}
-        <h2 className="text-2xl font-bold mb-6">Prix Spéciaux</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {[
-            {
-              title: "Prix Innovation",
-              description: "Pour la solution la plus innovante"
-            },
-            {
-              title: "Prix Impact Social",
-              description: "Pour le projet à plus fort impact sociétal"
-            },
-            {
-              title: "Prix Design",
-              description: "Pour l'interface utilisateur la plus élégante"
-            },
-            {
-              title: "Prix du Public",
-              description: "Voté par tous les participants"
-            }
-          ].map((prize, index) => (
-            <Card key={index}>
-              <CardContent className="p-4 text-center">
-                <div className="bg-primary/10 w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <QuestionMark className="h-5 w-5 text-primary" />
-                </div>
-                <h3 className="font-semibold mb-2">{prize.title}</h3>
-                <p className="text-sm text-gray-600">{prize.description}</p>
+                <h3 className="text-xl font-bold text-center mb-2">1er Prix</h3>
+                <p className="text-center text-gray-700">
+                  Le grand prix sera dévoilé lors de l'événement !
+                </p>
               </CardContent>
             </Card>
-          ))}
-        </div>
-        
-        <div className="bg-gray-50 p-6 rounded-lg">
-          <h3 className="font-semibold text-lg mb-4">Important</h3>
-          <p className="text-gray-600 mb-2">
-            Tous les prix seront annoncés et remis lors de la cérémonie de clôture le 13 juin à 17h00.
-          </p>
-          <p className="text-gray-600">
-            Les gagnants devront être présents lors de la cérémonie pour recevoir leurs prix.
-          </p>
+            
+            <Card className="bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200">
+              <CardContent className="pt-6">
+                <div className="flex justify-center mb-4">
+                  <div className="w-16 h-16 bg-gray-400 rounded-full flex items-center justify-center">
+                    <HelpCircle size={32} className="text-white" />
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-center mb-2">2ème Prix</h3>
+                <p className="text-center text-gray-700">
+                  Une surprise pour l'équipe arrivée en seconde position !
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
+              <CardContent className="pt-6">
+                <div className="flex justify-center mb-4">
+                  <div className="w-16 h-16 bg-orange-400 rounded-full flex items-center justify-center">
+                    <HelpCircle size={32} className="text-white" />
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-center mb-2">3ème Prix</h3>
+                <p className="text-center text-gray-700">
+                  Une récompense spéciale pour compléter le podium !
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+          
+          <Card className="bg-white">
+            <CardContent className="pt-6">
+              <h3 className="text-xl font-bold mb-4">Prix Spéciaux</h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-md">
+                  <div className="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center">
+                    <HelpCircle size={20} className="text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Prix de l'Innovation</h4>
+                    <p className="text-sm text-gray-600">Pour l'équipe ayant proposé la solution la plus innovative.</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3 p-3 bg-green-50 rounded-md">
+                  <div className="w-10 h-10 bg-green-400 rounded-full flex items-center justify-center">
+                    <HelpCircle size={20} className="text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Prix Impact Social</h4>
+                    <p className="text-sm text-gray-600">Pour le projet ayant le plus fort impact potentiel sur la société.</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-md">
+                  <div className="w-10 h-10 bg-purple-400 rounded-full flex items-center justify-center">
+                    <HelpCircle size={20} className="text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Prix du Public</h4>
+                    <p className="text-sm text-gray-600">Décerné au projet le plus apprécié par les participants.</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <div className="mt-12 text-center">
+            <p className="text-lg italic">
+              "Le plus grand prix est l'expérience et les compétences que vous développerez !"
+            </p>
+          </div>
         </div>
       </div>
     </div>
