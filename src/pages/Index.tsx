@@ -207,7 +207,7 @@ const Index = () => {
                   </div>
                   <div className="text-lg font-bold text-white">Student Hive</div>
                 </div>
-                <p className="text-sm text-gray-400 max-w-xs">La première plateforme de hackathon pour les étudiants, où collaboration, innovation et projets extraordinaires se rencontrent.</p>
+                <p className="text-sm text-gray-400 max-w-xs">Hackathon organisé dans le cadre d'un projet de management de l'ISIMA. Une occasion unique d'innovation et de collaboration entre étudiants.</p>
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-3 gap-8">

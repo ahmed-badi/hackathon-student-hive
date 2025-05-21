@@ -23,6 +23,35 @@ export const supabase = createClient<Database>(
   }
 );
 
+// Création du bucket de stockage pour les présentations si nécessaire
+export const createStorageBucketIfNeeded = async () => {
+  try {
+    // Vérifier si le bucket existe déjà
+    const { data, error } = await supabase.storage.getBucket('presentations');
+    
+    if (error && error.message.includes('does not exist')) {
+      // Créer le bucket s'il n'existe pas
+      const { data: newBucket, error: createError } = await supabase.storage.createBucket('presentations', {
+        public: true,
+        fileSizeLimit: 10485760, // 10MB
+        allowedMimeTypes: [
+          'application/pdf',
+          'application/vnd.ms-powerpoint',
+          'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        ]
+      });
+      
+      if (createError) {
+        console.error("Erreur lors de la création du bucket:", createError);
+      } else {
+        console.log("Bucket de stockage 'presentations' créé avec succès");
+      }
+    }
+  } catch (e) {
+    console.error("Exception lors de la vérification du bucket de stockage:", e);
+  }
+};
+
 // Fonction utilitaire pour vérifier la connexion à Supabase
 export const checkSupabaseConnection = async () => {
   try {
@@ -34,6 +63,10 @@ export const checkSupabaseConnection = async () => {
     }
     
     console.log("Connexion à Supabase établie avec succès");
+
+    // Après une connexion réussie, vérifier et créer le bucket de stockage si nécessaire
+    await createStorageBucketIfNeeded();
+    
     return true;
   } catch (e) {
     console.error("Exception lors de la tentative de connexion à Supabase:", e);

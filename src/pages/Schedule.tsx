@@ -23,45 +23,40 @@ const Schedule = () => {
             <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary/20 ml-6 md:ml-8"></div>
             
             <div className="mb-12">
-              <h2 className="text-2xl font-bold mb-6 pl-14 md:pl-20 text-primary">Jour 1 - Vendredi 15 Mai</h2>
+              <h2 className="text-2xl font-bold mb-6 pl-14 md:pl-20 text-primary">Jour 1 - 12 juin</h2>
               
               {/* Timeline Items */}
               <div className="space-y-8">
                 {[
                   {
+                    time: "08:30",
+                    title: "Accueil et enregistrement",
+                    description: "Accueil et enregistrement et formation des équipes"
+                  },
+                  {
+                    time: "09:00",
+                    title: "Présentation du hackathon",
+                    description: "Présentation du hackathon et des règles"
+                  },
+                  {
+                    time: "11:00",
+                    title: "Début du hackathon",
+                    description: "Début du hackathon, brainstorming"
+                  },
+                  {
+                    time: "11:30",
+                    title: "Développement des projets",
+                    description: "Développement des projets"
+                  },
+                  {
                     time: "14:00",
-                    title: "Accueil des participants",
-                    description: "Enregistrement, distribution des badges et des kits de bienvenue"
+                    title: "Mentorat",
+                    description: "Sessions de mentorat individuel"
                   },
                   {
-                    time: "15:00",
-                    title: "Cérémonie d'ouverture",
-                    description: "Présentation des sponsors, des mentors et des règles du hackathon"
-                  },
-                  {
-                    time: "16:00",
-                    title: "Formation des équipes",
-                    description: "Session de networking et formation des équipes pour ceux qui n'en ont pas encore"
-                  },
-                  {
-                    time: "17:00",
-                    title: "Début officiel du hackathon",
-                    description: "Lancement des 48 heures de code"
-                  },
-                  {
-                    time: "19:00",
-                    title: "Dîner",
-                    description: "Buffet et networking"
-                  },
-                  {
-                    time: "20:00",
-                    title: "Workshops techniques",
-                    description: "Sessions parallèles sur différentes technologies"
-                  },
-                  {
-                    time: "22:00",
-                    title: "Coding Night",
-                    description: "Continuez à coder avec des collations et boissons disponibles"
+                    time: "21:00",
+                    title: "Avancement des projets",
+                    description: "Avancement des projets et tests"
                   }
                 ].map((item, index) => (
                   <div key={index} className="relative flex items-start">
@@ -79,121 +74,35 @@ const Schedule = () => {
             </div>
             
             {/* Jour 2 */}
-            <div className="mb-12">
-              <h2 className="text-2xl font-bold mb-6 pl-14 md:pl-20 text-primary">Jour 2 - Samedi 16 Mai</h2>
-              
-              <div className="space-y-8">
-                {[
-                  {
-                    time: "08:00",
-                    title: "Petit déjeuner",
-                    description: "Café et viennoiseries pour bien commencer la journée"
-                  },
-                  {
-                    time: "09:00",
-                    title: "Stand-up Meeting",
-                    description: "Point d'avancement rapide pour chaque équipe"
-                  },
-                  {
-                    time: "10:00",
-                    title: "Sessions de mentorat",
-                    description: "Rencontres individuelles avec les mentors"
-                  },
-                  {
-                    time: "12:30",
-                    title: "Déjeuner",
-                    description: "Buffet et networking"
-                  },
-                  {
-                    time: "14:00",
-                    title: "Workshop Design Thinking",
-                    description: "Comment améliorer votre UX/UI"
-                  },
-                  {
-                    time: "16:00",
-                    title: "Checkpoint technique",
-                    description: "Évaluation technique intermédiaire par les mentors"
-                  },
-                  {
-                    time: "19:00",
-                    title: "Dîner",
-                    description: "Buffet et networking"
-                  },
-                  {
-                    time: "20:00",
-                    title: "Table ronde avec les sponsors",
-                    description: "Discussion sur l'innovation et les opportunités de carrière"
-                  },
-                  {
-                    time: "22:00",
-                    title: "Coding Night",
-                    description: "Continuez à coder avec des collations et boissons disponibles"
-                  }
-                ].map((item, index) => (
-                  <div key={index} className="relative flex items-start">
-                    <div className="absolute left-0 w-12 md:w-16 text-right text-sm font-semibold text-gray-600">
-                      {item.time}
-                    </div>
-                    <div className="absolute left-0 w-3 h-3 rounded-full bg-primary mt-1.5 ml-[18px] md:ml-[26px]"></div>
-                    <div className="pl-14 md:pl-20">
-                      <h3 className="font-semibold text-lg">{item.title}</h3>
-                      <p className="text-gray-600">{item.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            {/* Jour 3 */}
             <div>
-              <h2 className="text-2xl font-bold mb-6 pl-14 md:pl-20 text-primary">Jour 3 - Dimanche 17 Mai</h2>
+              <h2 className="text-2xl font-bold mb-6 pl-14 md:pl-20 text-primary">Jour 2 - 13 juin</h2>
               
               <div className="space-y-8">
                 {[
                   {
                     time: "08:00",
-                    title: "Petit déjeuner",
-                    description: "Dernier petit déjeuner ensemble"
+                    title: "Finalisation des projets",
+                    description: "Dernières touches aux projets"
                   },
                   {
-                    time: "09:00",
+                    time: "10:30",
                     title: "Préparation des présentations",
-                    description: "Finalisez votre projet et préparez votre pitch"
+                    description: "Préparation des présentations finales"
                   },
                   {
-                    time: "12:00",
-                    title: "Code Freeze",
-                    description: "Fin du développement et soumission des projets"
+                    time: "15:00",
+                    title: "Présentation finale",
+                    description: "Présentation finale des projets devant jury"
                   },
                   {
-                    time: "12:30",
-                    title: "Déjeuner",
-                    description: "Dernier repas ensemble"
-                  },
-                  {
-                    time: "14:00",
-                    title: "Présentations des projets",
-                    description: "Chaque équipe présente son projet devant le jury (5 min par équipe)"
-                  },
-                  {
-                    time: "16:30",
-                    title: "Délibération du jury",
-                    description: "Le jury se retire pour délibérer"
+                    time: "17:00",
+                    title: "Délibération et remise des prix",
+                    description: "Délibération du jury et remise des prix"
                   },
                   {
                     time: "17:30",
-                    title: "Remise des prix",
-                    description: "Annonce des gagnants et remise des prix"
-                  },
-                  {
-                    time: "18:30",
-                    title: "Cérémonie de clôture",
-                    description: "Remerciements et annonce des prochains événements"
-                  },
-                  {
-                    time: "19:00",
-                    title: "After-party",
-                    description: "Célébration finale avec tous les participants"
+                    title: "Clôture",
+                    description: "Clôture du hackathon"
                   }
                 ].map((item, index) => (
                   <div key={index} className="relative flex items-start">
@@ -251,7 +160,7 @@ const Schedule = () => {
                 </div>
                 <div className="text-lg font-bold text-white">Student Hive</div>
               </div>
-              <p className="text-sm text-gray-400 max-w-xs">The premier hackathon platform for students to collaborate, innovate, and build amazing projects.</p>
+              <p className="text-sm text-gray-400 max-w-xs">Hackathon organisé dans le cadre d'un projet de management de l'ISIMA. Une occasion unique d'innovation et de collaboration entre étudiants.</p>
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8">

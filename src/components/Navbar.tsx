@@ -60,6 +60,10 @@ const Navbar = () => {
                       <div className="text-sm font-medium">Soumettre</div>
                       <div className="text-sm text-muted-foreground">Soumettre votre projet</div>
                     </Link>
+                    <Link to="/contact" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
+                      <div className="text-sm font-medium">Contact</div>
+                      <div className="text-sm text-muted-foreground">Nous contacter</div>
+                    </Link>
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -82,10 +86,6 @@ const Navbar = () => {
                     <Link to="/prizes" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
                       <div className="text-sm font-medium">Prix</div>
                       <div className="text-sm text-muted-foreground">Prix à gagner</div>
-                    </Link>
-                    <Link to="/organizer-presentation" className="block select-none space-y-1 rounded-md p-3 hover:bg-accent hover:text-accent-foreground">
-                      <div className="text-sm font-medium">Présentations</div>
-                      <div className="text-sm text-muted-foreground">Gérer les présentations</div>
                     </Link>
                   </div>
                 </NavigationMenuContent>
@@ -124,6 +124,9 @@ const Navbar = () => {
               <Link to="/submission" className="block py-2 hover:text-accent" onClick={toggleMenu}>
                 Soumettre
               </Link>
+              <Link to="/contact" className="block py-2 hover:text-accent" onClick={toggleMenu}>
+                Contact
+              </Link>
             </div>
             
             <div className="space-y-3 pt-3 border-t">
@@ -139,9 +142,6 @@ const Navbar = () => {
               </Link>
               <Link to="/prizes" className="block py-2 hover:text-accent" onClick={toggleMenu}>
                 Prix
-              </Link>
-              <Link to="/organizer-presentation" className="block py-2 hover:text-accent" onClick={toggleMenu}>
-                Présentations
               </Link>
             </div>
             
