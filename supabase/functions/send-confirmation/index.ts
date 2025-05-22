@@ -26,9 +26,16 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { firstName, lastName, email, registrationDate }: ConfirmationEmailRequest = await req.json();
 
+    // Vérifier que l'email est bien défini
+    if (!email) {
+      throw new Error("L'adresse email est requise pour envoyer la confirmation");
+    }
+
+    console.log(`Tentative d'envoi d'email à: ${email}`);
+
     const emailResponse = await resend.emails.send({
       from: "Hackathon Student Hive <onboarding@resend.dev>",
-      to: [email],
+      to: [email], // Utiliser l'email de l'utilisateur qui s'inscrit
       subject: "Confirmation d'inscription au Hackathon",
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
@@ -47,7 +54,7 @@ const handler = async (req: Request): Promise<Response> => {
           <p>Pour toute question, n'hésitez pas à nous contacter.</p>
           
           <p style="margin-top: 30px;">Cordialement,</p>
-          <p><strong>L'équipe HackathonZZ</strong></p>
+          <p><strong>L'équipe Hackathon :</strong></p>
           <p><strong>BADI Ahmed</strong></p>
           <p><strong>BAHEND Ayoub</strong></p>
           <p><strong>AMALLAH Aymane</strong></p>

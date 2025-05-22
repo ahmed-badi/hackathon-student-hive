@@ -131,6 +131,8 @@ export const registrationStore = {
       const sessionResponse = await supabase.auth.getSession();
       const accessToken = sessionResponse?.data?.session?.access_token || '';
       
+      console.log(`Tentative d'envoi d'email de confirmation à: ${registrationData.email}`);
+      
       const response = await fetch('https://gibsyygowtzieicrnqyv.supabase.co/functions/v1/send-confirmation', {
         method: 'POST',
         headers: {
@@ -140,7 +142,7 @@ export const registrationStore = {
         body: JSON.stringify({
           firstName: registrationData.firstName,
           lastName: registrationData.lastName,
-          email: registrationData.email,
+          email: registrationData.email, // S'assurer que l'email de l'utilisateur est bien passé
           registrationDate
         }),
       });
@@ -150,6 +152,9 @@ export const registrationStore = {
         console.error('Erreur lors de l\'envoi de l\'email de confirmation:', errorData);
         return false;
       }
+
+      const responseData = await response.json();
+      console.log('Réponse de la fonction send-confirmation:', responseData);
 
       return true;
     } catch (e) {
@@ -227,10 +232,11 @@ export const registrationStore = {
       }
       
       // Envoyer l'email de confirmation
+      console.log("Préparation à l'envoi de l'email de confirmation à:", registrationToSave.email);
       const emailSent = await this.sendConfirmationEmail({
         firstName: registrationToSave.firstName,
         lastName: registrationToSave.lastName,
-        email: registrationToSave.email
+        email: registrationToSave.email // S'assurer que l'email est correctement passé
       });
       
       if (emailSent) {
