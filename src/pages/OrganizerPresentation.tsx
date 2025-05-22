@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { FileIcon, Trash2, FileUp, File } from "lucide-react";
+import { FileIcon, Trash2, FileUp, File, Shield } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface Presentation {
   id: string;
@@ -25,7 +25,6 @@ const OrganizerPresentation = () => {
   const [fileName, setFileName] = useState<string>("");
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isAdmin, setIsAdmin] = useState<boolean>(false); // For demo, we'll consider everyone admin
-  const { toast } = useToast();
 
   useEffect(() => {
     // For demo purposes, everyone is admin
@@ -85,9 +84,9 @@ const OrganizerPresentation = () => {
       
       if (!validTypes.includes(fileType)) {
         toast({
-          variant: "destructive",
           title: "Type de fichier non supporté",
-          description: "Veuillez choisir un fichier PDF, PPT ou PPTX."
+          description: "Veuillez choisir un fichier PDF, PPT ou PPTX.",
+          variant: "destructive"
         });
         e.target.value = '';
         return;
@@ -101,9 +100,9 @@ const OrganizerPresentation = () => {
   const uploadPresentation = async () => {
     if (!file || !fileName) {
       toast({
-        variant: "destructive",
         title: "Erreur",
-        description: "Veuillez sélectionner un fichier et donner un nom à la présentation."
+        description: "Veuillez sélectionner un fichier et donner un nom à la présentation.",
+        variant: "destructive"
       });
       return;
     }
@@ -144,15 +143,15 @@ const OrganizerPresentation = () => {
       
       if (error.message.includes('duplicate')) {
         toast({
-          variant: "destructive",
           title: "Erreur",
-          description: "Un fichier avec ce nom existe déjà. Veuillez renommer votre fichier."
+          description: "Un fichier avec ce nom existe déjà. Veuillez renommer votre fichier.",
+          variant: "destructive"
         });
       } else {
         toast({
-          variant: "destructive",
           title: "Erreur",
-          description: "Une erreur est survenue lors du téléchargement. Veuillez réessayer."
+          description: "Une erreur est survenue lors du téléchargement. Veuillez réessayer.",
+          variant: "destructive"
         });
       }
     } finally {
@@ -181,9 +180,9 @@ const OrganizerPresentation = () => {
     } catch (error) {
       console.error("Error deleting presentation:", error);
       toast({
-        variant: "destructive",
         title: "Erreur",
-        description: "Une erreur est survenue lors de la suppression. Veuillez réessayer."
+        description: "Une erreur est survenue lors de la suppression. Veuillez réessayer.",
+        variant: "destructive"
       });
     }
   };
@@ -217,25 +216,110 @@ const OrganizerPresentation = () => {
     }
   };
 
+  // Si l'utilisateur n'est pas administrateur, ne pas afficher cette page
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen flex flex-col bg-white">
+        <Navbar />
+        <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center">
+          <Shield className="h-16 w-16 text-red-500 mb-4" />
+          <h1 className="text-2xl font-bold mb-4">Accès restreint</h1>
+          <p className="text-center mb-6">
+            Cette page est réservée aux organisateurs du hackathon.
+          </p>
+          <Link to="/presentations" className="text-blue-500 hover:underline">
+            Voir les présentations publiques
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
       
       <div className="container mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold mb-2">Présentations du Hackathon</h1>
-        <p className="text-gray-600 mb-8">
-          Consultez les présentations pour le hackathon. Les organisateurs peuvent ajouter ou supprimer des présentations.
-        </p>
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Gestion des Présentations</h1>
+            <p className="text-gray-600">
+              Téléchargez et gérez les présentations pour le hackathon.
+            </p>
+          </div>
+          <Link to="/presentations" className="text-blue-600 hover:underline flex items-center">
+            <Button variant="outline">Voir la page publique</Button>
+          </Link>
+        </div>
         
-        <Tabs defaultValue="view">
-          <TabsList className="mb-6">
-            <TabsTrigger value="view">Voir les présentations</TabsTrigger>
-            {isAdmin && <TabsTrigger value="upload">Ajouter une présentation</TabsTrigger>}
-          </TabsList>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Section Upload */}
+          <div className="md:col-span-1">
+            <Card>
+              <CardContent className="p-6">
+                <h2 className="text-xl font-semibold mb-4">Ajouter une présentation</h2>
+                
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="presentation-file">Fichier de présentation</Label>
+                    <Input
+                      id="presentation-file"
+                      type="file"
+                      accept=".pdf,.ppt,.pptx,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                      onChange={handleFileChange}
+                      className="mt-1"
+                    />
+                    <p className="text-sm text-gray-500 mt-1">
+                      Formats acceptés: PDF, PPT, PPTX
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="presentation-name">Nom du fichier</Label>
+                    <Input
+                      id="presentation-name"
+                      type="text"
+                      value={fileName}
+                      onChange={(e) => setFileName(e.target.value)}
+                      placeholder="Nom du fichier"
+                      className="mt-1"
+                    />
+                    <p className="text-sm text-gray-500 mt-1">
+                      Assurez-vous que le nom inclut l'extension du fichier (ex: presentation.pdf)
+                    </p>
+                  </div>
+                  
+                  <Button
+                    onClick={uploadPresentation}
+                    disabled={isUploading || !file || !fileName}
+                    className="w-full"
+                  >
+                    {isUploading ? (
+                      "Téléchargement en cours..."
+                    ) : (
+                      <>
+                        <FileUp className="mr-2 h-4 w-4" /> Télécharger la présentation
+                      </>
+                    )}
+                  </Button>
+                </div>
+                
+                <div className="bg-yellow-50 p-4 rounded-lg mt-6 border border-yellow-200">
+                  <p className="text-sm text-amber-800">
+                    Les présentations téléchargées seront visibles par tous les participants du hackathon.
+                    Veillez à ne pas partager d'informations confidentielles.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
           
-          <TabsContent value="view">
+          {/* Liste des présentations */}
+          <div className="md:col-span-2">
+            <h2 className="text-xl font-semibold mb-4">Présentations actuelles</h2>
+            
             {presentations.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {presentations.map((presentation) => (
                   <Card key={presentation.id} className="overflow-hidden">
                     <CardContent className="p-6">
@@ -249,16 +333,14 @@ const OrganizerPresentation = () => {
                             </p>
                           </div>
                         </div>
-                        {isAdmin && (
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            onClick={() => deletePresentation(presentation.file_path)}
-                            className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                          >
-                            <Trash2 className="h-5 w-5" />
-                          </Button>
-                        )}
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          onClick={() => deletePresentation(presentation.file_path)}
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <Trash2 className="h-5 w-5" />
+                        </Button>
                       </div>
                       
                       <div className="mt-4">
@@ -282,74 +364,12 @@ const OrganizerPresentation = () => {
                 <FileIcon className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                 <h3 className="text-lg font-medium text-gray-900">Aucune présentation disponible</h3>
                 <p className="mt-1 text-sm text-gray-500">
-                  {isAdmin 
-                    ? "Les présentations que vous téléchargerez apparaîtront ici."
-                    : "Les organisateurs n'ont pas encore ajouté de présentations."}
+                  Les présentations que vous téléchargerez apparaîtront ici.
                 </p>
               </div>
             )}
-          </TabsContent>
-          
-          {isAdmin && (
-            <TabsContent value="upload">
-              <Card>
-                <CardContent className="p-6">
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="presentation-file">Fichier de présentation</Label>
-                      <Input
-                        id="presentation-file"
-                        type="file"
-                        accept=".pdf,.ppt,.pptx,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
-                        onChange={handleFileChange}
-                        className="mt-1"
-                      />
-                      <p className="text-sm text-gray-500 mt-1">
-                        Formats acceptés: PDF, PPT, PPTX
-                      </p>
-                    </div>
-                    
-                    <div>
-                      <Label htmlFor="presentation-name">Nom du fichier</Label>
-                      <Input
-                        id="presentation-name"
-                        type="text"
-                        value={fileName}
-                        onChange={(e) => setFileName(e.target.value)}
-                        placeholder="Nom du fichier"
-                        className="mt-1"
-                      />
-                      <p className="text-sm text-gray-500 mt-1">
-                        Assurez-vous que le nom inclut l'extension du fichier (ex: presentation.pdf)
-                      </p>
-                    </div>
-                    
-                    <Button
-                      onClick={uploadPresentation}
-                      disabled={isUploading || !file || !fileName}
-                      className="w-full md:w-auto"
-                    >
-                      {isUploading ? (
-                        "Téléchargement en cours..."
-                      ) : (
-                        <>
-                          <FileUp className="mr-2 h-4 w-4" /> Télécharger la présentation
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <div className="bg-yellow-50 p-4 rounded-lg mt-6 border border-yellow-200">
-                <p className="text-sm text-amber-800">
-                  Note: Les présentations téléchargées seront visibles par tous les participants du hackathon.
-                  Veillez à ne pas partager d'informations confidentielles.
-                </p>
-              </div>
-            </TabsContent>
-          )}
-        </Tabs>
+          </div>
+        </div>
       </div>
     </div>
   );

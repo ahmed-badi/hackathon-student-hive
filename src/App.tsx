@@ -19,6 +19,7 @@ import Feedback from "./pages/Feedback";
 import Prizes from "./pages/Prizes";
 import Schedule from "./pages/Schedule";
 import OrganizerPresentation from "./pages/OrganizerPresentation";
+import PresentationView from "./pages/PresentationView";
 import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/prizes" element={<Prizes />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/organizer-presentation" element={<OrganizerPresentation />} />
+          <Route path="/presentations" element={<PresentationView />} />
           <Route path="/contact" element={<Contact />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
