@@ -109,7 +109,7 @@ const Index = () => {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2">Apprendre & Évoluer</h3>
-              <p className="text-gray-600">Développez vos compétences avec des ateliers et le mentorat d'experts de l'industrie.</p>
+              <p className="text-gray-600">Participez à une aventure d’apprentissage axée sur la pratique, la créativité et l’innovation.</p>
             </div>
 
             <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-shadow">
@@ -241,7 +241,7 @@ const Index = () => {
             </div>
             
             <div className="border-t border-gray-800 mt-12 pt-8 text-sm text-gray-500 text-center">
-              <p>&copy; {new Date().getFullYear()} Student Hive. Tous droits réservés.</p>
+              <p>&copy; {new Date().getFullYear()} HackaZZon. Tous droits réservés.</p>
             </div>
           </div>
         </footer>
