@@ -41,7 +41,7 @@ const Schedule = () => {
                   {
                     time: "11:00",
                     title: "Début du hackathon",
-                    description: "Début du hackathon, brainstorming"
+                    description: "Début du hackathon"
                   },
                   {
                     time: "11:30",
