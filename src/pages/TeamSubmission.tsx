@@ -115,7 +115,7 @@ const TeamSubmission = () => {
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl font-bold mb-3 text-center">Soumission de Projet</h1>
           <p className="text-center text-gray-600 mb-8">
-            Soumettez votre projet final pour le Student Hive Hackathon
+            Soumettez votre projet final pour l'évaluation
           </p>
 
           {submissionStatus === "success" ? (
