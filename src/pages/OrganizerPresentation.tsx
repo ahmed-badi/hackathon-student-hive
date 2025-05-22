@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
@@ -83,10 +82,8 @@ const OrganizerPresentation = () => {
       ];
       
       if (!validTypes.includes(fileType)) {
-        toast({
-          title: "Type de fichier non supporté",
-          description: "Veuillez choisir un fichier PDF, PPT ou PPTX.",
-          variant: "destructive"
+        toast("Type de fichier non supporté", {
+          description: "Veuillez choisir un fichier PDF, PPT ou PPTX."
         });
         e.target.value = '';
         return;
@@ -99,10 +96,8 @@ const OrganizerPresentation = () => {
 
   const uploadPresentation = async () => {
     if (!file || !fileName) {
-      toast({
-        title: "Erreur",
-        description: "Veuillez sélectionner un fichier et donner un nom à la présentation.",
-        variant: "destructive"
+      toast("Erreur", {
+        description: "Veuillez sélectionner un fichier et donner un nom à la présentation."
       });
       return;
     }
@@ -122,8 +117,7 @@ const OrganizerPresentation = () => {
         throw error;
       }
 
-      toast({
-        title: "Présentation téléchargée",
+      toast("Présentation téléchargée", {
         description: "Votre présentation a été téléchargée avec succès."
       });
       
@@ -142,16 +136,12 @@ const OrganizerPresentation = () => {
       console.error("Error uploading presentation:", error);
       
       if (error.message.includes('duplicate')) {
-        toast({
-          title: "Erreur",
-          description: "Un fichier avec ce nom existe déjà. Veuillez renommer votre fichier.",
-          variant: "destructive"
+        toast("Erreur", {
+          description: "Un fichier avec ce nom existe déjà. Veuillez renommer votre fichier."
         });
       } else {
-        toast({
-          title: "Erreur",
-          description: "Une erreur est survenue lors du téléchargement. Veuillez réessayer.",
-          variant: "destructive"
+        toast("Erreur", {
+          description: "Une erreur est survenue lors du téléchargement. Veuillez réessayer."
         });
       }
     } finally {
@@ -169,8 +159,7 @@ const OrganizerPresentation = () => {
         throw error;
       }
 
-      toast({
-        title: "Présentation supprimée",
+      toast("Présentation supprimée", {
         description: "La présentation a été supprimée avec succès."
       });
       
@@ -179,10 +168,8 @@ const OrganizerPresentation = () => {
       
     } catch (error) {
       console.error("Error deleting presentation:", error);
-      toast({
-        title: "Erreur",
-        description: "Une erreur est survenue lors de la suppression. Veuillez réessayer.",
-        variant: "destructive"
+      toast("Erreur", {
+        description: "Une erreur est survenue lors de la suppression. Veuillez réessayer."
       });
     }
   };
