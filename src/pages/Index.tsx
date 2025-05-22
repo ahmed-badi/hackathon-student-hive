@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
-import { Timer, Calendar, Users, Award, Lightning, BookOpen, Laptop } from "lucide-react";
+import { Timer, Calendar, Users, Award, Zap, BookOpen, Laptop } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 
 const EVENT_DATE = new Date("2025-06-12T00:00:00"); 
@@ -178,7 +178,7 @@ const Index = () => {
               <div className="bg-white rounded-lg shadow p-6 border border-gray-100 card-hover-effect">
                 <div className="text-accent text-xl mb-3 font-semibold flex items-center gap-2">
                   <div className="bg-accent/10 p-2 rounded-full">
-                    <Lightning size={20} className="text-accent" />
+                    <Zap size={20} className="text-accent" />
                   </div>
                   <span>IA & Machine Learning</span>
                 </div>
@@ -228,7 +228,7 @@ const Index = () => {
               <div className="bg-white rounded-lg shadow p-6 border border-gray-100 card-hover-effect">
                 <div className="text-accent text-xl mb-3 font-semibold flex items-center gap-2">
                   <div className="bg-accent/10 p-2 rounded-full">
-                    <Lightning size={20} className="text-accent" />
+                    <Zap size={20} className="text-accent" />
                   </div>
                   <span>Blockchain</span>
                 </div>
