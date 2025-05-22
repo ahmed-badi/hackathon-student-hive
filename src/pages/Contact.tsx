@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Mail, MapPin, Users } from "lucide-react";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -86,15 +85,15 @@ const Contact = () => {
       
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2 blue-gradient-text">Contactez-nous</h1>
+          <h1 className="text-3xl font-bold mb-2">Contactez-nous</h1>
           <p className="text-gray-600 mb-8">Une question ? Une suggestion ? N'hésitez pas à nous contacter.</p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2">
-              <Card className="p-6 card-hover-effect">
-                <form onSubmit={handleSubmit} className="animate-on-scroll">
+              <Card className="p-6">
+                <form onSubmit={handleSubmit}>
                   <div className="space-y-4">
-                    <div className="transition-all hover:translate-y-[-2px]">
+                    <div>
                       <label htmlFor="name" className="block text-sm font-medium mb-1">Nom</label>
                       <Input 
                         id="name" 
@@ -103,11 +102,10 @@ const Contact = () => {
                         value={formData.name}
                         onChange={handleInputChange}
                         required
-                        className="focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                       />
                     </div>
                     
-                    <div className="transition-all hover:translate-y-[-2px]">
+                    <div>
                       <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
                       <Input 
                         id="email" 
@@ -117,11 +115,10 @@ const Contact = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className="focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                       />
                     </div>
                     
-                    <div className="transition-all hover:translate-y-[-2px]">
+                    <div>
                       <label htmlFor="subject" className="block text-sm font-medium mb-1">Sujet</label>
                       <Input 
                         id="subject" 
@@ -130,11 +127,10 @@ const Contact = () => {
                         value={formData.subject}
                         onChange={handleInputChange}
                         required
-                        className="focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                       />
                     </div>
                     
-                    <div className="transition-all hover:translate-y-[-2px]">
+                    <div>
                       <label htmlFor="message" className="block text-sm font-medium mb-1">Message</label>
                       <Textarea 
                         id="message" 
@@ -144,14 +140,13 @@ const Contact = () => {
                         onChange={handleInputChange}
                         rows={6} 
                         required
-                        className="focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                       />
                     </div>
                     
                     <div className="pt-2">
                       <Button 
                         type="submit" 
-                        className="w-full hover:bg-blue-600 transition-colors pulse-blue" 
+                        className="w-full" 
                         disabled={isSubmitting}
                       >
                         {isSubmitting ? "Envoi en cours..." : "Envoyer"}
@@ -163,42 +158,27 @@ const Contact = () => {
             </div>
             
             <div>
-              <Card className="p-6 card-hover-effect">
-                <h3 className="text-lg font-medium mb-6 flex items-center gap-2">
-                  <div className="bg-blue-100 p-2 rounded-full">
-                    <Mail className="text-blue-500 h-4 w-4" />
-                  </div>
-                  Informations
-                </h3>
+              <Card className="p-6">
+                <h3 className="text-lg font-medium mb-4">Informations</h3>
                 
-                <div className="space-y-6">
-                  <div className="flex items-start gap-3">
-                    <div className="bg-blue-50 p-2 rounded-full shrink-0 mt-1">
-                      <MapPin className="text-blue-500 h-4 w-4" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900">Adresse</p>
-                      <p className="text-gray-600">
-                        Campus des Cézeaux<br />
-                        1 Rue de la Chebarde<br />
-                        63178 Aubière
-                      </p>
-                    </div>
+                <div className="space-y-4">
+                  <div>
+                    <p className="font-medium">Adresse</p>
+                    <p className="text-gray-600">
+                      Campus des Cézeaux<br />
+                      1 Rue de la Chebarde<br />
+                      63178 Aubière
+                    </p>
                   </div>
                   
-                  <div className="flex items-start gap-3">
-                    <div className="bg-blue-50 p-2 rounded-full shrink-0 mt-1">
-                      <Users className="text-blue-500 h-4 w-4" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900">L'équipe Hackathon</p>
-                      <p className="text-gray-600">
-                        BADI Ahmed<br />
-                        BAHEND Ayoub<br />
-                        AMALLAH Aymane<br />
-                        BARY Hiba
-                      </p>
-                    </div>
+                  <div>
+                    <p className="font-medium">L'équipe Hackathon</p>
+                    <p className="text-gray-600">
+                      BADI Ahmed<br />
+                      BAHEND Ayoub<br />
+                      AMALLAH Aymane<br />
+                      BARY Hiba
+                    </p>
                   </div>
                 </div>
               </Card>
