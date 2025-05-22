@@ -35,6 +35,8 @@ const Navbar = () => {
             <Link to="/faq" className="text-gray-600 hover:text-primary transition-colors">FAQ</Link>
             <Link to="/presentations" className="text-gray-600 hover:text-primary transition-colors">Présentations</Link>
             <Link to="/contact" className="text-gray-600 hover:text-primary transition-colors">Contact</Link>
+            <Link to="/mentors" className="text-gray-600 hover:text-primary transition-colors">Mentors</Link>
+            <Link to="/prizes" className="text-gray-600 hover:text-primary transition-colors">Prix</Link>
           </div>
 
           {/* Register button (desktop) */}
@@ -68,6 +70,8 @@ const Navbar = () => {
             <Link to="/presentations" className="text-gray-600 hover:text-primary transition-colors py-2">Présentations</Link>
             <Link to="/contact" className="text-gray-600 hover:text-primary transition-colors py-2">Contact</Link>
             <Link to="/register" className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors inline-block w-full text-center">
+            <Link to="/mentors" className="text-gray-600 hover:text-primary transition-colors py-2">Mentors</Link>
+            <Link to="/prizes" className="text-gray-600 hover:text-primary transition-colors py-2">Prix</Link>
               S'inscrire
             </Link>
           </div>
