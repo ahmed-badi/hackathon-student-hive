@@ -26,15 +26,11 @@ const RegistrationSuccess = () => {
             <ol className="text-left text-gray-600 space-y-3">
               <li className="flex gap-3">
                 <div className="flex-none bg-primary/10 text-primary rounded-full h-6 w-6 flex items-center justify-center font-medium text-sm">1</div>
-                <div>Vérifier votre boîte de réception pour un message de confirmation</div>
-              </li>
-              <li className="flex gap-3">
-                <div className="flex-none bg-primary/10 text-primary rounded-full h-6 w-6 flex items-center justify-center font-medium text-sm">2</div>
                 <div>Rejoindre notre communauté Discord pour les mises à jour et la formation d'équipes</div>
               </li>
               <li className="flex gap-3">
-                <div className="flex-none bg-primary/10 text-primary rounded-full h-6 w-6 flex items-center justify-center font-medium text-sm">3</div>
-                <div>Se préparer pour le hackathon en consultant les ressources et ateliers</div>
+                <div className="flex-none bg-primary/10 text-primary rounded-full h-6 w-6 flex items-center justify-center font-medium text-sm">2</div>
+                <div>Se préparer pour le hackathon et penser à votre solution</div>
               </li>
             </ol>
           </div>
