@@ -36,7 +36,7 @@ const About = () => {
                     <ul className="list-disc pl-5 space-y-1">
                       <li>08h30 - Accueil et enregistrement et formation des équipes</li>
                       <li>09h00 - Présentation du hackathon et des règles</li>
-                      <li>11h00 - Début du hackathon, brainstorming</li>
+                      <li>11h00 - Début du hackathon</li>
                       <li>11h30 - Développement des projets</li>
                       <li>14h00 - Mentorat</li>
                       <li>21h00 - Avancement des projets et tests</li>
