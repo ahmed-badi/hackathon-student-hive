@@ -240,7 +240,7 @@ export const registrationStore = {
       });
       
       if (emailSent) {
-        toast.success("Inscription enregistrée et email de confirmation envoyé!");
+        toast.success("Inscription enregistrée !");
       } else {
         toast.success("Inscription enregistrée avec succès!");
         toast.warning("L'email de confirmation n'a pas pu être envoyé.");
