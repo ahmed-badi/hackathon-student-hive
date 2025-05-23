@@ -57,12 +57,15 @@ const Register = () => {
       if (!formData.major) newErrors.major = "L'année d'études est requise";
       if (specializationVisible && !formData.specialization) newErrors.specialization = "La spécialisation est requise";
     } 
-    else if (currentStep === 3) {
-      if (!formData.experience) newErrors.experience = "Veuillez fournir des informations sur votre expérience";
-    } 
+    // else if (currentStep === 3) {
+    //   if (!formData.experience) newErrors.experience = "Veuillez fournir des informations sur votre expérience";
+    // } 
     else if (currentStep === 4) {
       if (formData.teamPreference === "have-team" && !formData.teamName) {
         newErrors.teamName = "Le nom de l'équipe est requis";
+      }
+      if (!formData.teamMembers || formData.teamMembers.trim() === "") {
+        newErrors.teamMembers = "La liste des membres de l'équipe est requise";
       }
     }
 
@@ -312,13 +315,16 @@ const Register = () => {
                         </div>
                         
                         <div>
-                          <label className="block text-sm font-medium mb-1">Membres de l'Équipe (Optionnel)</label>
+                          <label className="block text-sm font-medium mb-1">Membres de l'Équipe *</label>
                           <Textarea
                             placeholder="Listez les noms et emails des membres de votre équipe"
                             value={formData.teamMembers || ""}
                             onChange={(e) => updateForm("teamMembers", e.target.value)}
-                            className="min-h-[120px]"
+                            className={`min-h-[120px] ${errors.teamMembers ? "border-red-500" : ""}`}
                           />
+                          {errors.teamMembers && (
+                            <p className="text-sm text-red-500 mt-1">{errors.teamMembers}</p>
+                          )}
                         </div>
                       </>
                     )}
