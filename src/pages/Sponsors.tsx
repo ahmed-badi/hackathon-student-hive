@@ -14,67 +14,27 @@ const Sponsors = () => {
           <div className="col-span-full">
             <h2 className="text-2xl font-semibold mb-4 text-amber-600">Sponsors Or</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Michelin */}
               <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-                <div className="bg-gray-100 w-40 h-40 rounded-full flex items-center justify-center mb-4">
-                  <p className="text-gray-400 text-sm">Logo</p>
+                <div className="bg-gray-100 w-40 h-40 rounded-full flex items-center justify-center mb-4 overflow-hidden">
+                  <img src="/logos/Michelin-Logo.png" alt="Logo Michelin" className="object-contain h-full w-full" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">TechGlobal</h3>
-                <p className="text-gray-600 text-center">Leader mondial dans les solutions technologiques innovantes.</p>
+                <h3 className="text-xl font-semibold mb-2">Michelin</h3>
+                <p className="text-gray-600 text-center">
+                  Leader mondial dans la fabrication de pneumatiques, engagé dans la mobilité durable et l'innovation technologique.
+                </p>
               </div>
-              
+
+              {/* Red Bull */}
               <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-                <div className="bg-gray-100 w-40 h-40 rounded-full flex items-center justify-center mb-4">
-                  <p className="text-gray-400 text-sm">Logo</p>
+                <div className="bg-gray-100 w-40 h-40 rounded-full flex items-center justify-center mb-4 overflow-hidden">
+                  <img src="/logos/Red-Bull-Logo.png" alt="Logo Red Bull" className="object-contain h-full w-full" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">InnovateCorp</h3>
-                <p className="text-gray-600 text-center">Spécialiste de l'innovation et du développement de produits numériques.</p>
+                <h3 className="text-xl font-semibold mb-2">RedBull</h3>
+                <p className="text-gray-600 text-center">
+                  Marque emblématique de boissons énergisantes, Red Bull est également un acteur majeur dans le sport, les médias et les technologies de contenu immersif.
+                </p>
               </div>
-            </div>
-          </div>
-          
-          {/* Silver Sponsors */}
-          <div className="col-span-full mt-8">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-500">Sponsors Argent</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-                <div className="bg-gray-100 w-32 h-32 rounded-full flex items-center justify-center mb-4">
-                  <p className="text-gray-400 text-sm">Logo</p>
-                </div>
-                <h3 className="text-lg font-semibold mb-2">DataSmart</h3>
-                <p className="text-gray-600 text-center">Solutions d'analyse de données de pointe.</p>
-              </div>
-              
-              <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-                <div className="bg-gray-100 w-32 h-32 rounded-full flex items-center justify-center mb-4">
-                  <p className="text-gray-400 text-sm">Logo</p>
-                </div>
-                <h3 className="text-lg font-semibold mb-2">CloudNexus</h3>
-                <p className="text-gray-600 text-center">Services cloud pour entreprises innovantes.</p>
-              </div>
-              
-              <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
-                <div className="bg-gray-100 w-32 h-32 rounded-full flex items-center justify-center mb-4">
-                  <p className="text-gray-400 text-sm">Logo</p>
-                </div>
-                <h3 className="text-lg font-semibold mb-2">SecureTech</h3>
-                <p className="text-gray-600 text-center">Experts en cybersécurité et protection des données.</p>
-              </div>
-            </div>
-          </div>
-          
-          {/* Bronze Sponsors */}
-          <div className="col-span-full mt-8">
-            <h2 className="text-2xl font-semibold mb-4 text-amber-800">Sponsors Bronze</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
-                  <div className="bg-gray-100 w-24 h-24 rounded-full flex items-center justify-center mb-3">
-                    <p className="text-gray-400 text-sm">Logo</p>
-                  </div>
-                  <h3 className="text-md font-semibold mb-1">Startup {i}</h3>
-                  <p className="text-gray-600 text-center text-sm">Support technique et innovation.</p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
