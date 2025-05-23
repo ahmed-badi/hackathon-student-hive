@@ -40,7 +40,7 @@ export const RatingsSection = ({ ratings, onRatingChange }: RatingsSectionProps)
         />
         
         <RatingItem 
-          label="Logistique (lieu, nourriture, etc.)" 
+          label="Logistique (lieu, WIFI, Prises etc.)" 
           value={ratings.logistics} 
           onChange={(value) => onRatingChange('logistics', value)} 
         />
