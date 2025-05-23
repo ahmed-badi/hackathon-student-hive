@@ -52,7 +52,7 @@ const Index = () => {
         <div className="relative bg-gradient-to-br from-primary to-accent py-16 md:py-24">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center text-white">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">HackathonZZ 2025</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">HackaZZon 2025</h1>
               <p className="text-lg md:text-xl mb-8">Participez au hackathon étudiant le plus innovant et transformez vos idées en réalité</p>
               
               {/* Countdown Timer */}
