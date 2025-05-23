@@ -93,7 +93,7 @@ const Sponsors = () => {
                     <path d="M7.5 6.5a3 3 0 0 0-5 2.5 3 3 0 0 0 5 2.5 3 3 0 0 0 5-2.5 3 3 0 0 0-5-2.5Z" />
                   </svg>
                 </div>
-                <div className="text-lg font-bold text-white">Student Hive</div>
+                <div className="text-lg font-bold text-white">HackaZZon</div>
               </div>
               <p className="text-sm text-gray-400 max-w-xs">The premier hackathon platform for students to collaborate, innovate, and build amazing projects.</p>
             </div>
@@ -129,7 +129,7 @@ const Sponsors = () => {
           </div>
           
           <div className="border-t border-gray-800 mt-12 pt-8 text-sm text-gray-500 text-center">
-            <p>&copy; {new Date().getFullYear()} Student Hive. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} HackaZZon. All rights reserved.</p>
           </div>
         </div>
       </footer>

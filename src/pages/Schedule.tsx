@@ -13,14 +13,15 @@ const Schedule = () => {
         <div className="max-w-3xl mx-auto mb-12 text-center">
           <p className="text-lg text-gray-600">
             48 heures d'innovation, de collaboration et de créativité. 
-            Découvrez le programme détaillé du Student Hive Hackathon 2025.
+            Découvrez le programme détaillé du HackaZZon 2025.
           </p>
         </div>
         
         {/* Jour 1 */}
         <div className="max-w-4xl mx-auto">
           <div className="relative">
-            <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary/20 ml-6 md:ml-8"></div>
+            <div className="absolute top-0 bottom-0 left-4 w-0.5 bg-primary/20"></div>
+
             
             <div className="mb-12">
               <h2 className="text-2xl font-bold mb-6 pl-14 md:pl-20 text-primary">Jour 1 - 12 juin</h2>
@@ -60,10 +61,11 @@ const Schedule = () => {
                   }
                 ].map((item, index) => (
                   <div key={index} className="relative flex items-start">
-                    <div className="absolute left-0 w-12 md:w-16 text-right text-sm font-semibold text-gray-600">
+                    <div className="absolute left-1 w-12 md:w-16 text-right text-sm font-semibold text-gray-600">
                       {item.time}
                     </div>
-                    <div className="absolute left-0 w-3 h-3 rounded-full bg-primary mt-1.5 ml-[18px] md:ml-[26px]"></div>
+                   <div className="absolute left-3 w-2 h-10 rounded-full bg-primary mt-0.5"></div>
+
                     <div className="pl-14 md:pl-20">
                       <h3 className="font-semibold text-lg">{item.title}</h3>
                       <p className="text-gray-600">{item.description}</p>
@@ -106,10 +108,11 @@ const Schedule = () => {
                   }
                 ].map((item, index) => (
                   <div key={index} className="relative flex items-start">
-                    <div className="absolute left-0 w-12 md:w-16 text-right text-sm font-semibold text-gray-600">
+                    <div className="absolute left-1 w-12 md:w-16 text-right text-sm font-semibold text-gray-600">
                       {item.time}
                     </div>
-                    <div className="absolute left-0 w-3 h-3 rounded-full bg-primary mt-1.5 ml-[18px] md:ml-[26px]"></div>
+                    <div className="absolute left-3 w-2 h-10 rounded-full bg-primary mt-0.5"></div>
+
                     <div className="pl-14 md:pl-20">
                       <h3 className="font-semibold text-lg">{item.title}</h3>
                       <p className="text-gray-600">{item.description}</p>
@@ -124,10 +127,6 @@ const Schedule = () => {
           <div className="mt-16 bg-gray-50 p-6 rounded-lg">
             <h3 className="font-semibold text-lg mb-4">Informations importantes</h3>
             <ul className="space-y-2">
-              <li className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-primary"></span>
-                <span>Les repas et collations sont fournis gratuitement</span>
-              </li>
               <li className="flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-primary"></span>
                 <span>Des espaces de repos sont disponibles pour ceux qui souhaitent faire une pause</span>
@@ -158,7 +157,7 @@ const Schedule = () => {
                     <path d="M7.5 6.5a3 3 0 0 0-5 2.5 3 3 0 0 0 5 2.5 3 3 0 0 0 5-2.5 3 3 0 0 0-5-2.5Z" />
                   </svg>
                 </div>
-                <div className="text-lg font-bold text-white">Student Hive</div>
+                <div className="text-lg font-bold text-white">HackaZZon</div>
               </div>
               <p className="text-sm text-gray-400 max-w-xs">Hackathon organisé dans le cadre d'un projet de management de l'ISIMA. Une occasion unique d'innovation et de collaboration entre étudiants.</p>
             </div>
@@ -194,7 +193,7 @@ const Schedule = () => {
           </div>
           
           <div className="border-t border-gray-800 mt-12 pt-8 text-sm text-gray-500 text-center">
-            <p>&copy; {new Date().getFullYear()} Student Hive. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} HackaZZon. All rights reserved.</p>
           </div>
         </div>
       </footer>

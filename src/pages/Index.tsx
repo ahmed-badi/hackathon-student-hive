@@ -205,7 +205,7 @@ const Index = () => {
                       <path d="M7.5 6.5a3 3 0 0 0-5 2.5 3 3 0 0 0 5 2.5 3 3 0 0 0 5-2.5 3 3 0 0 0-5-2.5Z" />
                     </svg>
                   </div>
-                  <div className="text-lg font-bold text-white">Student Hive</div>
+                  <div className="text-lg font-bold text-white">HackaZZon</div>
                 </div>
                 <p className="text-sm text-gray-400 max-w-xs">Hackathon organisé dans le cadre d'un projet de management de l'ISIMA. Une occasion unique d'innovation et de collaboration entre étudiants.</p>
               </div>

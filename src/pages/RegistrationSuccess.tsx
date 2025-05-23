@@ -18,7 +18,7 @@ const RegistrationSuccess = () => {
           
           <h1 className="text-3xl font-bold mb-3">Inscription réussie !</h1>
           <p className="text-gray-600 mb-8">
-            Merci pour votre inscription au Hackathon Student Hive. Nous avons reçu votre candidature et vous contacterons prochainement avec les prochaines étapes.
+            Merci pour votre inscription au HackaZZon. Nous avons reçu votre candidature et vous contacterons prochainement avec les prochaines étapes.
           </p>
           
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
@@ -26,7 +26,7 @@ const RegistrationSuccess = () => {
             <ol className="text-left text-gray-600 space-y-3">
               <li className="flex gap-3">
                 <div className="flex-none bg-primary/10 text-primary rounded-full h-6 w-6 flex items-center justify-center font-medium text-sm">1</div>
-                <div>Rejoindre notre communauté Discord pour les mises à jour et la formation d'équipes</div>
+                <div>Rejoignez une équipe ou pensez à en former une</div>
               </li>
               <li className="flex gap-3">
                 <div className="flex-none bg-primary/10 text-primary rounded-full h-6 w-6 flex items-center justify-center font-medium text-sm">2</div>

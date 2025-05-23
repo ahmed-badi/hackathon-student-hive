@@ -23,7 +23,7 @@ const Navbar = () => {
                 <path d="M7.5 6.5a3 3 0 0 0-5 2.5 3 3 0 0 0 5 2.5 3 3 0 0 0 5-2.5 3 3 0 0 0-5-2.5Z" />
               </svg>
             </div>
-            <span className="font-bold text-lg text-gray-900">Student Hive</span>
+            <span className="font-bold text-lg text-gray-900">HackaZZon</span>
           </Link>
 
           {/* Desktop menu */}
@@ -37,6 +37,8 @@ const Navbar = () => {
             <Link to="/contact" className="text-gray-600 hover:text-primary transition-colors">Contact</Link>
             <Link to="/mentors" className="text-gray-600 hover:text-primary transition-colors">Mentors</Link>
             <Link to="/prizes" className="text-gray-600 hover:text-primary transition-colors">Prix</Link>
+            <Link to="/submission" className="text-gray-600 hover:text-primary transition-colors">Soumettre</Link>
+            <Link to="/feedback" className="text-gray-600 hover:text-primary transition-colors">Feedback</Link>
           </div>
 
           {/* Register button (desktop) */}
@@ -72,6 +74,8 @@ const Navbar = () => {
             <Link to="/register" className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors inline-block w-full text-center">
             <Link to="/mentors" className="text-gray-600 hover:text-primary transition-colors py-2">Mentors</Link>
             <Link to="/prizes" className="text-gray-600 hover:text-primary transition-colors py-2">Prix</Link>
+            <Link to="/submission" className="text-gray-600 hover:text-primary transition-colors py-2">Soumettre</Link>
+            <Link to="/feedback" className="text-gray-600 hover:text-primary transition-colors py-2">Feedback</Link>
               S'inscrire
             </Link>
           </div>
