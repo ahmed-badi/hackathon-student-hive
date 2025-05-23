@@ -132,7 +132,6 @@ const Jury = () => {
                 <ul className="space-y-2 text-sm">
                   <li><Link to="/sponsors" className="hover:text-white">Sponsors</Link></li>
                   <li><Link to="/mentors" className="hover:text-white">Mentors</Link></li>
-                  <li><Link to="/jury" className="hover:text-white">Jury</Link></li>
                   <li><Link to="/prizes" className="hover:text-white">Prix</Link></li>
                 </ul>
               </div>
