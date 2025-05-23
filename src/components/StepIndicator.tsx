@@ -41,7 +41,7 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep, steps }) => 
               
               {/* Connecting line */}
               {index < steps.length - 1 && (
-                <div className="flex-1 h-0.5 mx-2 hidden sm:block">
+                <div className="flex-1 h-0.5 bg-gray-300 sm:mx-2 relative top-[-13px]">
                   <div
                     className={`h-full ${
                       index < currentStep - 1 ? "bg-primary" : "bg-gray-300"

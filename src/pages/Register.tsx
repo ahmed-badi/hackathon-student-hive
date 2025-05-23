@@ -61,12 +61,15 @@ const Register = () => {
     //   if (!formData.experience) newErrors.experience = "Veuillez fournir des informations sur votre expérience";
     // } 
     else if (currentStep === 4) {
-      if (formData.teamPreference === "have-team" && !formData.teamName) {
-        newErrors.teamName = "Le nom de l'équipe est requis";
+      if (formData.teamPreference === "have-team") {
+        if (!formData.teamName) {
+          newErrors.teamName = "Le nom de l'équipe est requis";
+        }
+        if (!formData.teamMembers || formData.teamMembers.trim() === "") {
+          newErrors.teamMembers = "La liste des membres de l'équipe est requise";
+        }
       }
-      if (!formData.teamMembers || formData.teamMembers.trim() === "") {
-        newErrors.teamMembers = "La liste des membres de l'équipe est requise";
-      }
+      // Pas de validation requise pour "join-team"
     }
 
     setErrors(newErrors);
