@@ -13,6 +13,20 @@ import { LineChart } from "@/components/charts/LineChart";
 import { registrationStore } from "@/lib/registration-store";
 import { supabase } from "@/integrations/supabase/client";
 
+interface Feedback {
+  id: string;
+  name: string;
+  email: string;
+  organization_rating: number;
+  content_rating: number;
+  mentorship_rating: number;
+  logistics_rating: number;
+  overall_rating: number;
+  comments: string;
+  improvement_suggestions: string;
+  created_at: string;
+}
+
 interface Registration {
   id: string;
   first_name: string;
@@ -35,6 +49,7 @@ interface ContactMessage {
 }
 
 const Admin = () => {
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
   const [filteredRegistrations, setFilteredRegistrations] = useState<Registration[]>([]);
@@ -69,6 +84,19 @@ const Admin = () => {
           // Process data for charts
           processChartData(regData || []);
         }
+
+        // Dans la fonction fetchData, ajoutez ceci :
+        const { data: feedbackData, error: feedbackError } = await supabase
+          .from('feedback')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (feedbackError) {
+          console.error('Error fetching feedback:', feedbackError);
+        } else {
+          setFeedbacks(feedbackData || []);
+        }
+
         
         // Fetch contact messages
         const { data: msgData, error: msgError } = await supabase
@@ -189,6 +217,7 @@ const Admin = () => {
             <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
             <TabsTrigger value="registrations">Inscriptions</TabsTrigger>
             <TabsTrigger value="messages">Messages</TabsTrigger>
+            <TabsTrigger value="feedback">Feedback</TabsTrigger>
             <TabsTrigger value="presentations">Présentations</TabsTrigger>
           </TabsList>
           
@@ -421,6 +450,63 @@ const Admin = () => {
               ) : (
                 <div className="p-8 text-center text-gray-500">
                   Aucun message pour l'instant
+                </div>
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="feedback">
+            <div className="bg-white rounded-lg shadow overflow-hidden">
+              {isLoading ? (
+                <div className="p-8 text-center text-gray-500">
+                  Chargement des feedbacks...
+                </div>
+              ) : feedbacks.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-gray-50 border-b">
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Date</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Nom</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Note Globale</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-700">Commentaires</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {feedbacks.map((feedback) => {
+                        const date = new Date(feedback.created_at);
+                        const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+                        
+                        return (
+                          <tr key={feedback.id} className="border-b hover:bg-gray-50">
+                            <td className="py-3 px-4 whitespace-nowrap">{formattedDate}</td>
+                            <td className="py-3 px-4">
+                              {feedback.name || 'Anonyme'}
+                              {feedback.email && <div className="text-sm text-gray-500">{feedback.email}</div>}
+                            </td>
+                            <td className="py-3 px-4">
+                              <div className="flex items-center">
+                                <span className="font-bold mr-1">{feedback.overall_rating}</span>
+                                <span className="text-gray-500">/10</span>
+                              </div>
+                            </td>
+                            <td className="py-3 px-4">
+                              <div className="max-w-xs overflow-hidden">
+                                <p className="truncate">{feedback.comments}</p>
+                                {feedback.improvement_suggestions && (
+                                  <p className="truncate text-sm text-gray-500">Suggestions: {feedback.improvement_suggestions}</p>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="p-8 text-center text-gray-500">
+                  Aucun feedback pour l'instant
                 </div>
               )}
             </div>
