@@ -71,11 +71,11 @@ const Navbar = () => {
             <Link to="/faq" className="text-gray-600 hover:text-primary transition-colors py-2">FAQ</Link>
             <Link to="/presentations" className="text-gray-600 hover:text-primary transition-colors py-2">Présentations</Link>
             <Link to="/contact" className="text-gray-600 hover:text-primary transition-colors py-2">Contact</Link>
-            <Link to="/register" className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors inline-block w-full text-center">
             <Link to="/mentors" className="text-gray-600 hover:text-primary transition-colors py-2">Mentors</Link>
             <Link to="/prizes" className="text-gray-600 hover:text-primary transition-colors py-2">Prix</Link>
             <Link to="/submission" className="text-gray-600 hover:text-primary transition-colors py-2">Soumettre</Link>
             <Link to="/feedback" className="text-gray-600 hover:text-primary transition-colors py-2">Feedback</Link>
+            <Link to="/register" className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors inline-block w-full text-center">
               S'inscrire
             </Link>
           </div>
