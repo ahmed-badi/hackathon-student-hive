@@ -12,7 +12,7 @@ const Mentors = () => {
         
         <div className="max-w-3xl mx-auto mb-8 text-center">
           <p className="text-lg text-gray-600">
-            Nos mentors, issus des meilleures entreprises tech, vous accompagneront tout au long du hackathon 
+            Nos mentors, issus de Michelin, vous accompagneront tout au long du hackathon 
             pour vous aider à réaliser votre projet.
           </p>
         </div>
