@@ -52,8 +52,15 @@ const Index = () => {
         <div className="relative bg-gradient-to-br from-primary to-accent py-16 md:py-24">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center text-white">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">HackaZZon 2025</h1>
-              <p className="text-lg md:text-xl mb-8">Participez au hackathon étudiant le plus innovant et transformez vos idées en réalité</p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              <img 
+                src="/logos/hackaZZon-logo.png" // Remplacez par l'URL réel
+                alt="Logo Hackazzon" 
+                className="h-16 md:h-20 mx-auto mb-4"
+              />
+              HackaZZon 2025
+            </h1>              
+            <p className="text-lg md:text-xl mb-8">Participez au hackathon étudiant le plus innovant et transformez vos idées en réalité</p>
               
               {/* Countdown Timer */}
               <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 mb-8">
@@ -198,16 +205,17 @@ const Index = () => {
             <div className="flex flex-col md:flex-row justify-between">
               <div className="mb-8 md:mb-0">
                 <div className="flex items-center space-x-2 mb-4">
-                  <div className="bg-primary rounded-md p-1.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                      <path d="M17 6.5a3 3 0 0 0-5.5-1.5 3 3 0 0 0-2.5 5 3 3 0 0 0 5.5 1.5 3 3 0 0 0 2.5-5Z" />
-                      <path d="M9 17.5a3 3 0 0 0-2.5 5 3 3 0 0 0 5.5-1.5 3 3 0 0 0 2.5-5 3 3 0 0 0-5-2.5Z" />
-                      <path d="M7.5 6.5a3 3 0 0 0-5 2.5 3 3 0 0 0 5 2.5 3 3 0 0 0 5-2.5 3 3 0 0 0-5-2.5Z" />
-                    </svg>
-                  </div>
+                  {/* Replace SVG with your logo */}
+                  <img
+                    src="/logos/hackaZZon-logo.png" // Adjust the path if needed
+                    alt="Logo Hackazzon"
+                    className="h-10 w-auto rounded-md bg-primary p-1.5"
+                  />
                   <div className="text-lg font-bold text-white">HackaZZon</div>
                 </div>
-                <p className="text-sm text-gray-400 max-w-xs">Hackathon organisé dans le cadre d'un projet de management de l'ISIMA. Une occasion unique d'innovation et de collaboration entre étudiants.</p>
+                <p className="text-sm text-gray-400 max-w-xs">
+                  Hackathon organisé dans le cadre d'un projet de management de l'ISIMA. Une occasion unique d'innovation et de collaboration entre étudiants.
+                </p>
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-3 gap-8">

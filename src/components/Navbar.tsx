@@ -14,17 +14,16 @@ const Navbar = () => {
     <nav className="bg-white shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-primary rounded-md p-1.5">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                <path d="M17 6.5a3 3 0 0 0-5.5-1.5 3 3 0 0 0-2.5 5 3 3 0 0 0 5.5 1.5 3 3 0 0 0 2.5-5Z" />
-                <path d="M9 17.5a3 3 0 0 0-2.5 5 3 3 0 0 0 5.5-1.5 3 3 0 0 0 2.5-5 3 3 0 0 0-5-2.5Z" />
-                <path d="M7.5 6.5a3 3 0 0 0-5 2.5 3 3 0 0 0 5 2.5 3 3 0 0 0 5-2.5 3 3 0 0 0-5-2.5Z" />
-              </svg>
-            </div>
-            <span className="font-bold text-lg text-gray-900">HackaZZon</span>
-          </Link>
+      {/* Logo */}
+      <Link to="/" className="flex items-center space-x-2">
+        {/* Remplacement du SVG par votre logo */}
+        <img 
+          src="/logos/hackaZZon-logo.png" // Chemin d'accès à votre logo dans le dossier public/
+          alt="Logo Hackazzon" 
+          className="h-10 w-auto" // Ajustez la hauteur selon besoin
+        />
+        <span className="font-bold text-lg text-blue">HackaZZon</span> {/* Changement de couleur du texte en blanc */}
+      </Link>
 
           {/* Desktop menu */}
           <div className="hidden md:flex md:items-center md:space-x-8">
