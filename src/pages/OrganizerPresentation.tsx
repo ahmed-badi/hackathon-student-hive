@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { FileIcon, Trash2, FileUp, File, Shield } from "lucide-react";
+import { FileIcon, Trash2, FileUp, File, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
 
 interface Presentation {
   id: string;
@@ -19,6 +20,8 @@ interface Presentation {
 }
 
 const OrganizerPresentation = () => {
+  const { isAuthenticated, isLoading, logout } = useAdminAuth();
+  
   const [presentations, setPresentations] = useState<Presentation[]>([]);
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>("");
@@ -203,20 +206,13 @@ const OrganizerPresentation = () => {
     }
   };
 
-  // Si l'utilisateur n'est pas administrateur, ne pas afficher cette page
-  if (!isAdmin) {
+  // Si l'utilisateur n'est pas authentifié ou en cours de chargement, ne rien afficher
+  if (isLoading || !isAuthenticated) {
     return (
-      <div className="min-h-screen flex flex-col bg-white">
-        <Navbar />
-        <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center">
-          <Shield className="h-16 w-16 text-red-500 mb-4" />
-          <h1 className="text-2xl font-bold mb-4">Accès restreint</h1>
-          <p className="text-center mb-6">
-            Cette page est réservée aux organisateurs du hackathon.
-          </p>
-          <Link to="/presentations" className="text-blue-500 hover:underline">
-            Voir les présentations publiques
-          </Link>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p>Vérification des permissions...</p>
         </div>
       </div>
     );
@@ -234,9 +230,19 @@ const OrganizerPresentation = () => {
               Téléchargez et gérez les présentations pour le hackathon.
             </p>
           </div>
-          <Link to="/presentations" className="text-blue-600 hover:underline flex items-center">
-            <Button variant="outline">Voir la page publique</Button>
-          </Link>
+          <div className="flex gap-4">
+            <Link to="/presentations" className="text-blue-600 hover:underline flex items-center">
+              <Button variant="outline">Voir la page publique</Button>
+            </Link>
+            <Button 
+              variant="outline" 
+              onClick={logout}
+              className="flex items-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              Déconnexion
+            </Button>
+          </div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

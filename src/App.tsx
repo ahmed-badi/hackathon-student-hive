@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Register from "./pages/Register";
 import RegistrationSuccess from "./pages/RegistrationSuccess";
 import Admin from "./pages/Admin";
+import AdminAuth from "./pages/AdminAuth";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/register" element={<Register />} />
           <Route path="/success" element={<RegistrationSuccess />} />
+          <Route path="/admin-auth" element={<AdminAuth />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />

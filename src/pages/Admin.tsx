@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -12,6 +11,8 @@ import { BarChart } from "@/components/charts/BarChart";
 import { LineChart } from "@/components/charts/LineChart";
 import { registrationStore } from "@/lib/registration-store";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { LogOut } from "lucide-react";
 
 interface Feedback {
   id: string;
@@ -49,6 +50,8 @@ interface ContactMessage {
 }
 
 const Admin = () => {
+  const { isAuthenticated, isLoading, logout } = useAdminAuth();
+  
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
@@ -64,6 +67,19 @@ const Admin = () => {
     joinTeam: 0,
     haveTeam: 0
   });
+
+  // Si l'utilisateur n'est pas authentifié ou en cours de chargement, ne rien afficher
+  // Le hook useAdminAuth se charge de la redirection
+  if (isLoading || !isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p>Vérification des permissions...</p>
+        </div>
+      </div>
+    );
+  }
 
   useEffect(() => {
     // Load registrations from Supabase
@@ -206,9 +222,19 @@ const Admin = () => {
       <Navbar />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
-          <p className="text-gray-600">Gérez les inscriptions et consultez les statistiques du hackathon</p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
+            <p className="text-gray-600">Gérez les inscriptions et consultez les statistiques du hackathon</p>
+          </div>
+          <Button 
+            variant="outline" 
+            onClick={logout}
+            className="flex items-center gap-2"
+          >
+            <LogOut className="w-4 h-4" />
+            Déconnexion
+          </Button>
         </div>
         
         {/* Tabs */}
