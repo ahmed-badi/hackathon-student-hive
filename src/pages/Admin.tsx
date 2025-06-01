@@ -50,7 +50,7 @@ interface ContactMessage {
 }
 
 const Admin = () => {
-  const { isAuthenticated, isLoading, logout } = useAdminAuth();
+  const { isAuthenticated, isLoading: authLoading, logout } = useAdminAuth();
   
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [registrations, setRegistrations] = useState<Registration[]>([]);
@@ -58,7 +58,7 @@ const Admin = () => {
   const [filteredRegistrations, setFilteredRegistrations] = useState<Registration[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [trackFilter, setTrackFilter] = useState("all");
-  const [isLoading, setIsLoading] = useState(true);
+  const [dataLoading, setDataLoading] = useState(true);
   
   const [dailyRegistrations, setDailyRegistrations] = useState<{date: string; count: number}[]>([]);
   const [trackDistribution, setTrackDistribution] = useState<{track: string; count: number}[]>([]);
@@ -70,7 +70,7 @@ const Admin = () => {
 
   // Si l'utilisateur n'est pas authentifié ou en cours de chargement, ne rien afficher
   // Le hook useAdminAuth se charge de la redirection
-  if (isLoading || !isAuthenticated) {
+  if (authLoading || !isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -84,7 +84,7 @@ const Admin = () => {
   useEffect(() => {
     // Load registrations from Supabase
     const fetchData = async () => {
-      setIsLoading(true);
+      setDataLoading(true);
       try {
         // Fetch registrations
         const { data: regData, error: regError } = await supabase
@@ -128,7 +128,7 @@ const Admin = () => {
       } catch (e) {
         console.error('Failed to fetch data:', e);
       } finally {
-        setIsLoading(false);
+        setDataLoading(false);
       }
     };
     
@@ -388,7 +388,7 @@ const Admin = () => {
             
             {/* Registrations List */}
             <div className="bg-white rounded-lg shadow overflow-hidden">
-              {isLoading ? (
+              {dataLoading ? (
                 <div className="p-8 text-center text-gray-500">
                   Chargement des inscriptions...
                 </div>
@@ -434,7 +434,7 @@ const Admin = () => {
           {/* Messages Tab */}
           <TabsContent value="messages">
             <div className="bg-white rounded-lg shadow overflow-hidden">
-              {isLoading ? (
+              {dataLoading ? (
                 <div className="p-8 text-center text-gray-500">
                   Chargement des messages...
                 </div>
@@ -483,7 +483,7 @@ const Admin = () => {
 
           <TabsContent value="feedback">
             <div className="bg-white rounded-lg shadow overflow-hidden">
-              {isLoading ? (
+              {dataLoading ? (
                 <div className="p-8 text-center text-gray-500">
                   Chargement des feedbacks...
                 </div>
