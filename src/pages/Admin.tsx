@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -68,20 +69,12 @@ const Admin = () => {
     haveTeam: 0
   });
 
-  // Si l'utilisateur n'est pas authentifié ou en cours de chargement, ne rien afficher
-  // Le hook useAdminAuth se charge de la redirection
-  if (authLoading || !isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p>Vérification des permissions...</p>
-        </div>
-      </div>
-    );
-  }
-
   useEffect(() => {
+    // Only fetch data if authenticated
+    if (!isAuthenticated || authLoading) {
+      return;
+    }
+
     // Load registrations from Supabase
     const fetchData = async () => {
       setDataLoading(true);
@@ -133,7 +126,28 @@ const Admin = () => {
     };
     
     fetchData();
-  }, []);
+  }, [isAuthenticated, authLoading]);
+
+  useEffect(() => {
+    // Filter registrations based on search query and track filter
+    let filtered = [...registrations];
+    
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(reg => 
+        reg.first_name?.toLowerCase().includes(query) || 
+        reg.last_name?.toLowerCase().includes(query) || 
+        reg.email?.toLowerCase().includes(query) ||
+        reg.university?.toLowerCase().includes(query)
+      );
+    }
+    
+    if (trackFilter !== "all") {
+      filtered = filtered.filter(reg => reg.track === trackFilter);
+    }
+    
+    setFilteredRegistrations(filtered);
+  }, [searchQuery, trackFilter, registrations]);
 
   const processChartData = (data: Registration[]) => {
     // Track distribution
@@ -184,27 +198,6 @@ const Admin = () => {
     return `${date.getDate()}/${date.getMonth() + 1}`;
   };
 
-  useEffect(() => {
-    // Filter registrations based on search query and track filter
-    let filtered = [...registrations];
-    
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(reg => 
-        reg.first_name?.toLowerCase().includes(query) || 
-        reg.last_name?.toLowerCase().includes(query) || 
-        reg.email?.toLowerCase().includes(query) ||
-        reg.university?.toLowerCase().includes(query)
-      );
-    }
-    
-    if (trackFilter !== "all") {
-      filtered = filtered.filter(reg => reg.track === trackFilter);
-    }
-    
-    setFilteredRegistrations(filtered);
-  }, [searchQuery, trackFilter, registrations]);
-
   const getTrackName = (trackId: string): string => {
     const tracks: Record<string, string> = {
       "ai-ml": "AI & ML",
@@ -216,6 +209,19 @@ const Admin = () => {
     };
     return tracks[trackId] || trackId;
   };
+
+  // Si l'utilisateur n'est pas authentifié ou en cours de chargement, ne rien afficher
+  // Le hook useAdminAuth se charge de la redirection
+  if (authLoading || !isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p>Vérification des permissions...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
