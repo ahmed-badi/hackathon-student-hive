@@ -78,7 +78,7 @@ const Navbar = () => {
 
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-gray-600 hover:text-primary">
-                    Participants
+                    Projets
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="grid gap-3 p-4 w-[400px]">
@@ -196,7 +196,7 @@ const Navbar = () => {
             </div>
             
             <div className="border-t pt-2">
-              <p className="font-medium text-gray-800 mb-2">Présentations</p>
+              <p className="font-medium text-gray-800 mb-2">Projets</p>
               <Link to="/presentations" className="text-gray-600 hover:text-primary transition-colors py-1 pl-4 block">Présentations</Link>
               <Link to="/submission" className="text-gray-600 hover:text-primary transition-colors py-1 pl-4 block">Soumettre</Link>
             </div>

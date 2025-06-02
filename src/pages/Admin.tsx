@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -94,7 +93,7 @@ const Admin = () => {
           processChartData(regData || []);
         }
 
-        // Dans la fonction fetchData, ajoutez ceci :
+        // Fetch feedback
         const { data: feedbackData, error: feedbackError } = await supabase
           .from('feedback')
           .select('*')
@@ -106,7 +105,6 @@ const Admin = () => {
           setFeedbacks(feedbackData || []);
         }
 
-        
         // Fetch contact messages
         const { data: msgData, error: msgError } = await supabase
           .from('contact_messages')
