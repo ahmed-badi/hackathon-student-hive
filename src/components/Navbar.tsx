@@ -46,8 +46,8 @@ const Navbar = () => {
                   <NavigationMenuTrigger className="text-gray-600 hover:text-primary">
                     Événement
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="grid gap-3 p-4 w-[400px]">
+                  <NavigationMenuContent className="!mt-0">
+                    <div className="grid gap-3 p-4 w-[400px] bg-white border shadow-lg rounded-md">
                       <NavigationMenuLink asChild>
                         <Link to="/about" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                           <div className="text-sm font-medium leading-none">À propos</div>
@@ -80,8 +80,8 @@ const Navbar = () => {
                   <NavigationMenuTrigger className="text-gray-600 hover:text-primary">
                     Projets
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="grid gap-3 p-4 w-[400px]">
+                  <NavigationMenuContent className="!mt-0">
+                    <div className="grid gap-3 p-4 w-[400px] bg-white border shadow-lg rounded-md">
                       <NavigationMenuLink asChild>
                         <Link to="/presentations" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                           <div className="text-sm font-medium leading-none">Présentations</div>
@@ -106,8 +106,8 @@ const Navbar = () => {
                   <NavigationMenuTrigger className="text-gray-600 hover:text-primary">
                     Partenaires
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="grid gap-3 p-4 w-[300px]">
+                  <NavigationMenuContent className="!mt-0">
+                    <div className="grid gap-3 p-4 w-[300px] bg-white border shadow-lg rounded-md">
                       <NavigationMenuLink asChild>
                         <Link to="/sponsors" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                           <div className="text-sm font-medium leading-none">Sponsors</div>
@@ -132,8 +132,8 @@ const Navbar = () => {
                   <NavigationMenuTrigger className="text-gray-600 hover:text-primary">
                     Support
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="grid gap-3 p-4 w-[300px]">
+                  <NavigationMenuContent className="!mt-0">
+                    <div className="grid gap-3 p-4 w-[300px] bg-white border shadow-lg rounded-md">
                       <NavigationMenuLink asChild>
                         <Link to="/mentors" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                           <div className="text-sm font-medium leading-none">Mentors</div>
@@ -152,12 +152,6 @@ const Navbar = () => {
                       </NavigationMenuLink>
                     </div>
                   </NavigationMenuContent>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <Link to="/feedback" className="px-4 py-2 text-gray-600 hover:text-primary transition-colors">
-                    Feedback
-                  </Link>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
@@ -211,10 +205,6 @@ const Navbar = () => {
               <p className="font-medium text-gray-800 mb-2">Support</p>
               <Link to="/mentors" className="text-gray-600 hover:text-primary transition-colors py-1 pl-4 block">Mentors</Link>
               <Link to="/contact" className="text-gray-600 hover:text-primary transition-colors py-1 pl-4 block">Contact</Link>
-            </div>
-            
-            <div className="border-t pt-2">
-              <Link to="/feedback" className="text-gray-600 hover:text-primary transition-colors py-2">Feedback</Link>
             </div>
             
             <Link to="/register" className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors inline-block w-full text-center mt-4">
