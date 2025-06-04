@@ -116,7 +116,7 @@ const Index = () => {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2">Apprendre & Évoluer</h3>
-              <p className="text-gray-600">Participez à une aventure d’apprentissage axée sur la pratique, la créativité et l’innovation.</p>
+              <p className="text-gray-600">Participez à une aventure d'apprentissage axée sur la pratique, la créativité et l'innovation.</p>
             </div>
 
             <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-shadow">
@@ -238,11 +238,11 @@ const Index = () => {
                 </div>
                 
                 <div>
-                  <h3 className="text-white font-semibold mb-3">Connexion</h3>
+                  <h3 className="text-white font-semibold mb-3">Support</h3>
                   <ul className="space-y-2 text-sm">
-                    <li><a href="#" className="hover:text-white">Twitter</a></li>
-                    <li><a href="#" className="hover:text-white">Instagram</a></li>
-                    <li><a href="#" className="hover:text-white">Discord</a></li>
+                    <li><Link to="/jury" className="hover:text-white">Jury</Link></li>
+                    <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
+                    <li><Link to="/mentors" className="hover:text-white">Mentors</Link></li>
                   </ul>
                 </div>
               </div>
