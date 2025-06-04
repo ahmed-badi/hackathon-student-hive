@@ -49,52 +49,53 @@ const Index = () => {
       
       <div className="flex-1 flex flex-col">
         {/* Hero Section */}
-        <div className="relative bg-gradient-to-br from-primary to-accent py-16 md:py-24">
-          <div className="container mx-auto px-4">
+        <div className="relative bg-gradient-to-br from-primary to-accent py-16 md:py-24 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 animate-pulse"></div>
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-3xl mx-auto text-center text-white">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
               <img 
-                src="/logos/hackaZZon-logo.png" // Remplacez par l'URL réel
+                src="/logos/hackaZZon-logo.png"
                 alt="Logo Hackazzon" 
-                className="h-16 md:h-20 mx-auto mb-4"
+                className="h-16 md:h-20 mx-auto mb-4 hover-scale"
               />
               HackaZZon 2025
             </h1>              
-            <p className="text-lg md:text-xl mb-8">Participez au hackathon étudiant le plus innovant et transformez vos idées en réalité</p>
+            <p className="text-lg md:text-xl mb-8 animate-fade-in opacity-90">Participez au hackathon étudiant le plus innovant et transformez vos idées en réalité</p>
               
               {/* Countdown Timer */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 mb-8">
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 mb-8 border border-white/20 shadow-xl animate-scale-in">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <Timer className="w-5 h-5" />
+                  <Timer className="w-5 h-5 animate-pulse" />
                   <span className="font-semibold">Temps restant jusqu'au hackathon</span>
                 </div>
                 <div className="grid grid-cols-4 gap-4 text-center">
-                  <div>
+                  <div className="hover-scale">
                     <div className="text-3xl font-bold">{timeLeft.days}</div>
                     <div className="text-sm opacity-80">Jours</div>
                   </div>
-                  <div>
+                  <div className="hover-scale">
                     <div className="text-3xl font-bold">{timeLeft.hours}</div>
                     <div className="text-sm opacity-80">Heures</div>
                   </div>
-                  <div>
+                  <div className="hover-scale">
                     <div className="text-3xl font-bold">{timeLeft.minutes}</div>
                     <div className="text-sm opacity-80">Minutes</div>
                   </div>
-                  <div>
+                  <div className="hover-scale">
                     <div className="text-3xl font-bold">{timeLeft.seconds}</div>
                     <div className="text-sm opacity-80">Secondes</div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
                 <Link to="/register">
-                  <Button size="lg" className="bg-white text-accent hover:bg-gray-100">
+                  <Button size="lg" className="bg-white text-accent hover:bg-gray-100 hover-scale shadow-lg">
                     S'inscrire maintenant
                   </Button>
                 </Link>
-                <Button  size="lg" className="border-white text-white hover:bg-white/20">
+                <Button size="lg" className="border-white text-white hover:bg-white/20 hover-scale shadow-lg">
                   <Link to="/about">En savoir plus</Link>
                 </Button>
               </div>
@@ -107,8 +108,8 @@ const Index = () => {
         {/* Info Cards */}
         <div className="container mx-auto px-4 py-16 -mt-12 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+            <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-all duration-300 hover-scale animate-fade-in">
+              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                   <path d="M2 3h20"></path>
                   <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"></path>
@@ -116,11 +117,11 @@ const Index = () => {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2">Apprendre & Évoluer</h3>
-              <p className="text-gray-600">Participez à une aventure d’apprentissage axée sur la pratique, la créativité et l’innovation.</p>
+              <p className="text-gray-600">Participez à une aventure d'apprentissage axée sur la pratique, la créativité et l'innovation.</p>
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+            <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-all duration-300 hover-scale animate-fade-in">
+              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="12" x2="12" y1="8" y2="12"></line>
@@ -131,8 +132,8 @@ const Index = () => {
               <p className="text-gray-600">Deux jours de codage, de collaboration et de créativité pour construire des projets incroyables.</p>
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+            <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-all duration-300 hover-scale animate-fade-in">
+              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                   <circle cx="12" cy="8" r="5"></circle>
                   <path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"></path>
@@ -145,40 +146,40 @@ const Index = () => {
         </div>
 
         {/* Tracks Section */}
-        <div className="bg-gray-50 py-16">
+        <div className="bg-gradient-to-br from-gray-50 to-white py-16">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
+            <div className="text-center mb-12 animate-fade-in">
               <h2 className="text-3xl font-bold mb-4">Catégories du Hackathon</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">Choisissez parmi plusieurs catégories d'innovation en fonction de vos intérêts et de votre expertise</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
+              <div className="bg-white rounded-lg shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 hover-scale animate-fade-in">
                 <div className="text-accent text-xl mb-3 font-semibold">IA & Machine Learning</div>
                 <p className="text-gray-600">Développez des solutions innovantes à l'aide d'intelligence artificielle et d'algorithmes d'apprentissage automatique.</p>
               </div>
               
-              <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
+              <div className="bg-white rounded-lg shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 hover-scale animate-fade-in">
                 <div className="text-accent text-xl mb-3 font-semibold">Cybersécurité</div>
                 <p className="text-gray-600">Créez des applications et solutions pour améliorer la sécurité informatique et la protection des données.</p>
               </div>
               
-              <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
+              <div className="bg-white rounded-lg shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 hover-scale animate-fade-in">
                 <div className="text-accent text-xl mb-3 font-semibold">Analyse de Données</div>
                 <p className="text-gray-600">Développez des applications qui abordent les défis d'analyse et de visualisation des données.</p>
               </div>
               
-              <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
+              <div className="bg-white rounded-lg shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 hover-scale animate-fade-in">
                 <div className="text-accent text-xl mb-3 font-semibold">Durabilité & RSE</div>
                 <p className="text-gray-600">Construisez des solutions pour les défis environnementaux et le développement durable.</p>
               </div>
               
-              <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
+              <div className="bg-white rounded-lg shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 hover-scale animate-fade-in">
                 <div className="text-accent text-xl mb-3 font-semibold">Développement Web</div>
                 <p className="text-gray-600">Créez des outils et plateformes web innovants pour résoudre des problèmes réels.</p>
               </div>
               
-              <div className="bg-white rounded-lg shadow p-6 border border-gray-100">
+              <div className="bg-white rounded-lg shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 hover-scale animate-fade-in">
                 <div className="text-accent text-xl mb-3 font-semibold">Blockchain</div>
                 <p className="text-gray-600">Développez des applications décentralisées, des contrats intelligents ou des solutions basées sur la blockchain.</p>
               </div>
@@ -187,12 +188,13 @@ const Index = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-br from-accent to-primary text-white py-16">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-6">Prêt à Hacker?</h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto">Rejoignez des centaines d'étudiants innovants et créez quelque chose d'incroyable en 48 heures</p>
+        <div className="bg-gradient-to-br from-accent to-primary text-white py-16 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-primary/20 animate-pulse"></div>
+          <div className="container mx-auto px-4 text-center relative z-10">
+            <h2 className="text-3xl font-bold mb-6 animate-fade-in">Prêt à Hacker?</h2>
+            <p className="text-xl mb-8 max-w-2xl mx-auto animate-fade-in">Rejoignez des centaines d'étudiants innovants et créez quelque chose d'incroyable en 48 heures</p>
             <Link to="/register">
-              <Button size="lg" className="bg-white text-accent hover:bg-gray-100">
+              <Button size="lg" className="bg-white text-accent hover:bg-gray-100 hover-scale shadow-lg animate-scale-in">
                 S'inscrire Maintenant
               </Button>
             </Link>
@@ -205,11 +207,10 @@ const Index = () => {
             <div className="flex flex-col md:flex-row justify-between">
               <div className="mb-8 md:mb-0">
                 <div className="flex items-center space-x-2 mb-4">
-                  {/* Replace SVG with your logo */}
                   <img
-                    src="/logos/hackaZZon-logo.png" // Adjust the path if needed
+                    src="/logos/hackaZZon-logo.png"
                     alt="Logo Hackazzon"
-                    className="h-10 w-auto rounded-md bg-primary p-1.5"
+                    className="h-10 w-auto rounded-md bg-primary p-1.5 hover-scale"
                   />
                   <div className="text-lg font-bold text-white">HackaZZon</div>
                 </div>
@@ -222,27 +223,27 @@ const Index = () => {
                 <div>
                   <h3 className="text-white font-semibold mb-3">Événement</h3>
                   <ul className="space-y-2 text-sm">
-                    <li><Link to="/about" className="hover:text-white">À propos</Link></li>
-                    <li><Link to="/faq" className="hover:text-white">FAQ</Link></li>
-                    <li><Link to="/schedule" className="hover:text-white">Programme</Link></li>
+                    <li><Link to="/about" className="hover:text-white transition-colors">À propos</Link></li>
+                    <li><Link to="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
+                    <li><Link to="/schedule" className="hover:text-white transition-colors">Programme</Link></li>
                   </ul>
                 </div>
                 
                 <div>
                   <h3 className="text-white font-semibold mb-3">Ressources</h3>
                   <ul className="space-y-2 text-sm">
-                    <li><Link to="/sponsors" className="hover:text-white">Sponsors</Link></li>
-                    <li><Link to="/mentors" className="hover:text-white">Mentors</Link></li>
-                    <li><Link to="/prizes" className="hover:text-white">Prix</Link></li>
+                    <li><Link to="/sponsors" className="hover:text-white transition-colors">Sponsors</Link></li>
+                    <li><Link to="/mentors" className="hover:text-white transition-colors">Mentors</Link></li>
+                    <li><Link to="/prizes" className="hover:text-white transition-colors">Prix</Link></li>
                   </ul>
                 </div>
                 
                 <div>
-                  <h3 className="text-white font-semibold mb-3">Connexion</h3>
+                  <h3 className="text-white font-semibold mb-3">Support</h3>
                   <ul className="space-y-2 text-sm">
-                    <li><a href="#" className="hover:text-white">Twitter</a></li>
-                    <li><a href="#" className="hover:text-white">Instagram</a></li>
-                    <li><a href="#" className="hover:text-white">Discord</a></li>
+                    <li><Link to="/jury" className="hover:text-white transition-colors">Jury</Link></li>
+                    <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+                    <li><Link to="/mentors" className="hover:text-white transition-colors">Mentors</Link></li>
                   </ul>
                 </div>
               </div>
