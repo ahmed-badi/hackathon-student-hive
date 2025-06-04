@@ -95,11 +95,11 @@ const Mentors = () => {
               </div>
               
               <div>
-                <h3 className="text-white font-semibold mb-3">Connexion</h3>
+                <h3 className="text-white font-semibold mb-3">Support</h3>
                 <ul className="space-y-2 text-sm">
-                  <li><a href="#" className="hover:text-white">Twitter</a></li>
-                  <li><a href="#" className="hover:text-white">Instagram</a></li>
-                  <li><a href="#" className="hover:text-white">Discord</a></li>
+                  <li><Link to="/jury" className="hover:text-white">Jury</Link></li>
+                  <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
+                  <li><Link to="/mentors" className="hover:text-white">Mentors</Link></li>
                 </ul>
               </div>
             </div>

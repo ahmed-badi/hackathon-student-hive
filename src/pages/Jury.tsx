@@ -123,6 +123,7 @@ const Jury = () => {
                 <ul className="space-y-2 text-sm">
                   <li><Link to="/jury" className="hover:text-white">Jury</Link></li>
                   <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
+                  <li><Link to="/mentors" className="hover:text-white">Mentors</Link></li>
                 </ul>
               </div>
             </div>

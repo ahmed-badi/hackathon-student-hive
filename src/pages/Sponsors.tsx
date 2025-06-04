@@ -1,5 +1,6 @@
 
 import Navbar from "@/components/Navbar";
+import { Link } from "react-router-dom";
 
 const Sponsors = () => {
   return (
@@ -55,41 +56,41 @@ const Sponsors = () => {
                 </div>
                 <div className="text-lg font-bold text-white">HackaZZon</div>
               </div>
-              <p className="text-sm text-gray-400 max-w-xs">The premier hackathon platform for students to collaborate, innovate, and build amazing projects.</p>
+              <p className="text-sm text-gray-400 max-w-xs">La première plateforme de hackathon pour les étudiants, où collaboration, innovation et projets extraordinaires se rencontrent.</p>
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
               <div>
-                <h3 className="text-white font-semibold mb-3">Event</h3>
+                <h3 className="text-white font-semibold mb-3">Événement</h3>
                 <ul className="space-y-2 text-sm">
-                  <li><a href="/about" className="hover:text-white">About</a></li>
-                  <li><a href="/faq" className="hover:text-white">FAQ</a></li>
-                  <li><a href="/schedule" className="hover:text-white">Schedule</a></li>
+                  <li><Link to="/about" className="hover:text-white">À propos</Link></li>
+                  <li><Link to="/faq" className="hover:text-white">FAQ</Link></li>
+                  <li><Link to="/schedule" className="hover:text-white">Programme</Link></li>
                 </ul>
               </div>
               
               <div>
-                <h3 className="text-white font-semibold mb-3">Resources</h3>
+                <h3 className="text-white font-semibold mb-3">Ressources</h3>
                 <ul className="space-y-2 text-sm">
-                  <li><a href="/sponsors" className="hover:text-white">Sponsors</a></li>
-                  <li><a href="/mentors" className="hover:text-white">Mentors</a></li>
-                  <li><a href="/prizes" className="hover:text-white">Prizes</a></li>
+                  <li><Link to="/sponsors" className="hover:text-white">Sponsors</Link></li>
+                  <li><Link to="/mentors" className="hover:text-white">Mentors</Link></li>
+                  <li><Link to="/prizes" className="hover:text-white">Prix</Link></li>
                 </ul>
               </div>
               
               <div>
-                <h3 className="text-white font-semibold mb-3">Connect</h3>
+                <h3 className="text-white font-semibold mb-3">Support</h3>
                 <ul className="space-y-2 text-sm">
-                  <li><a href="#" className="hover:text-white">Twitter</a></li>
-                  <li><a href="#" className="hover:text-white">Instagram</a></li>
-                  <li><a href="#" className="hover:text-white">Discord</a></li>
+                  <li><Link to="/jury" className="hover:text-white">Jury</Link></li>
+                  <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
+                  <li><Link to="/mentors" className="hover:text-white">Mentors</Link></li>
                 </ul>
               </div>
             </div>
           </div>
           
           <div className="border-t border-gray-800 mt-12 pt-8 text-sm text-gray-500 text-center">
-            <p>&copy; {new Date().getFullYear()} HackaZZon. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} HackaZZon. Tous droits réservés.</p>
           </div>
         </div>
       </footer>
