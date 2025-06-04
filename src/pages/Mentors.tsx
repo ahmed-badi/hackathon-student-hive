@@ -27,7 +27,7 @@ const Mentors = () => {
             },
             {
               name: "Ayoub BAHEND",
-              role: "Dev Ops Engineer @ Michelin",
+              role: "DevOps Engineer @ Michelin",
               expertise: "Développement",
               image: null
             },

@@ -20,39 +20,21 @@ const Jury = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {[
             {
-              name: "Marie Dupont",
-              role: "Directrice de l'Innovation @ BigTech",
-              expertise: "IA & Stratégie",
+              name: "Estelle Dollé",
+              role: "Solution Consultante et Cheffe de projet @ Michelin",
+              expertise: "Gestion de Projet",
               image: null
             },
             {
-              name: "Jean Martin",
-              role: "CTO @ StartupInnovante",
-              expertise: "Architecture Logicielle",
+              name: "Lionel Antraigue",
+              role: "Développeur en freelance",
+              expertise: "Développement",
               image: null
             },
             {
-              name: "Sarah Lemoine",
-              role: "Responsable R&D @ TechCorp",
-              expertise: "Expérience Utilisateur",
-              image: null
-            },
-            {
-              name: "Paul Dubois",
-              role: "Directeur Technique @ DataFirm",
-              expertise: "Machine Learning",
-              image: null
-            },
-            {
-              name: "Émilie Rousseau",
-              role: "VP Engineering @ CloudCo",
-              expertise: "Cloud & DevOps",
-              image: null
-            },
-            {
-              name: "Thomas Bernard",
-              role: "Investisseur @ VentureCap",
-              expertise: "Business Model",
+              name: "Régis Jacquelin",
+              role: "Directeur des Systèmes d'Information @ Région Académique Auvergne-Rhône-Alpes",
+              expertise: "Systèmes d'Information",
               image: null
             }
           ].map((juror, index) => (
@@ -61,7 +43,7 @@ const Jury = () => {
                 <span className="text-gray-400">{juror.name.split(' ').map(n => n[0]).join('')}</span>
               </div>
               <h3 className="text-xl font-semibold mb-1">{juror.name}</h3>
-              <p className="text-gray-600 mb-2">{juror.role}</p>
+              <p className="text-gray-600 mb-2 text-center">{juror.role}</p>
               <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
                 {juror.expertise}
               </span>
@@ -137,11 +119,10 @@ const Jury = () => {
               </div>
               
               <div>
-                <h3 className="text-white font-semibold mb-3">Connexion</h3>
+                <h3 className="text-white font-semibold mb-3">Support</h3>
                 <ul className="space-y-2 text-sm">
-                  <li><a href="#" className="hover:text-white">Twitter</a></li>
-                  <li><a href="#" className="hover:text-white">Instagram</a></li>
-                  <li><a href="#" className="hover:text-white">Discord</a></li>
+                  <li><Link to="/jury" className="hover:text-white">Jury</Link></li>
+                  <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
                 </ul>
               </div>
             </div>

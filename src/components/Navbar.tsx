@@ -143,6 +143,14 @@ const Navbar = () => {
                         </Link>
                       </NavigationMenuLink>
                       <NavigationMenuLink asChild>
+                        <Link to="/jury" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <div className="text-sm font-medium leading-none">Jury</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            Découvrez notre jury d'experts
+                          </p>
+                        </Link>
+                      </NavigationMenuLink>
+                      <NavigationMenuLink asChild>
                         <Link to="/contact" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                           <div className="text-sm font-medium leading-none">Contact</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -204,6 +212,7 @@ const Navbar = () => {
             <div className="border-t pt-2">
               <p className="font-medium text-gray-800 mb-2">Support</p>
               <Link to="/mentors" className="text-gray-600 hover:text-primary transition-colors py-1 pl-4 block">Mentors</Link>
+              <Link to="/jury" className="text-gray-600 hover:text-primary transition-colors py-1 pl-4 block">Jury</Link>
               <Link to="/contact" className="text-gray-600 hover:text-primary transition-colors py-1 pl-4 block">Contact</Link>
             </div>
             

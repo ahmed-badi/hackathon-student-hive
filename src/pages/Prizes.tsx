@@ -59,43 +59,6 @@ const Prizes = () => {
             </Card>
           </div>
           
-          <Card className="bg-white">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-bold mb-4">Prix Spéciaux</h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-md">
-                  <div className="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center">
-                    <HelpCircle size={20} className="text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Prix de l'Innovation</h4>
-                    <p className="text-sm text-gray-600">Pour l'équipe ayant proposé la solution la plus innovative.</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-3 p-3 bg-green-50 rounded-md">
-                  <div className="w-10 h-10 bg-green-400 rounded-full flex items-center justify-center">
-                    <HelpCircle size={20} className="text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Prix Impact Social</h4>
-                    <p className="text-sm text-gray-600">Pour le projet ayant le plus fort impact potentiel sur la société.</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-md">
-                  <div className="w-10 h-10 bg-purple-400 rounded-full flex items-center justify-center">
-                    <HelpCircle size={20} className="text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Prix du Public</h4>
-                    <p className="text-sm text-gray-600">Décerné au projet le plus apprécié par les participants.</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
           <div className="mt-12 text-center">
             <p className="text-lg italic">
               "Le plus grand prix est l'expérience et les compétences que vous développerez !"
