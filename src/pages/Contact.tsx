@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Mail, MapPin, Users } from "lucide-react";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -80,21 +81,38 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50">
       <Navbar />
       
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2">Contactez-nous</h1>
-          <p className="text-gray-600 mb-8">Une question ? Une suggestion ? N'hésitez pas à nous contacter.</p>
+          <div className="text-center mb-12 animate-fade-in">
+            <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Contactez-nous
+            </h1>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              Une question ? Une suggestion ? N'hésitez pas à nous contacter.
+            </p>
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2">
-              <Card className="p-6">
+              <Card className="group p-8 bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-primary/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 animate-fade-in">
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 bg-gradient-to-r from-primary to-blue-600 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                    <Mail className="w-5 h-5 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                    Envoyez-nous un message
+                  </h2>
+                </div>
+                
                 <form onSubmit={handleSubmit}>
-                  <div className="space-y-4">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium mb-1">Nom</label>
+                  <div className="space-y-6">
+                    <div className="group/input">
+                      <label htmlFor="name" className="block text-sm font-semibold mb-2 text-gray-700 group-focus-within/input:text-primary transition-colors duration-300">
+                        Nom
+                      </label>
                       <Input 
                         id="name" 
                         name="name" 
@@ -102,11 +120,14 @@ const Contact = () => {
                         value={formData.name}
                         onChange={handleInputChange}
                         required
+                        className="border-gray-200 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300"
                       />
                     </div>
                     
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
+                    <div className="group/input">
+                      <label htmlFor="email" className="block text-sm font-semibold mb-2 text-gray-700 group-focus-within/input:text-primary transition-colors duration-300">
+                        Email
+                      </label>
                       <Input 
                         id="email" 
                         name="email" 
@@ -115,11 +136,14 @@ const Contact = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
+                        className="border-gray-200 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300"
                       />
                     </div>
                     
-                    <div>
-                      <label htmlFor="subject" className="block text-sm font-medium mb-1">Sujet</label>
+                    <div className="group/input">
+                      <label htmlFor="subject" className="block text-sm font-semibold mb-2 text-gray-700 group-focus-within/input:text-primary transition-colors duration-300">
+                        Sujet
+                      </label>
                       <Input 
                         id="subject" 
                         name="subject" 
@@ -127,11 +151,14 @@ const Contact = () => {
                         value={formData.subject}
                         onChange={handleInputChange}
                         required
+                        className="border-gray-200 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300"
                       />
                     </div>
                     
-                    <div>
-                      <label htmlFor="message" className="block text-sm font-medium mb-1">Message</label>
+                    <div className="group/input">
+                      <label htmlFor="message" className="block text-sm font-semibold mb-2 text-gray-700 group-focus-within/input:text-primary transition-colors duration-300">
+                        Message
+                      </label>
                       <Textarea 
                         id="message" 
                         name="message" 
@@ -140,16 +167,18 @@ const Contact = () => {
                         onChange={handleInputChange}
                         rows={6} 
                         required
+                        className="border-gray-200 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300 resize-none"
                       />
                     </div>
                     
-                    <div className="pt-2">
+                    <div className="pt-4">
                       <Button 
                         type="submit" 
-                        className="w-full" 
+                        className="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl" 
                         disabled={isSubmitting}
+                        size="lg"
                       >
-                        {isSubmitting ? "Envoi en cours..." : "Envoyer"}
+                        {isSubmitting ? "Envoi en cours..." : "Envoyer le message"}
                       </Button>
                     </div>
                   </div>
@@ -157,28 +186,38 @@ const Contact = () => {
               </Card>
             </div>
             
-            <div>
-              <Card className="p-6">
-                <h3 className="text-lg font-medium mb-4">Informations</h3>
-                
-                <div className="space-y-4">
-                  <div>
-                    <p className="font-medium">Adresse</p>
-                    <p className="text-gray-600">
-                      Campus des Cézeaux<br />
-                      1 Rue de la Chebarde<br />
-                      63178 Aubière
-                    </p>
+            <div className="space-y-6">
+              <Card className="group p-6 bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-blue-300 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 animate-fade-in">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
+                    <MapPin className="w-5 h-5 text-white" />
                   </div>
-                  
-                  <div>
-                    <p className="font-medium">L'équipe Hackathon</p>
-                    <p className="text-gray-600">
-                      BADI Ahmed<br />
-                      BAHEND Ayoub<br />
-                      AMALLAH Aymane<br />
-                      BARY Hiba
-                    </p>
+                  <h3 className="text-lg font-semibold text-gray-800">Adresse</h3>
+                </div>
+                
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-100">
+                  <p className="text-gray-700 leading-relaxed">
+                    Campus des Cézeaux<br />
+                    1 Rue de la Chebarde<br />
+                    63178 Aubière
+                  </p>
+                </div>
+              </Card>
+              
+              <Card className="group p-6 bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-green-300 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 animate-fade-in">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
+                    <Users className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-800">L'équipe Hackathon</h3>
+                </div>
+                
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border border-green-100">
+                  <div className="space-y-2 text-gray-700">
+                    <p className="font-medium">BADI Ahmed</p>
+                    <p className="font-medium">BAHEND Ayoub</p>
+                    <p className="font-medium">AMALLAH Aymane</p>
+                    <p className="font-medium">BARY Hiba</p>
                   </div>
                 </div>
               </Card>
