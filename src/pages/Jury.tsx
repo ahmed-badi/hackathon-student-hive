@@ -4,20 +4,22 @@ import { Link } from "react-router-dom";
 
 const Jury = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-purple-50">
       <Navbar />
       
       <div className="container mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold mb-8">Notre Jury</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+          Notre Jury
+        </h1>
         
-        <div className="max-w-3xl mx-auto mb-8 text-center">
-          <p className="text-lg text-gray-600">
+        <div className="max-w-3xl mx-auto mb-12 text-center">
+          <p className="text-lg text-gray-600 leading-relaxed">
             Notre jury d'experts évaluera vos projets et sélectionnera les meilleurs
             pour les récompenses finales du hackathon.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
           {[
             {
               name: "Estelle Dollé",
@@ -38,46 +40,53 @@ const Jury = () => {
               image: null
             }
           ].map((juror, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center">
-              <div className="w-32 h-32 bg-gray-200 rounded-full mb-4 flex items-center justify-center">
-                <span className="text-gray-400">{juror.name.split(' ').map(n => n[0]).join('')}</span>
+            <div 
+              key={index} 
+              className="group bg-white rounded-xl shadow-lg hover:shadow-2xl p-6 flex flex-col items-center transition-all duration-300 hover:-translate-y-2 border border-gray-100 hover:border-purple-200"
+            >
+              <div className="w-32 h-32 bg-gradient-to-br from-purple-100 to-primary/10 rounded-full mb-4 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                <span className="text-purple-600 font-bold text-xl">
+                  {juror.name.split(' ').map(n => n[0]).join('')}
+                </span>
               </div>
-              <h3 className="text-xl font-semibold mb-1 blur-sm select-none">{juror.name}</h3>
-              <p className="text-gray-600 mb-2 text-center">{juror.role}</p>
-              <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
+              <h3 className="text-xl font-semibold mb-2 blur-sm select-none text-center">
+                {juror.name}
+              </h3>
+              <p className="text-gray-600 mb-3 text-center text-sm leading-relaxed">
+                {juror.role}
+              </p>
+              <span className="bg-gradient-to-r from-purple-100 to-primary/10 text-purple-600 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 group-hover:from-purple-600 group-hover:to-primary group-hover:text-white">
                 {juror.expertise}
               </span>
             </div>
           ))}
         </div>
 
-        <div className="max-w-3xl mx-auto mt-16 p-6 bg-gray-50 rounded-lg">
-          <h2 className="text-2xl font-bold mb-4 text-center">Critères d'Évaluation</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-4 rounded-md shadow">
-              <h3 className="text-lg font-semibold mb-2 text-primary">Innovation</h3>
-              <p className="text-gray-600">Originalité de la solution et approche innovante</p>
-            </div>
-            <div className="bg-white p-4 rounded-md shadow">
-              <h3 className="text-lg font-semibold mb-2 text-primary">Impact</h3>
-              <p className="text-gray-600">Potentiel d'impact positif sur l'industrie ou la société</p>
-            </div>
-            <div className="bg-white p-4 rounded-md shadow">
-              <h3 className="text-lg font-semibold mb-2 text-primary">Faisabilité</h3>
-              <p className="text-gray-600">Viabilité technique et potentiel de mise en œuvre</p>
-            </div>
-            <div className="bg-white p-4 rounded-md shadow">
-              <h3 className="text-lg font-semibold mb-2 text-primary">Design</h3>
-              <p className="text-gray-600">Expérience utilisateur et qualité de l'interface</p>
-            </div>
-            <div className="bg-white p-4 rounded-md shadow">
-              <h3 className="text-lg font-semibold mb-2 text-primary">Présentation</h3>
-              <p className="text-gray-600">Clarté et efficacité de la présentation du projet</p>
-            </div>
-            <div className="bg-white p-4 rounded-md shadow">
-              <h3 className="text-lg font-semibold mb-2 text-primary">Travail d'Équipe</h3>
-              <p className="text-gray-600">Collaboration et complémentarité des compétences</p>
-            </div>
+        <div className="max-w-4xl mx-auto p-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100">
+          <h2 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+            Critères d'Évaluation
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { title: "Innovation", description: "Originalité de la solution et approche innovante" },
+              { title: "Impact", description: "Potentiel d'impact positif sur l'industrie ou la société" },
+              { title: "Faisabilité", description: "Viabilité technique et potentiel de mise en œuvre" },
+              { title: "Design", description: "Expérience utilisateur et qualité de l'interface" },
+              { title: "Présentation", description: "Clarté et efficacité de la présentation du projet" },
+              { title: "Travail d'Équipe", description: "Collaboration et complémentarité des compétences" }
+            ].map((criterion, index) => (
+              <div 
+                key={index}
+                className="group bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-100 hover:border-primary/20"
+              >
+                <h3 className="text-lg font-semibold mb-3 text-primary group-hover:text-purple-600 transition-colors duration-300">
+                  {criterion.title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {criterion.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

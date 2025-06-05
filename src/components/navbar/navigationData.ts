@@ -65,9 +65,9 @@ export const navigationSections: NavigationSection[] = [
     title: "Support",
     items: [
       {
-        title: "Mentors",
+        title: "Organisateurs",
         href: "/mentors",
-        description: "Rencontrez nos mentors experts"
+        description: "Rencontrez nos organisateurs experts"
       },
       {
         title: "Jury",

@@ -4,14 +4,16 @@ import { Link } from "react-router-dom";
 
 const Mentors = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50">
       <Navbar />
       
       <div className="container mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold mb-8">Organisateurs de l'événement</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+          Organisateurs de l'événement
+        </h1>
         
-        <div className="max-w-3xl mx-auto mb-8 text-center">
-          <p className="text-lg text-gray-600">
+        <div className="max-w-3xl mx-auto mb-12 text-center">
+          <p className="text-lg text-gray-600 leading-relaxed">
             Notre équipe d'organisateurs, issus de Michelin, vous accompagneront tout au long du hackathon 
             pour vous aider à réaliser votre projet.
           </p>
@@ -43,15 +45,24 @@ const Mentors = () => {
               expertise: "Analyse de Données",
               image: null
             }
-          ].map((mentor, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center">
-              <div className="w-32 h-32 bg-gray-200 rounded-full mb-4 flex items-center justify-center">
-                <span className="text-gray-400">{mentor.name.split(' ').map(n => n[0]).join('')}</span>
+          ].map((organizer, index) => (
+            <div 
+              key={index} 
+              className="group bg-white rounded-xl shadow-lg hover:shadow-2xl p-6 flex flex-col items-center transition-all duration-300 hover:-translate-y-2 border border-gray-100 hover:border-primary/20"
+            >
+              <div className="w-32 h-32 bg-gradient-to-br from-primary/10 to-blue-100 rounded-full mb-4 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">
+                <span className="text-primary font-bold text-xl">
+                  {organizer.name.split(' ').map(n => n[0]).join('')}
+                </span>
               </div>
-              <h3 className="text-xl font-semibold mb-1">{mentor.name}</h3>
-              <p className="text-gray-600 mb-2">{mentor.role}</p>
-              <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
-                {mentor.expertise}
+              <h3 className="text-xl font-semibold mb-2 text-center group-hover:text-primary transition-colors duration-300">
+                {organizer.name}
+              </h3>
+              <p className="text-gray-600 mb-3 text-center text-sm leading-relaxed">
+                {organizer.role}
+              </p>
+              <span className="bg-gradient-to-r from-primary/10 to-blue-100 text-primary px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 group-hover:from-primary group-hover:to-blue-600 group-hover:text-white">
+                {organizer.expertise}
               </span>
             </div>
           ))}
