@@ -8,11 +8,11 @@ const Mentors = () => {
       <Navbar />
       
       <div className="container mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold mb-8">Nos Mentors</h1>
+        <h1 className="text-3xl font-bold mb-8">Organisateurs de l'événement</h1>
         
         <div className="max-w-3xl mx-auto mb-8 text-center">
           <p className="text-lg text-gray-600">
-            Nos mentors, issus de Michelin, vous accompagneront tout au long du hackathon 
+            Notre équipe d'organisateurs, issus de Michelin, vous accompagneront tout au long du hackathon 
             pour vous aider à réaliser votre projet.
           </p>
         </div>

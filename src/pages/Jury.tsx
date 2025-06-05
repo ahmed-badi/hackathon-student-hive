@@ -42,7 +42,7 @@ const Jury = () => {
               <div className="w-32 h-32 bg-gray-200 rounded-full mb-4 flex items-center justify-center">
                 <span className="text-gray-400">{juror.name.split(' ').map(n => n[0]).join('')}</span>
               </div>
-              <h3 className="text-xl font-semibold mb-1">{juror.name}</h3>
+              <h3 className="text-xl font-semibold mb-1 blur-sm select-none">{juror.name}</h3>
               <p className="text-gray-600 mb-2 text-center">{juror.role}</p>
               <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
                 {juror.expertise}
