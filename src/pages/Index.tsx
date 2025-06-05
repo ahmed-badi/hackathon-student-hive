@@ -1,11 +1,10 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { Timer } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const EVENT_DATE = new Date("2025-06-12T00:00:00"); 
+const EVENT_DATE = new Date("2025-06-12T09:00:00"); 
 
 const Index = () => {
   const [timeLeft, setTimeLeft] = useState({
