@@ -7,35 +7,53 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Shield, Lock } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const AdminAuth = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Mot de passe simple pour les administrateurs (vous pouvez le changer)
-  const ADMIN_PASSWORD = "HackaZZon2025Admin";
-
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    if (password === ADMIN_PASSWORD) {
-      // Stocker l'authentification admin dans localStorage
-      localStorage.setItem("adminAuth", "true");
-      toast("Connexion réussie", {
-        description: "Vous êtes maintenant connecté en tant qu'administrateur."
+    try {
+      // Appeler la fonction Edge sécurisée
+      const { data, error } = await supabase.functions.invoke('admin-auth', {
+        body: { password }
       });
-      
-      // Rediriger vers la page admin
-      navigate("/admin");
-    } else {
-      toast("Erreur d'authentification", {
-        description: "Mot de passe incorrect."
+
+      if (error) {
+        console.error("Erreur lors de l'appel à la fonction admin-auth:", error);
+        toast.error("Erreur de connexion. Veuillez réessayer.");
+        return;
+      }
+
+      if (data.success) {
+        // Stocker le token d'authentification
+        localStorage.setItem("adminAuth", "true");
+        localStorage.setItem("adminToken", data.token);
+        
+        toast.success("Connexion réussie", {
+          description: "Vous êtes maintenant connecté en tant qu'administrateur."
+        });
+        
+        // Rediriger vers la page admin
+        navigate("/admin");
+      } else {
+        toast.error("Erreur d'authentification", {
+          description: data.error || "Mot de passe incorrect."
+        });
+      }
+    } catch (error) {
+      console.error("Exception lors de la connexion admin:", error);
+      toast.error("Erreur de connexion", {
+        description: "Une erreur inattendue s'est produite."
       });
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   return (

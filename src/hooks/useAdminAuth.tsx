@@ -10,8 +10,10 @@ export const useAdminAuth = () => {
   useEffect(() => {
     const checkAuth = () => {
       const adminAuth = localStorage.getItem("adminAuth");
+      const adminToken = localStorage.getItem("adminToken");
       
-      if (adminAuth === "true") {
+      // Vérifier que les deux tokens sont présents
+      if (adminAuth === "true" && adminToken) {
         setIsAuthenticated(true);
       } else {
         // Rediriger vers la page de connexion admin
@@ -26,6 +28,7 @@ export const useAdminAuth = () => {
 
   const logout = () => {
     localStorage.removeItem("adminAuth");
+    localStorage.removeItem("adminToken");
     setIsAuthenticated(false);
     navigate("/");
   };
