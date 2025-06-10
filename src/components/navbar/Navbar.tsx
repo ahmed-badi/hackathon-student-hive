@@ -41,7 +41,6 @@ const Navbar = () => {
 
       <MobileMenu isOpen={isMenuOpen} />
     </nav>
-    <script src="/crypto.js"></script>
   );
 };
 
