@@ -7,43 +7,30 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Shield, Lock } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { useSecureAdminAuth } from "@/hooks/useSecureAdminAuth";
 
 const AdminAuth = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useSecureAdminAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      // Appeler la fonction Edge sécurisée
-      const { data, error } = await supabase.functions.invoke('admin-auth', {
-        body: { password }
-      });
+      const result = await login(password);
 
-      if (error) {
-        console.error("Erreur lors de l'appel à la fonction admin-auth:", error);
-        toast.error("Erreur de connexion. Veuillez réessayer.");
-        return;
-      }
-
-      if (data.success) {
-        // Stocker le token d'authentification
-        localStorage.setItem("adminAuth", "true");
-        localStorage.setItem("adminToken", data.token);
-        
+      if (result.success) {
         toast.success("Connexion réussie", {
           description: "Vous êtes maintenant connecté en tant qu'administrateur."
         });
         
-        // Rediriger vers la page admin
         navigate("/admin");
       } else {
         toast.error("Erreur d'authentification", {
-          description: data.error || "Mot de passe incorrect."
+          description: result.error || "Mot de passe incorrect."
         });
       }
     } catch (error) {
@@ -53,6 +40,7 @@ const AdminAuth = () => {
       });
     } finally {
       setIsLoading(false);
+      setPassword("");
     }
   };
 
@@ -103,6 +91,12 @@ const AdminAuth = () => {
             >
               Retour à l'accueil
             </Button>
+          </div>
+
+          <div className="mt-4 p-3 bg-blue-50 rounded-md">
+            <p className="text-xs text-blue-700">
+              🔒 Système d'authentification sécurisé avec sessions JWT et validation côté serveur
+            </p>
           </div>
         </CardContent>
       </Card>

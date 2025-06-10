@@ -1,37 +1,13 @@
 
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useSecureAdminAuth } from "./useSecureAdminAuth";
 
+// Wrapper pour maintenir la compatibilité avec l'ancienne interface
 export const useAdminAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const adminAuth = localStorage.getItem("adminAuth");
-      const adminToken = localStorage.getItem("adminToken");
-      
-      // Vérifier que les deux tokens sont présents
-      if (adminAuth === "true" && adminToken) {
-        setIsAuthenticated(true);
-      } else {
-        // Rediriger vers la page de connexion admin
-        navigate("/admin-auth");
-      }
-      
-      setIsLoading(false);
-    };
-
-    checkAuth();
-  }, [navigate]);
-
-  const logout = () => {
-    localStorage.removeItem("adminAuth");
-    localStorage.removeItem("adminToken");
-    setIsAuthenticated(false);
-    navigate("/");
+  const { isAuthenticated, isLoading, logout } = useSecureAdminAuth();
+  
+  return { 
+    isAuthenticated, 
+    isLoading, 
+    logout 
   };
-
-  return { isAuthenticated, isLoading, logout };
 };
