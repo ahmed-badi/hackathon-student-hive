@@ -7,41 +7,35 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Shield, Lock } from "lucide-react";
-import { useSecureAdminAuth } from "@/hooks/useSecureAdminAuth";
 
 const AdminAuth = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useSecureAdminAuth();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  // Mot de passe simple pour les administrateurs (vous pouvez le changer)
+  const ADMIN_PASSWORD = "HackaZZon2025Admin";
+
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      const result = await login(password);
-
-      if (result.success) {
-        toast.success("Connexion réussie", {
-          description: "Vous êtes maintenant connecté en tant qu'administrateur."
-        });
-        
-        navigate("/admin");
-      } else {
-        toast.error("Erreur d'authentification", {
-          description: result.error || "Mot de passe incorrect."
-        });
-      }
-    } catch (error) {
-      console.error("Exception lors de la connexion admin:", error);
-      toast.error("Erreur de connexion", {
-        description: "Une erreur inattendue s'est produite."
+    if (password === ADMIN_PASSWORD) {
+      // Stocker l'authentification admin dans localStorage
+      localStorage.setItem("adminAuth", "true");
+      toast("Connexion réussie", {
+        description: "Vous êtes maintenant connecté en tant qu'administrateur."
       });
-    } finally {
-      setIsLoading(false);
-      setPassword("");
+      
+      // Rediriger vers la page admin
+      navigate("/admin");
+    } else {
+      toast("Erreur d'authentification", {
+        description: "Mot de passe incorrect."
+      });
     }
+    
+    setIsLoading(false);
   };
 
   return (
@@ -91,12 +85,6 @@ const AdminAuth = () => {
             >
               Retour à l'accueil
             </Button>
-          </div>
-
-          <div className="mt-4 p-3 bg-blue-50 rounded-md">
-            <p className="text-xs text-blue-700">
-              🔒 Système d'authentification sécurisé avec sessions JWT et validation côté serveur
-            </p>
           </div>
         </CardContent>
       </Card>
