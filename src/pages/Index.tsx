@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import { Timer } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const EVENT_DATE = new Date("2025-06-12T09:00:00"); 
+const EVENT_DATE = new Date("2025-06-13T14:30:00"); 
 
 const Index = () => {
   const [timeLeft, setTimeLeft] = useState({
@@ -94,7 +94,7 @@ const Index = () => {
                   </Button>
                 </Link>
                 <Button  size="lg" className="border-white text-white hover:bg-white/20">
-                  <Link to="/about">En savoir plus</Link>
+                  <Link to="/submission">Soumettre votre projet</Link>
                 </Button>
               </div>
             </div>
