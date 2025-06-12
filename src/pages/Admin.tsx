@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -64,6 +64,7 @@ interface TeamSubmission {
 
 const Admin = () => {
   const { isAuthenticated, isLoading: authLoading, logout } = useAdminAuth();
+  const navigate = useNavigate();
   
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [registrations, setRegistrations] = useState<Registration[]>([]);
