@@ -22,7 +22,7 @@ export const useAdminAuth = () => {
     };
 
     checkAuth();
-  }, [navigate]);
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("adminAuth");
