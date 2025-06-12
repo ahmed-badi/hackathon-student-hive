@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -13,7 +12,7 @@ import { LineChart } from "@/components/charts/LineChart";
 import { registrationStore } from "@/lib/registration-store";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { LogOut, Star, MessageCircle, Users2, FileText, ExternalLink, Github } from "lucide-react";
+import { LogOut, Star, MessageCircle, Users2, FileText, ExternalLink, Github, TrendingUp, BarChart3 } from "lucide-react";
 
 interface Feedback {
   id: string;
@@ -254,6 +253,35 @@ const Admin = () => {
     { category: 'Logistique', note: Math.round(feedbackStats.logistics * 10) / 10 },
     { category: 'Global', note: Math.round(feedbackStats.overall * 10) / 10 },
   ] : [];
+
+  // Nouveau: Distribution des notes pour chaque catégorie
+  const getRatingDistribution = (category: 'organization_rating' | 'content_rating' | 'mentorship_rating' | 'logistics_rating' | 'overall_rating') => {
+    const distribution = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(rating => ({
+      note: rating,
+      count: feedbacks.filter(f => f[category] === rating).length
+    }));
+    return distribution;
+  };
+
+  // Nouveau: Évolution des notes dans le temps
+  const getFeedbackTrends = () => {
+    const dailyFeedbacks = feedbacks.reduce((acc: Record<string, any[]>, feedback) => {
+      const date = new Date(feedback.created_at).toISOString().split('T')[0];
+      if (!acc[date]) acc[date] = [];
+      acc[date].push(feedback);
+      return acc;
+    }, {});
+
+    return Object.entries(dailyFeedbacks)
+      .map(([date, dayFeedbacks]) => ({
+        date: formatDate(date),
+        'Note moyenne': Math.round((dayFeedbacks.reduce((sum, f) => sum + f.overall_rating, 0) / dayFeedbacks.length) * 10) / 10,
+        'Nombre de feedbacks': dayFeedbacks.length
+      }))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  };
+
+  const feedbackTrends = getFeedbackTrends();
 
   // Si l'utilisateur n'est pas authentifié ou en cours de chargement, ne rien afficher
   if (authLoading || !isAuthenticated) {
@@ -646,8 +674,50 @@ const Admin = () => {
 
           <TabsContent value="feedback">
             <div className="space-y-6">
-              {/* Statistiques visuelles des feedbacks */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Vue d'ensemble des feedbacks */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <MessageCircle className="w-8 h-8 mx-auto mb-2 text-blue-500" />
+                    <div className="text-2xl font-bold">{feedbacks.length}</div>
+                    <div className="text-sm text-gray-600">Feedbacks reçus</div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <Star className="w-8 h-8 mx-auto mb-2 text-yellow-500" />
+                    <div className="text-2xl font-bold">
+                      {feedbackStats ? Math.round(feedbackStats.overall * 10) / 10 : 'N/A'}
+                    </div>
+                    <div className="text-sm text-gray-600">Note globale moyenne</div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <TrendingUp className="w-8 h-8 mx-auto mb-2 text-green-500" />
+                    <div className="text-2xl font-bold">
+                      {feedbackStats ? Math.round(feedbackStats.organization * 10) / 10 : 'N/A'}
+                    </div>
+                    <div className="text-sm text-gray-600">Meilleure note (Organisation)</div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <BarChart3 className="w-8 h-8 mx-auto mb-2 text-purple-500" />
+                    <div className="text-2xl font-bold">
+                      {feedbacks.filter(f => f.overall_rating >= 8).length}
+                    </div>
+                    <div className="text-sm text-gray-600">Notes ≥ 8/10</div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Graphiques des feedbacks */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Notes moyennes par catégorie */}
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
@@ -663,7 +733,7 @@ const Admin = () => {
                         categories={["note"]}
                         colors={["#f59e0b"]}
                         valueFormatter={(value) => `${value}/10`}
-                        className="h-64"
+                        className="h-80"
                       />
                     ) : (
                       <p className="text-center text-gray-500 py-8">Aucune donnée de feedback disponible</p>
@@ -671,55 +741,102 @@ const Admin = () => {
                   </CardContent>
                 </Card>
 
+                {/* Évolution des notes dans le temps */}
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <MessageCircle className="w-5 h-5 text-blue-500" />
-                      Résumé des feedbacks
+                      <TrendingUp className="w-5 h-5 text-blue-500" />
+                      Évolution des notes moyennes
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="text-center p-4 bg-gray-50 rounded">
-                        <div className="text-2xl font-bold text-blue-600">{feedbacks.length}</div>
-                        <div className="text-sm text-gray-600">Feedbacks reçus</div>
+                  <CardContent>
+                    {feedbackTrends.length > 0 ? (
+                      <LineChart
+                        data={feedbackTrends}
+                        index="date"
+                        categories={["Note moyenne"]}
+                        colors={["#3b82f6"]}
+                        valueFormatter={(value) => `${value}/10`}
+                        className="h-80"
+                      />
+                    ) : (
+                      <p className="text-center text-gray-500 py-8">Pas assez de données pour afficher l'évolution</p>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Distribution des notes globales */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <BarChart3 className="w-5 h-5 text-green-500" />
+                      Distribution des notes globales
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {feedbacks.length > 0 ? (
+                      <BarChart
+                        data={getRatingDistribution('overall_rating')}
+                        index="note"
+                        categories={["count"]}
+                        colors={["#10b981"]}
+                        valueFormatter={(value) => `${value} feedback(s)`}
+                        className="h-80"
+                      />
+                    ) : (
+                      <p className="text-center text-gray-500 py-8">Aucune donnée disponible</p>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Comparaison des catégories */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Star className="w-5 h-5 text-purple-500" />
+                      Détail des notes par catégorie
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {feedbackStats ? (
+                      <div className="space-y-4">
+                        {[
+                          { label: 'Organisation', value: feedbackStats.organization, color: 'bg-blue-500' },
+                          { label: 'Contenu', value: feedbackStats.content, color: 'bg-green-500' },
+                          { label: 'Mentorat', value: feedbackStats.mentorship, color: 'bg-yellow-500' },
+                          { label: 'Logistique', value: feedbackStats.logistics, color: 'bg-red-500' },
+                          { label: 'Global', value: feedbackStats.overall, color: 'bg-purple-500' }
+                        ].map((item) => (
+                          <div key={item.label} className="flex items-center justify-between">
+                            <span className="text-sm font-medium">{item.label}</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-20 bg-gray-200 rounded-full h-2">
+                                <div
+                                  className={`h-2 rounded-full ${item.color}`}
+                                  style={{ width: `${(item.value / 10) * 100}%` }}
+                                ></div>
+                              </div>
+                              <span className="text-sm font-bold min-w-[3rem]">
+                                {Math.round(item.value * 10) / 10}/10
+                              </span>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                      <div className="text-center p-4 bg-gray-50 rounded">
-                        <div className="text-2xl font-bold text-yellow-600">
-                          {feedbackStats ? Math.round(feedbackStats.overall * 10) / 10 : 'N/A'}
-                        </div>
-                        <div className="text-sm text-gray-600">Note globale moyenne</div>
-                      </div>
-                    </div>
-                    
-                    {feedbackStats && (
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="text-sm">Organisation</span>
-                          <span className="font-medium">{Math.round(feedbackStats.organization * 10) / 10}/10</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm">Contenu</span>
-                          <span className="font-medium">{Math.round(feedbackStats.content * 10) / 10}/10</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm">Mentorat</span>
-                          <span className="font-medium">{Math.round(feedbackStats.mentorship * 10) / 10}/10</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm">Logistique</span>
-                          <span className="font-medium">{Math.round(feedbackStats.logistics * 10) / 10}/10</span>
-                        </div>
-                      </div>
+                    ) : (
+                      <p className="text-center text-gray-500 py-8">Aucune donnée disponible</p>
                     )}
                   </CardContent>
                 </Card>
               </div>
 
-              {/* Cartes de feedbacks individuels */}
+              {/* Commentaires récents */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Feedbacks détaillés</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <MessageCircle className="w-5 h-5 text-blue-500" />
+                    Commentaires récents
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   {dataLoading ? (
@@ -728,7 +845,7 @@ const Admin = () => {
                     </div>
                   ) : feedbacks.length > 0 ? (
                     <div className="space-y-4 max-h-96 overflow-y-auto">
-                      {feedbacks.map((feedback) => {
+                      {feedbacks.slice(0, 5).map((feedback) => {
                         const date = new Date(feedback.created_at);
                         const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
                         
@@ -753,39 +870,10 @@ const Admin = () => {
                                 </div>
                               </div>
                               
-                              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3 text-xs">
-                                <div className="bg-gray-50 p-2 rounded text-center">
-                                  <div className="font-medium">{feedback.organization_rating}/10</div>
-                                  <div className="text-gray-600">Organisation</div>
-                                </div>
-                                <div className="bg-gray-50 p-2 rounded text-center">
-                                  <div className="font-medium">{feedback.content_rating}/10</div>
-                                  <div className="text-gray-600">Contenu</div>
-                                </div>
-                                <div className="bg-gray-50 p-2 rounded text-center">
-                                  <div className="font-medium">{feedback.mentorship_rating}/10</div>
-                                  <div className="text-gray-600">Mentorat</div>
-                                </div>
-                                <div className="bg-gray-50 p-2 rounded text-center">
-                                  <div className="font-medium">{feedback.logistics_rating}/10</div>
-                                  <div className="text-gray-600">Logistique</div>
-                                </div>
-                              </div>
-                              
                               {feedback.comments && (
                                 <div className="mb-2">
-                                  <h5 className="text-sm font-medium text-gray-700 mb-1">Commentaires:</h5>
                                   <p className="text-sm text-gray-600 bg-gray-50 p-2 rounded">
                                     {feedback.comments}
-                                  </p>
-                                </div>
-                              )}
-                              
-                              {feedback.improvement_suggestions && (
-                                <div>
-                                  <h5 className="text-sm font-medium text-gray-700 mb-1">Suggestions d'amélioration:</h5>
-                                  <p className="text-sm text-gray-600 bg-blue-50 p-2 rounded">
-                                    {feedback.improvement_suggestions}
                                   </p>
                                 </div>
                               )}
@@ -793,6 +881,12 @@ const Admin = () => {
                           </Card>
                         );
                       })}
+                      
+                      {feedbacks.length > 5 && (
+                        <p className="text-center text-gray-500 text-sm">
+                          ... et {feedbacks.length - 5} autre(s) feedback(s)
+                        </p>
+                      )}
                     </div>
                   ) : (
                     <div className="p-8 text-center text-gray-500">
