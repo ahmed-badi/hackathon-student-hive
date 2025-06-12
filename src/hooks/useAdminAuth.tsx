@@ -14,8 +14,8 @@ export const useAdminAuth = () => {
       if (adminAuth === "true") {
         setIsAuthenticated(true);
       } else {
-        // Rediriger vers la page de connexion admin
-        navigate("/admin-auth");
+        // Ne plus rediriger automatiquement - l'utilisateur doit connaître l'URL
+        setIsAuthenticated(false);
       }
       
       setIsLoading(false);

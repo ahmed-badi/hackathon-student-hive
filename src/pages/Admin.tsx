@@ -283,13 +283,37 @@ const Admin = () => {
 
   const feedbackTrends = getFeedbackTrends();
 
-  // Si l'utilisateur n'est pas authentifié ou en cours de chargement, ne rien afficher
-  if (authLoading || !isAuthenticated) {
+  // Si l'utilisateur n'est pas authentifié, afficher un message d'accès refusé
+  if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
           <p>Vérification des permissions...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center max-w-md mx-auto p-8">
+          <div className="mb-6">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl">🔒</span>
+            </div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Accès refusé</h1>
+            <p className="text-gray-600">
+              Cette section est réservée aux administrateurs autorisés.
+            </p>
+          </div>
+          <button
+            onClick={() => navigate("/")}
+            className="text-primary hover:underline"
+          >
+            Retour à l'accueil
+          </button>
         </div>
       </div>
     );
