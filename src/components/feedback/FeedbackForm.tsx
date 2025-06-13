@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -24,14 +23,15 @@ type FeedbackFormData = {
 export const FeedbackForm = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showCommentsError, setShowCommentsError] = useState(false);
   const [formData, setFormData] = useState<FeedbackFormData>({
     name: "",
     email: "",
-    organization: 5,
-    content: 5,
-    mentorship: 5,
-    logistics: 5,
-    overall: 5,
+    organization: 10,
+    content: 10,
+    mentorship: 10,
+    logistics: 10,
+    overall: 10,
     comments: "",
     suggestions: ""
   });
@@ -41,10 +41,19 @@ export const FeedbackForm = () => {
       ...formData,
       [field]: value
     });
+    if (field === "comments" && value.trim()) {
+      setShowCommentsError(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.comments.trim()) {
+      setShowCommentsError(true);
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -107,6 +116,7 @@ export const FeedbackForm = () => {
               suggestions={formData.suggestions}
               onCommentsChange={(value) => handleChange("comments", value)}
               onSuggestionsChange={(value) => handleChange("suggestions", value)}
+              showError={showCommentsError}
             />
             
             <div className="flex justify-end">
