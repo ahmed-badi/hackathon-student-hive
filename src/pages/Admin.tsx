@@ -142,7 +142,7 @@ const Admin = () => {
         setDataLoading(false);
       }
     };
-    
+     
     fetchData();
   }, [isAuthenticated, authLoading]);
 
