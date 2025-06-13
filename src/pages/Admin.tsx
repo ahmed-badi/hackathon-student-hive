@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -13,7 +14,6 @@ import { SubmissionsTab } from "@/components/admin/SubmissionsTab";
 import { MessagesTab } from "@/components/admin/MessagesTab";
 import { FeedbackTab } from "@/components/admin/FeedbackTab";
 import { PresentationsTab } from "@/components/admin/PresentationsTab";
-import { TeamsTab } from "@/components/admin/TeamsTab";
 
 interface Feedback {
   id: string;
@@ -63,14 +63,6 @@ interface TeamSubmission {
   submitted_at: string;
 }
 
-interface PresentationOrder {
-  id: string;
-  team_name: string;
-  representative_name: string;
-  preferred_order: number;
-  created_at: string;
-}
-
 const Admin = () => {
   const { isAuthenticated, isLoading: authLoading, logout } = useAdminAuth();
   const navigate = useNavigate();
@@ -79,7 +71,6 @@ const Admin = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
   const [teamSubmissions, setTeamSubmissions] = useState<TeamSubmission[]>([]);
-  const [presentationOrders, setPresentationOrders] = useState<PresentationOrder[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   
   const [dailyRegistrations, setDailyRegistrations] = useState<{date: string; count: number}[]>([]);
@@ -144,18 +135,6 @@ const Admin = () => {
           console.error('Error fetching team submissions:', submissionError);
         } else {
           setTeamSubmissions(submissionData || []);
-        }
-
-        // Fetch presentation orders
-        const { data: ordersData, error: ordersError } = await supabase
-          .from('presentation_orders')
-          .select('*')
-          .order('created_at', { ascending: false });
-        
-        if (ordersError) {
-          console.error('Error fetching presentation orders:', ordersError);
-        } else {
-          setPresentationOrders(ordersData || []);
         }
       } catch (e) {
         console.error('Failed to fetch data:', e);
@@ -284,17 +263,18 @@ const Admin = () => {
           </Button>
         </div>
         
+        {/* Tabs */}
         <Tabs defaultValue="overview">
           <TabsList className="mb-6">
             <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
             <TabsTrigger value="registrations">Inscriptions</TabsTrigger>
-            <TabsTrigger value="teams">Équipes</TabsTrigger>
             <TabsTrigger value="submissions">Soumissions</TabsTrigger>
             <TabsTrigger value="messages">Messages</TabsTrigger>
             <TabsTrigger value="feedback">Feedback</TabsTrigger>
             <TabsTrigger value="presentations">Présentations</TabsTrigger>
           </TabsList>
           
+          {/* Overview Tab */}
           <TabsContent value="overview">
             <DashboardStats
               registrationsCount={registrations.length}
@@ -314,13 +294,6 @@ const Admin = () => {
           <TabsContent value="registrations">
             <RegistrationsTab 
               registrations={registrations} 
-              dataLoading={dataLoading} 
-            />
-          </TabsContent>
-
-          <TabsContent value="teams">
-            <TeamsTab 
-              presentationOrders={presentationOrders} 
               dataLoading={dataLoading} 
             />
           </TabsContent>
