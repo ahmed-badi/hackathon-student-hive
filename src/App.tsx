@@ -22,6 +22,7 @@ import Schedule from "./pages/Schedule";
 import OrganizerPresentation from "./pages/OrganizerPresentation";
 import PresentationView from "./pages/PresentationView";
 import Contact from "./pages/Contact";
+import PresentationOrder from "./pages/PresentationOrder";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
           <Route path="/organizer-presentation" element={<OrganizerPresentation />} />
           <Route path="/presentations" element={<PresentationView />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/presentation-order" element={<PresentationOrder />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,84 +1,70 @@
 
-export interface NavigationItem {
-  title: string;
-  href: string;
-  description: string;
-}
-
-export interface NavigationSection {
-  title: string;
-  items: NavigationItem[];
-}
-
-export const navigationSections: NavigationSection[] = [
+export const navigationItems = [
   {
-    title: "Événement",
+    title: "À propos",
+    href: "/about",
+  },
+  {
+    title: "FAQ",
+    href: "/faq",
+  },
+  {
+    title: "Informations",
     items: [
       {
-        title: "À propos",
-        href: "/about",
-        description: "Découvrez HackaZZon et ses objectifs"
-      },
-      {
-        title: "Programme",
+        title: "Planning",
         href: "/schedule",
-        description: "Planning détaillé de l'événement"
-      },
-      {
-        title: "FAQ",
-        href: "/faq",
-        description: "Questions fréquemment posées"
-      }
-    ]
-  },
-  {
-    title: "Projets",
-    items: [
-      {
-        title: "Présentations",
-        href: "/presentations",
-        description: "Découvrez les projets présentés"
-      },
-      {
-        title: "Soumettre",
-        href: "/submission",
-        description: "Soumettez votre projet"
-      }
-    ]
-  },
-  {
-    title: "Partenaires",
-    items: [
-      {
-        title: "Sponsors",
-        href: "/sponsors",
-        description: "Nos sponsors et partenaires"
+        description: "Découvrez le programme détaillé du hackathon"
       },
       {
         title: "Prix",
         href: "/prizes",
-        description: "Récompenses et prix à gagner"
-      }
-    ]
-  },
-  {
-    title: "Support",
-    items: [
+        description: "Les récompenses à gagner"
+      },
       {
-        title: "Organisateurs",
+        title: "Sponsors",
+        href: "/sponsors", 
+        description: "Nos partenaires et sponsors"
+      },
+      {
+        title: "Mentors",
         href: "/mentors",
-        description: "Rencontrez nos organisateurs experts"
+        description: "Les experts qui vous accompagnent"
       },
       {
         title: "Jury",
         href: "/jury",
-        description: "Découvrez notre jury d'experts"
-      },
-      {
-        title: "Contact",
-        href: "/contact",
-        description: "Contactez l'équipe organisatrice"
+        description: "Les personnes qui évalueront vos projets"
       }
     ]
+  },
+  {
+    title: "Participation",
+    items: [
+      {
+        title: "Soumission d'équipe",
+        href: "/submission",
+        description: "Soumettez votre projet final"
+      },
+      {
+        title: "Ordre de passage",
+        href: "/presentation-order",
+        description: "Choisissez votre ordre de présentation"
+      },
+      {
+        title: "Présentations",
+        href: "/presentations",
+        description: "Consultez les présentations du hackathon"
+      },
+      {
+        title: "Feedback",
+        href: "/feedback",
+        description: "Donnez votre avis sur l'événement"
+      }
+    ]
+  },
+  {
+    title: "Contact",
+    href: "/contact",
   }
 ];

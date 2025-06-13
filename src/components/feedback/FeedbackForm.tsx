@@ -27,11 +27,11 @@ export const FeedbackForm = () => {
   const [formData, setFormData] = useState<FeedbackFormData>({
     name: "",
     email: "",
-    organization: 5,
-    content: 5,
-    mentorship: 5,
-    logistics: 5,
-    overall: 5,
+    organization: 10,
+    content: 10,
+    mentorship: 10,
+    logistics: 10,
+    overall: 10,
     comments: "",
     suggestions: ""
   });
@@ -45,6 +45,13 @@ export const FeedbackForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validation pour rendre les commentaires obligatoires
+    if (!formData.comments.trim()) {
+      toast.error("Veuillez remplir la section 'Ce que vous avez apprécié'");
+      return;
+    }
+    
     setIsSubmitting(true);
 
     try {
