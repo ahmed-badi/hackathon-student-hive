@@ -17,6 +17,9 @@ const DesktopMenu = () => {
             <Link to="/" className="px-4 py-2 text-gray-600 hover:text-primary transition-colors">
               Accueil
             </Link>
+            <Link to="/feedback" className="px-4 py-2 text-gray-600 hover:text-primary transition-colors">
+              Feedback
+            </Link>
           </NavigationMenuItem>
 
           {navigationSections.map((section) => (
