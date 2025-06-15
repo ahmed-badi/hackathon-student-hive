@@ -14,16 +14,16 @@ export const useAdminAuth = () => {
       if (adminAuth === "true") {
         setIsAuthenticated(true);
       } else {
-        // Ne plus rediriger automatiquement - l'utilisateur doit connaître l'URL
+        // Rediriger automatiquement vers la page d'authentification admin
         setIsAuthenticated(false);
-        //navigate("/75411000208d793a9b755d7148198e7e718275377700e3adb9eeacf0feb7b17ec802bceb9d3baa893d7c1689229edf83a11ee77485879f1fad7008e5a6ecb51e");
+        navigate("/auth-admin");
       }
       
       setIsLoading(false);
     };
 
     checkAuth();
-  }, []);
+  }, [navigate]);
 
   const logout = () => {
     localStorage.removeItem("adminAuth");
