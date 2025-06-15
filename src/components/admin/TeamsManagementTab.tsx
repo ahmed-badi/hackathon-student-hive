@@ -1,306 +1,33 @@
-import { useState, useEffect } from "react";
+
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Trash2, Users, Shuffle, Plus, UserPlus, BarChart3 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-
-interface Registration {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  university: string;
-  track: string;
-  team_preference: string;
-  team_name?: string;
-}
-
-interface Team {
-  id: string;
-  name: string;
-  track: string;
-  members: Registration[];
-}
-
-interface TeamStats {
-  totalTeams: number;
-  totalMembers: number;
-  averageTeamSize: number;
-  unassignedCount: number;
-  trackBreakdown: { [key: string]: number };
-}
+import { Shuffle, Plus } from "lucide-react";
+import { TeamStats } from "./teams/TeamStats";
+import { TrackBreakdown } from "./teams/TrackBreakdown";
+import { UnassignedMembers } from "./teams/UnassignedMembers";
+import { TeamCard } from "./teams/TeamCard";
+import { useTeamsData } from "./teams/useTeamsData";
+import { useTeamActions } from "./teams/useTeamActions";
 
 export const TeamsManagementTab = () => {
-  const [registrations, setRegistrations] = useState<Registration[]>([]);
-  const [teams, setTeams] = useState<Team[]>([]);
-  const [unassignedMembers, setUnassignedMembers] = useState<Registration[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState<TeamStats>({
-    totalTeams: 0,
-    totalMembers: 0,
-    averageTeamSize: 0,
-    unassignedCount: 0,
-    trackBreakdown: {}
+  const {
+    teams,
+    unassignedMembers,
+    loading,
+    stats,
+    fetchData
+  } = useTeamsData();
+
+  const {
+    createRandomTeams,
+    createManualTeam,
+    deleteTeam,
+    addMemberToTeam,
+    removeMemberFromTeam
+  } = useTeamActions({
+    teams,
+    unassignedMembers,
+    onDataChange: fetchData
   });
-  const { toast } = useToast();
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    calculateStats();
-  }, [teams, unassignedMembers]);
-
-  const calculateStats = () => {
-    const totalMembers = teams.reduce((sum, team) => sum + team.members.length, 0);
-    const averageTeamSize = teams.length > 0 ? totalMembers / teams.length : 0;
-    
-    const trackBreakdown: { [key: string]: number } = {};
-    teams.forEach(team => {
-      trackBreakdown[team.track] = (trackBreakdown[team.track] || 0) + 1;
-    });
-
-    setStats({
-      totalTeams: teams.length,
-      totalMembers,
-      averageTeamSize: Math.round(averageTeamSize * 10) / 10,
-      unassignedCount: unassignedMembers.length,
-      trackBreakdown
-    });
-  };
-
-  const fetchData = async () => {
-    try {
-      // Fetch registrations
-      const { data: regData, error: regError } = await supabase
-        .from('registrations')
-        .select('*');
-
-      if (regError) throw regError;
-
-      setRegistrations(regData || []);
-
-      // Fetch teams with members
-      const { data: teamsData, error: teamsError } = await supabase
-        .from('teams')
-        .select(`
-          *,
-          team_members (
-            registration_id,
-            registrations (*)
-          )
-        `);
-
-      if (teamsError) throw teamsError;
-
-      // Process teams data
-      const processedTeams = (teamsData || []).map(team => ({
-        id: team.id,
-        name: team.name,
-        track: team.track,
-        members: team.team_members?.map((tm: any) => tm.registrations).filter(Boolean) || []
-      }));
-
-      setTeams(processedTeams);
-
-      // Find unassigned members
-      const assignedMemberIds = new Set();
-      processedTeams.forEach(team => {
-        team.members.forEach(member => {
-          assignedMemberIds.add(member.id);
-        });
-      });
-
-      const unassigned = (regData || []).filter(reg => !assignedMemberIds.has(reg.id));
-      setUnassignedMembers(unassigned);
-
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      toast({
-        title: "Erreur",
-        description: "Impossible de charger les données",
-        variant: "destructive"
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const createRandomTeams = async () => {
-    try {
-      const shuffled = [...unassignedMembers].sort(() => 0.5 - Math.random());
-      const newTeams = [];
-
-      for (let i = 0; i < shuffled.length; i += 4) {
-        const teamMembers = shuffled.slice(i, i + 4);
-        if (teamMembers.length >= 2) { // At least 2 members for a team
-          const teamName = `Équipe ${teams.length + newTeams.length + 1}`;
-          
-          // Create team
-          const { data: teamData, error: teamError } = await supabase
-            .from('teams')
-            .insert({ name: teamName, track: teamMembers[0].track })
-            .select()
-            .single();
-
-          if (teamError) throw teamError;
-
-          // Add members to team
-          const memberInserts = teamMembers.map(member => ({
-            team_id: teamData.id,
-            registration_id: member.id,
-            role: 'member'
-          }));
-
-          const { error: membersError } = await supabase
-            .from('team_members')
-            .insert(memberInserts);
-
-          if (membersError) throw membersError;
-
-          newTeams.push({
-            id: teamData.id,
-            name: teamName,
-            track: teamMembers[0].track,
-            members: teamMembers
-          });
-        }
-      }
-
-      toast({
-        title: "Succès",
-        description: `${newTeams.length} équipes créées automatiquement`,
-      });
-
-      fetchData();
-    } catch (error) {
-      console.error('Error creating random teams:', error);
-      toast({
-        title: "Erreur",
-        description: "Impossible de créer les équipes automatiquement",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const createManualTeam = async () => {
-    try {
-      const teamName = `Équipe ${teams.length + 1}`;
-      
-      const { data: teamData, error: teamError } = await supabase
-        .from('teams')
-        .insert({ name: teamName, track: 'open' })
-        .select()
-        .single();
-
-      if (teamError) throw teamError;
-
-      toast({
-        title: "Succès",
-        description: "Équipe créée manuellement",
-      });
-
-      fetchData();
-    } catch (error) {
-      console.error('Error creating manual team:', error);
-      toast({
-        title: "Erreur",
-        description: "Impossible de créer l'équipe manuellement",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const deleteTeam = async (teamId: string) => {
-    try {
-      // Delete team members first
-      const { error: membersError } = await supabase
-        .from('team_members')
-        .delete()
-        .eq('team_id', teamId);
-
-      if (membersError) throw membersError;
-
-      // Delete team
-      const { error: teamError } = await supabase
-        .from('teams')
-        .delete()
-        .eq('id', teamId);
-
-      if (teamError) throw teamError;
-
-      toast({
-        title: "Succès",
-        description: "Équipe supprimée",
-      });
-
-      fetchData();
-    } catch (error) {
-      console.error('Error deleting team:', error);
-      toast({
-        title: "Erreur",
-        description: "Impossible de supprimer l'équipe",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const addMemberToTeam = async (memberId: string, teamId: string) => {
-    try {
-      const { error } = await supabase
-        .from('team_members')
-        .insert({
-          team_id: teamId,
-          registration_id: memberId,
-          role: 'member'
-        });
-
-      if (error) throw error;
-
-      toast({
-        title: "Succès",
-        description: "Membre ajouté à l'équipe",
-      });
-
-      fetchData();
-    } catch (error) {
-      console.error('Error adding member to team:', error);
-      toast({
-        title: "Erreur",
-        description: "Impossible d'ajouter le membre à l'équipe",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const removeMemberFromTeam = async (memberId: string, teamId: string) => {
-    try {
-      const { error } = await supabase
-        .from('team_members')
-        .delete()
-        .eq('team_id', teamId)
-        .eq('registration_id', memberId);
-
-      if (error) throw error;
-
-      toast({
-        title: "Succès",
-        description: "Membre retiré de l'équipe",
-      });
-
-      fetchData();
-    } catch (error) {
-      console.error('Error removing member from team:', error);
-      toast({
-        title: "Erreur",
-        description: "Impossible de retirer le membre de l'équipe",
-        variant: "destructive"
-      });
-    }
-  };
 
   if (loading) {
     return (
@@ -313,74 +40,15 @@ export const TeamsManagementTab = () => {
   return (
     <div className="space-y-6">
       {/* Dashboard/Stats Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Équipes</p>
-                <p className="text-2xl font-bold">{stats.totalTeams}</p>
-              </div>
-              <Users className="h-8 w-8 text-blue-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Membres Assignés</p>
-                <p className="text-2xl font-bold">{stats.totalMembers}</p>
-              </div>
-              <UserPlus className="h-8 w-8 text-green-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Non Assignés</p>
-                <p className="text-2xl font-bold text-orange-600">{stats.unassignedCount}</p>
-              </div>
-              <Users className="h-8 w-8 text-orange-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Taille Moyenne</p>
-                <p className="text-2xl font-bold">{stats.averageTeamSize}</p>
-              </div>
-              <BarChart3 className="h-8 w-8 text-purple-600" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <TeamStats
+        totalTeams={stats.totalTeams}
+        totalMembers={stats.totalMembers}
+        averageTeamSize={stats.averageTeamSize}
+        unassignedCount={stats.unassignedCount}
+      />
 
       {/* Track Breakdown */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="w-5 h-5" />
-            Répartition par Track
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-3">
-            {Object.entries(stats.trackBreakdown).map(([track, count]) => (
-              <Badge key={track} variant="outline" className="px-3 py-1">
-                {track}: {count} équipe{count > 1 ? 's' : ''}
-              </Badge>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      <TrackBreakdown trackBreakdown={stats.trackBreakdown} />
 
       <div className="flex justify-between items-center">
         <div>
@@ -402,94 +70,19 @@ export const TeamsManagementTab = () => {
       </div>
 
       {/* Unassigned Members */}
-      {unassignedMembers.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Users className="w-5 h-5" />
-              Participants non assignés ({unassignedMembers.length})
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {unassignedMembers.map((member) => (
-                <div key={member.id} className="p-3 border rounded-lg">
-                  <p className="font-medium">{member.first_name} {member.last_name}</p>
-                  <p className="text-sm text-gray-600">{member.university}</p>
-                  <Badge variant="outline" className="mt-1">
-                    {member.track}
-                  </Badge>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      <UnassignedMembers unassignedMembers={unassignedMembers} />
 
       {/* Teams */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {teams.map((team) => (
-          <Card key={team.id}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-lg">{team.name}</CardTitle>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => deleteTeam(team.id)}
-                className="text-red-600 hover:text-red-700"
-              >
-                <Trash2 className="w-4 h-4" />
-              </Button>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <Badge variant="outline">{team.track}</Badge>
-                  <span className="text-sm text-gray-500">
-                    {team.members.length} membre{team.members.length > 1 ? 's' : ''}
-                  </span>
-                </div>
-                
-                <div className="space-y-2">
-                  {team.members.map((member) => (
-                    <div key={member.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                      <div>
-                        <p className="font-medium text-sm">{member.first_name} {member.last_name}</p>
-                        <p className="text-xs text-gray-600">{member.university}</p>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeMemberFromTeam(member.id, team.id)}
-                        className="text-red-600 hover:text-red-700"
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-
-                {unassignedMembers.length > 0 && (
-                  <select
-                    className="w-full p-2 border rounded text-sm"
-                    onChange={(e) => {
-                      if (e.target.value) {
-                        addMemberToTeam(e.target.value, team.id);
-                        e.target.value = '';
-                      }
-                    }}
-                  >
-                    <option value="">Ajouter un membre...</option>
-                    {unassignedMembers.map((member) => (
-                      <option key={member.id} value={member.id}>
-                        {member.first_name} {member.last_name} - {member.university}
-                      </option>
-                    ))}
-                  </select>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+          <TeamCard
+            key={team.id}
+            team={team}
+            unassignedMembers={unassignedMembers}
+            onDeleteTeam={deleteTeam}
+            onRemoveMember={removeMemberFromTeam}
+            onAddMember={addMemberToTeam}
+          />
         ))}
       </div>
     </div>
