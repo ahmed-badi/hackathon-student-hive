@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
@@ -8,7 +9,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { FileIcon, Trash2, FileUp, File, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { useSecureAdminAuth } from "@/hooks/useSecureAdminAuth";
 
 interface Presentation {
   id: string;
@@ -20,7 +21,7 @@ interface Presentation {
 }
 
 const OrganizerPresentation = () => {
-  const { isAuthenticated, isLoading, logout } = useAdminAuth();
+  const { isAuthenticated, isLoading, logout } = useSecureAdminAuth();
   
   const [presentations, setPresentations] = useState<Presentation[]>([]);
   const [file, setFile] = useState<File | null>(null);
