@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import FormStep from "@/components/FormStep";
 import StepIndicator from "@/components/StepIndicator";
-import { secureRegistrationStore } from "@/lib/secure-registration-store";
+import { registrationStore } from "@/lib/registration-store";
 
 const STEPS = [
   { label: "Personnel" },
@@ -23,13 +23,13 @@ const STEPS = [
 const Register = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState(secureRegistrationStore.init());
+  const [formData, setFormData] = useState(registrationStore.init());
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [specializationVisible, setSpecializationVisible] = useState(false);
 
   const updateForm = (field: string, value: any) => {
-    const updatedData = secureRegistrationStore.update({ [field]: value });
+    const updatedData = registrationStore.update({ [field]: value });
     
     // Si l'utilisateur change son année d'études à ZZ2 ou ZZ3, montrer le champ spécialisation
     if (field === 'major' && (value === 'ZZ2' || value === 'ZZ3')) {
@@ -37,7 +37,7 @@ const Register = () => {
     } else if (field === 'major' && value === 'ZZ1') {
       setSpecializationVisible(false);
       // Réinitialiser la spécialisation si l'utilisateur revient à ZZ1
-      secureRegistrationStore.update({ 'specialization': '' });
+      registrationStore.update({ 'specialization': '' });
     }
     
     setFormData({ ...updatedData });
@@ -99,7 +99,7 @@ const Register = () => {
       
       try {
         // Submit the form data to Supabase
-        await secureRegistrationStore.submit();
+        await registrationStore.submit();
         navigate("/success");
       } catch (error) {
         console.error("Erreur lors de l'enregistrement:", error);
