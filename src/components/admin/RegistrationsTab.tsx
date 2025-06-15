@@ -1,8 +1,16 @@
 
 import { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RegistrationStats } from "./registrations/RegistrationStats";
+import { RegistrationFilters } from "./registrations/RegistrationFilters";
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
+} from "@/components/ui/table";
 
 interface Registration {
   id: string;
@@ -33,10 +41,24 @@ const getTrackName = (trackId: string): string => {
   return tracks[trackId] || trackId;
 };
 
+const getTeamPreferenceName = (preference: string): string => {
+  switch (preference) {
+    case "solo": return "Solo";
+    case "join-team": return "Cherche équipe";
+    case "have-team": return "A une équipe";
+    default: return preference;
+  }
+};
+
 export const RegistrationsTab = ({ registrations, dataLoading }: RegistrationsTabProps) => {
   const [filteredRegistrations, setFilteredRegistrations] = useState<Registration[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [trackFilter, setTrackFilter] = useState("all");
+  const [teamPreferenceFilter, setTeamPreferenceFilter] = useState("all");
+  const [universityFilter, setUniversityFilter] = useState("all");
+
+  // Get unique universities for filter
+  const universities = Array.from(new Set(registrations.map(r => r.university))).sort();
 
   useEffect(() => {
     let filtered = [...registrations];
@@ -54,83 +76,126 @@ export const RegistrationsTab = ({ registrations, dataLoading }: RegistrationsTa
     if (trackFilter !== "all") {
       filtered = filtered.filter(reg => reg.track === trackFilter);
     }
+
+    if (teamPreferenceFilter !== "all") {
+      filtered = filtered.filter(reg => reg.team_preference === teamPreferenceFilter);
+    }
+
+    if (universityFilter !== "all") {
+      filtered = filtered.filter(reg => reg.university === universityFilter);
+    }
     
     setFilteredRegistrations(filtered);
-  }, [searchQuery, trackFilter, registrations]);
+  }, [searchQuery, trackFilter, teamPreferenceFilter, universityFilter, registrations]);
+
+  const handleReset = () => {
+    setSearchQuery("");
+    setTrackFilter("all");
+    setTeamPreferenceFilter("all");
+    setUniversityFilter("all");
+  };
+
+  const handleExport = () => {
+    const csvData = [
+      ["Nom", "Prénom", "Email", "Université", "Track", "Préférence équipe", "Date inscription"],
+      ...filteredRegistrations.map(reg => [
+        reg.last_name,
+        reg.first_name,
+        reg.email,
+        reg.university,
+        getTrackName(reg.track),
+        getTeamPreferenceName(reg.team_preference),
+        new Date(reg.created_at).toLocaleDateString('fr-FR')
+      ])
+    ];
+    
+    const csvContent = csvData.map(row => row.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "inscriptions.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  if (dataLoading) {
+    return (
+      <div className="p-8 text-center text-gray-500">
+        Chargement des inscriptions...
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
-      {/* Filters */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Recherche</label>
-            <Input
-              placeholder="Rechercher par nom, email, université..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Filtrer par catégorie</label>
-            <Select value={trackFilter} onValueChange={setTrackFilter}>
-              <SelectTrigger>
-                <SelectValue placeholder="Toutes les catégories" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Toutes les catégories</SelectItem>
-                <SelectItem value="ai-ml">AI & Machine Learning</SelectItem>
-                <SelectItem value="web3">Web3 & Blockchain</SelectItem>
-                <SelectItem value="healthtech">HealthTech</SelectItem>
-                <SelectItem value="sustainability">Sustainability</SelectItem>
-                <SelectItem value="edtech">EdTech</SelectItem>
-                <SelectItem value="open">Open Innovation</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-      </div>
+      <RegistrationStats registrations={registrations} />
       
-      {/* Registrations List */}
+      <RegistrationFilters
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        trackFilter={trackFilter}
+        onTrackChange={setTrackFilter}
+        teamPreferenceFilter={teamPreferenceFilter}
+        onTeamPreferenceChange={setTeamPreferenceFilter}
+        universityFilter={universityFilter}
+        onUniversityChange={setUniversityFilter}
+        universities={universities}
+        filteredCount={filteredRegistrations.length}
+        totalCount={registrations.length}
+        onReset={handleReset}
+        onExport={handleExport}
+      />
+      
       <div className="bg-white rounded-lg shadow overflow-hidden">
-        {dataLoading ? (
-          <div className="p-8 text-center text-gray-500">
-            Chargement des inscriptions...
-          </div>
-        ) : filteredRegistrations.length > 0 ? (
+        {filteredRegistrations.length > 0 ? (
           <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-50 border-b">
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Nom</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Email</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Université</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Catégorie</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-700">Équipe</th>
-                </tr>
-              </thead>
-              <tbody>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Nom</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Université</TableHead>
+                  <TableHead>Track</TableHead>
+                  <TableHead>Équipe</TableHead>
+                  <TableHead>Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {filteredRegistrations.map((reg) => (
-                  <tr key={reg.id} className="border-b hover:bg-gray-50">
-                    <td className="py-3 px-4">{reg.first_name} {reg.last_name}</td>
-                    <td className="py-3 px-4">{reg.email}</td>
-                    <td className="py-3 px-4">{reg.university}</td>
-                    <td className="py-3 px-4">
+                  <TableRow key={reg.id}>
+                    <TableCell className="font-medium">
+                      {reg.first_name} {reg.last_name}
+                    </TableCell>
+                    <TableCell>{reg.email}</TableCell>
+                    <TableCell>{reg.university}</TableCell>
+                    <TableCell>
                       <Badge variant="secondary">{getTrackName(reg.track)}</Badge>
-                    </td>
-                    <td className="py-3 px-4">
-                      {reg.team_preference === "solo" && "Solo"}
-                      {reg.team_preference === "join-team" && "Cherche"}
-                      {reg.team_preference === "have-team" && (reg.team_name || "Équipe")}
-                    </td>
-                  </tr>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline">
+                        {getTeamPreferenceName(reg.team_preference)}
+                      </Badge>
+                      {reg.team_name && (
+                        <div className="text-xs text-gray-500 mt-1">{reg.team_name}</div>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-sm text-gray-500">
+                      {new Date(reg.created_at).toLocaleDateString('fr-FR')}
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         ) : (
           <div className="p-8 text-center text-gray-500">
-            {registrations.length === 0 ? "Aucune inscription pour l'instant" : "Aucune inscription correspondant aux critères"}
+            {registrations.length === 0 
+              ? "Aucune inscription pour l'instant" 
+              : "Aucune inscription correspondant aux critères"
+            }
           </div>
         )}
       </div>
