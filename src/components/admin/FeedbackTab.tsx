@@ -2,7 +2,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart } from "@/components/charts/BarChart";
 import { LineChart } from "@/components/charts/LineChart";
-import { Star, MessageCircle, TrendingUp, BarChart3 } from "lucide-react";
+import { Star, MessageCircle, TrendingUp, BarChart3, Eye, MessageSquare } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
 
 interface Feedback {
   id: string;
@@ -24,6 +29,8 @@ interface FeedbackTabProps {
 }
 
 export const FeedbackTab = ({ feedbacks, dataLoading }: FeedbackTabProps) => {
+  const [selectedFeedback, setSelectedFeedback] = useState<Feedback | null>(null);
+
   const calculateFeedbackStats = () => {
     if (feedbacks.length === 0) return null;
 
@@ -80,15 +87,36 @@ export const FeedbackTab = ({ feedbacks, dataLoading }: FeedbackTabProps) => {
 
   const feedbackTrends = getFeedbackTrends();
 
+  const getDetailedStats = () => {
+    if (feedbacks.length === 0) return null;
+
+    const positiveCount = feedbacks.filter(f => f.overall_rating >= 8).length;
+    const neutralCount = feedbacks.filter(f => f.overall_rating >= 6 && f.overall_rating < 8).length;
+    const negativeCount = feedbacks.filter(f => f.overall_rating < 6).length;
+    const withCommentsCount = feedbacks.filter(f => f.comments && f.comments.trim().length > 0).length;
+    const withSuggestionsCount = feedbacks.filter(f => f.improvement_suggestions && f.improvement_suggestions.trim().length > 0).length;
+
+    return {
+      positive: positiveCount,
+      neutral: neutralCount,
+      negative: negativeCount,
+      withComments: withCommentsCount,
+      withSuggestions: withSuggestionsCount,
+      responseRate: Math.round((withCommentsCount / feedbacks.length) * 100)
+    };
+  };
+
+  const detailedStats = getDetailedStats();
+
   return (
     <div className="space-y-6">
-      {/* Vue d'ensemble des feedbacks */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      {/* Statistiques détaillées */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         <Card>
           <CardContent className="p-6 text-center">
             <MessageCircle className="w-8 h-8 mx-auto mb-2 text-blue-500" />
             <div className="text-2xl font-bold">{feedbacks.length}</div>
-            <div className="text-sm text-gray-600">Feedbacks reçus</div>
+            <div className="text-sm text-gray-600">Total feedbacks</div>
           </CardContent>
         </Card>
         
@@ -98,27 +126,49 @@ export const FeedbackTab = ({ feedbacks, dataLoading }: FeedbackTabProps) => {
             <div className="text-2xl font-bold">
               {feedbackStats ? Math.round(feedbackStats.overall * 10) / 10 : 'N/A'}
             </div>
-            <div className="text-sm text-gray-600">Note globale moyenne</div>
+            <div className="text-sm text-gray-600">Note moyenne</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6 text-center">
             <TrendingUp className="w-8 h-8 mx-auto mb-2 text-green-500" />
-            <div className="text-2xl font-bold">
-              {feedbackStats ? Math.round(feedbackStats.organization * 10) / 10 : 'N/A'}
+            <div className="text-2xl font-bold text-green-600">
+              {detailedStats ? detailedStats.positive : 0}
             </div>
-            <div className="text-sm text-gray-600">Meilleure note (Organisation)</div>
+            <div className="text-sm text-gray-600">Notes positives (≥8)</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6 text-center">
-            <BarChart3 className="w-8 h-8 mx-auto mb-2 text-purple-500" />
-            <div className="text-2xl font-bold">
-              {feedbacks.filter(f => f.overall_rating >= 8).length}
+            <BarChart3 className="w-8 h-8 mx-auto mb-2 text-orange-500" />
+            <div className="text-2xl font-bold text-orange-600">
+              {detailedStats ? detailedStats.neutral : 0}
             </div>
-            <div className="text-sm text-gray-600">Notes ≥ 8/10</div>
+            <div className="text-sm text-gray-600">Notes neutres (6-7)</div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6 text-center">
+            <MessageSquare className="w-8 h-8 mx-auto mb-2 text-purple-500" />
+            <div className="text-2xl font-bold">
+              {detailedStats ? detailedStats.withComments : 0}
+            </div>
+            <div className="text-sm text-gray-600">Avec commentaires</div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6 text-center">
+            <div className="w-8 h-8 mx-auto mb-2 bg-indigo-100 rounded-full flex items-center justify-center">
+              <span className="text-indigo-600 font-bold">%</span>
+            </div>
+            <div className="text-2xl font-bold">
+              {detailedStats ? detailedStats.responseRate : 0}%
+            </div>
+            <div className="text-sm text-gray-600">Taux de réponse</div>
           </CardContent>
         </Card>
       </div>
@@ -238,12 +288,12 @@ export const FeedbackTab = ({ feedbacks, dataLoading }: FeedbackTabProps) => {
         </Card>
       </div>
 
-      {/* Commentaires récents */}
+      {/* Tous les feedbacks détaillés */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <MessageCircle className="w-5 h-5 text-blue-500" />
-            Commentaires récents
+            Tous les feedbacks détaillés ({feedbacks.length})
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -252,17 +302,17 @@ export const FeedbackTab = ({ feedbacks, dataLoading }: FeedbackTabProps) => {
               Chargement des feedbacks...
             </div>
           ) : feedbacks.length > 0 ? (
-            <div className="space-y-4 max-h-96 overflow-y-auto">
-              {feedbacks.slice(0, 5).map((feedback) => {
+            <div className="space-y-4">
+              {feedbacks.map((feedback) => {
                 const date = new Date(feedback.created_at);
                 const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
                 
                 return (
                   <Card key={feedback.id} className="border-l-4 border-l-blue-500">
                     <CardContent className="p-4">
-                      <div className="flex justify-between items-start mb-3">
+                      <div className="flex justify-between items-start mb-4">
                         <div>
-                          <h4 className="font-medium">
+                          <h4 className="font-medium text-lg">
                             {feedback.name || 'Anonyme'}
                           </h4>
                           {feedback.email && (
@@ -272,29 +322,74 @@ export const FeedbackTab = ({ feedbacks, dataLoading }: FeedbackTabProps) => {
                         <div className="text-right">
                           <div className="flex items-center gap-1 mb-1">
                             <Star className="w-4 h-4 text-yellow-500" />
-                            <span className="font-bold">{feedback.overall_rating}/10</span>
+                            <span className="font-bold text-lg">{feedback.overall_rating}/10</span>
                           </div>
                           <p className="text-xs text-gray-500">{formattedDate}</p>
                         </div>
                       </div>
+
+                      {/* Notes détaillées */}
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+                        <div className="text-center p-2 bg-blue-50 rounded">
+                          <div className="text-xs text-gray-600">Organisation</div>
+                          <div className="font-semibold">{feedback.organization_rating}/10</div>
+                        </div>
+                        <div className="text-center p-2 bg-green-50 rounded">
+                          <div className="text-xs text-gray-600">Contenu</div>
+                          <div className="font-semibold">{feedback.content_rating}/10</div>
+                        </div>
+                        <div className="text-center p-2 bg-yellow-50 rounded">
+                          <div className="text-xs text-gray-600">Mentorat</div>
+                          <div className="font-semibold">{feedback.mentorship_rating}/10</div>
+                        </div>
+                        <div className="text-center p-2 bg-red-50 rounded">
+                          <div className="text-xs text-gray-600">Logistique</div>
+                          <div className="font-semibold">{feedback.logistics_rating}/10</div>
+                        </div>
+                      </div>
                       
+                      {/* Commentaires complets */}
                       {feedback.comments && (
-                        <div className="mb-2">
-                          <p className="text-sm text-gray-600 bg-gray-50 p-2 rounded">
+                        <div className="mb-4">
+                          <h5 className="font-medium mb-2 text-green-700">Ce qui a été apprécié :</h5>
+                          <div className="text-sm text-gray-700 bg-green-50 p-3 rounded-lg border-l-4 border-green-400">
                             {feedback.comments}
-                          </p>
+                          </div>
                         </div>
                       )}
+
+                      {/* Suggestions d'amélioration */}
+                      {feedback.improvement_suggestions && (
+                        <div>
+                          <h5 className="font-medium mb-2 text-orange-700">Suggestions d'amélioration :</h5>
+                          <div className="text-sm text-gray-700 bg-orange-50 p-3 rounded-lg border-l-4 border-orange-400">
+                            {feedback.improvement_suggestions}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Badge de sentiment */}
+                      <div className="mt-3 flex gap-2">
+                        {feedback.overall_rating >= 8 && (
+                          <Badge className="bg-green-100 text-green-800">Très satisfait</Badge>
+                        )}
+                        {feedback.overall_rating >= 6 && feedback.overall_rating < 8 && (
+                          <Badge className="bg-orange-100 text-orange-800">Satisfait</Badge>
+                        )}
+                        {feedback.overall_rating < 6 && (
+                          <Badge className="bg-red-100 text-red-800">Insatisfait</Badge>
+                        )}
+                        {feedback.comments && (
+                          <Badge variant="outline">Avec commentaires</Badge>
+                        )}
+                        {feedback.improvement_suggestions && (
+                          <Badge variant="outline">Avec suggestions</Badge>
+                        )}
+                      </div>
                     </CardContent>
                   </Card>
                 );
               })}
-              
-              {feedbacks.length > 5 && (
-                <p className="text-center text-gray-500 text-sm">
-                  ... et {feedbacks.length - 5} autre(s) feedback(s)
-                </p>
-              )}
             </div>
           ) : (
             <div className="p-8 text-center text-gray-500">
