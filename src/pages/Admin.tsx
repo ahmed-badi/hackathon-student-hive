@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -14,6 +13,7 @@ import { SubmissionsTab } from "@/components/admin/SubmissionsTab";
 import { MessagesTab } from "@/components/admin/MessagesTab";
 import { FeedbackTab } from "@/components/admin/FeedbackTab";
 import { PresentationsTab } from "@/components/admin/PresentationsTab";
+import { TeamsManagementTab } from "@/components/admin/TeamsManagementTab";
 
 interface Feedback {
   id: string;
@@ -268,6 +268,7 @@ const Admin = () => {
           <TabsList className="mb-6">
             <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
             <TabsTrigger value="registrations">Inscriptions</TabsTrigger>
+            <TabsTrigger value="teams">Équipes</TabsTrigger>
             <TabsTrigger value="submissions">Soumissions</TabsTrigger>
             <TabsTrigger value="messages">Messages</TabsTrigger>
             <TabsTrigger value="feedback">Feedback</TabsTrigger>
@@ -296,6 +297,10 @@ const Admin = () => {
               registrations={registrations} 
               dataLoading={dataLoading} 
             />
+          </TabsContent>
+
+          <TabsContent value="teams">
+            <TeamsManagementTab />
           </TabsContent>
 
           <TabsContent value="submissions">
