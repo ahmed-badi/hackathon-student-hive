@@ -9,6 +9,42 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          admin_user_id: string
+          changes: Json | null
+          created_at: string | null
+          id: string
+          ip_address: unknown | null
+          record_id: string | null
+          table_name: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          admin_user_id: string
+          changes?: Json | null
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          record_id?: string | null
+          table_name?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          admin_user_id?: string
+          changes?: Json | null
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          record_id?: string | null
+          table_name?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       admin_sessions: {
         Row: {
           created_at: string
@@ -32,6 +68,30 @@ export type Database = {
           id?: string
           last_used_at?: string | null
           token?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      admin_users: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          role?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          role?: string
           user_id?: string
         }
         Relationships: []
@@ -303,6 +363,19 @@ export type Database = {
       is_admin: {
         Args: Record<PropertyKey, never> | { user_id?: string }
         Returns: boolean
+      }
+      is_admin_user: {
+        Args: { user_uuid?: string }
+        Returns: boolean
+      }
+      log_admin_action: {
+        Args: {
+          action_type: string
+          table_name?: string
+          record_id?: string
+          changes?: Json
+        }
+        Returns: undefined
       }
     }
     Enums: {

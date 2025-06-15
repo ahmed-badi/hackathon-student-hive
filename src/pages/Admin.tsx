@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { useSecureAdminAuth } from "@/hooks/useSecureAdminAuth";
 import { LogOut } from "lucide-react";
 import { DashboardStats } from "@/components/admin/DashboardStats";
 import { ChartsSection } from "@/components/admin/ChartsSection";
@@ -64,7 +64,7 @@ interface TeamSubmission {
 }
 
 const Admin = () => {
-  const { isAuthenticated, isLoading: authLoading, logout } = useAdminAuth();
+  const { isAuthenticated, isLoading: authLoading, logout, user } = useSecureAdminAuth();
   const navigate = useNavigate();
   
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
@@ -89,6 +89,11 @@ const Admin = () => {
     const fetchData = async () => {
       setDataLoading(true);
       try {
+        // Log admin action
+        await supabase.rpc('log_admin_action', {
+          action_type: 'ADMIN_DASHBOARD_ACCESS'
+        });
+
         // Fetch registrations
         const { data: regData, error: regError } = await supabase
           .from('registrations')
@@ -233,10 +238,10 @@ const Admin = () => {
             </p>
           </div>
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/admin-login")}
             className="text-primary hover:underline"
           >
-            Retour à l'accueil
+            Se connecter en tant qu'administrateur
           </button>
         </div>
       </div>
@@ -251,7 +256,9 @@ const Admin = () => {
         <div className="mb-8 flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
-            <p className="text-gray-600">Gérez les inscriptions et consultez les statistiques du hackathon</p>
+            <p className="text-gray-600">
+              Connecté en tant que: {user?.email} | Gérez les inscriptions et consultez les statistiques du hackathon
+            </p>
           </div>
           <Button 
             variant="outline" 
