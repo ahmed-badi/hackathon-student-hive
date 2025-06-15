@@ -28,7 +28,7 @@ const AdminAuth = () => {
       });
       
       // Rediriger vers la page admin
-      navigate("/75411000208d793a9b755d7148198e7e718275377700e3adb9eeacf0feb7b17ec802bceb9d3baa893d7c1689229edf83a11ee77485879f1fad7008e5a6ecb51e");
+      navigate("/admin");
     } else {
       toast("Erreur d'authentification", {
         description: "Mot de passe incorrect."
