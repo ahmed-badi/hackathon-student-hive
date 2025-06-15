@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Trash2, Users, Shuffle, Plus } from "lucide-react";
+import { Trash2, Users, Shuffle, Plus, UserPlus, BarChart3 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -25,16 +24,53 @@ interface Team {
   members: Registration[];
 }
 
+interface TeamStats {
+  totalTeams: number;
+  totalMembers: number;
+  averageTeamSize: number;
+  unassignedCount: number;
+  trackBreakdown: { [key: string]: number };
+}
+
 export const TeamsManagementTab = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
   const [unassignedMembers, setUnassignedMembers] = useState<Registration[]>([]);
   const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<TeamStats>({
+    totalTeams: 0,
+    totalMembers: 0,
+    averageTeamSize: 0,
+    unassignedCount: 0,
+    trackBreakdown: {}
+  });
   const { toast } = useToast();
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    calculateStats();
+  }, [teams, unassignedMembers]);
+
+  const calculateStats = () => {
+    const totalMembers = teams.reduce((sum, team) => sum + team.members.length, 0);
+    const averageTeamSize = teams.length > 0 ? totalMembers / teams.length : 0;
+    
+    const trackBreakdown: { [key: string]: number } = {};
+    teams.forEach(team => {
+      trackBreakdown[team.track] = (trackBreakdown[team.track] || 0) + 1;
+    });
+
+    setStats({
+      totalTeams: teams.length,
+      totalMembers,
+      averageTeamSize: Math.round(averageTeamSize * 10) / 10,
+      unassignedCount: unassignedMembers.length,
+      trackBreakdown
+    });
+  };
 
   const fetchData = async () => {
     try {
@@ -276,6 +312,76 @@ export const TeamsManagementTab = () => {
 
   return (
     <div className="space-y-6">
+      {/* Dashboard/Stats Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Équipes</p>
+                <p className="text-2xl font-bold">{stats.totalTeams}</p>
+              </div>
+              <Users className="h-8 w-8 text-blue-600" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Membres Assignés</p>
+                <p className="text-2xl font-bold">{stats.totalMembers}</p>
+              </div>
+              <UserPlus className="h-8 w-8 text-green-600" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Non Assignés</p>
+                <p className="text-2xl font-bold text-orange-600">{stats.unassignedCount}</p>
+              </div>
+              <Users className="h-8 w-8 text-orange-600" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Taille Moyenne</p>
+                <p className="text-2xl font-bold">{stats.averageTeamSize}</p>
+              </div>
+              <BarChart3 className="h-8 w-8 text-purple-600" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Track Breakdown */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <BarChart3 className="w-5 h-5" />
+            Répartition par Track
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-3">
+            {Object.entries(stats.trackBreakdown).map(([track, count]) => (
+              <Badge key={track} variant="outline" className="px-3 py-1">
+                {track}: {count} équipe{count > 1 ? 's' : ''}
+              </Badge>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold">Gestion des Équipes</h2>
@@ -340,7 +446,7 @@ export const TeamsManagementTab = () => {
                 <div className="flex items-center justify-between">
                   <Badge variant="outline">{team.track}</Badge>
                   <span className="text-sm text-gray-500">
-                    {team.members.length}/4 membres
+                    {team.members.length} membre{team.members.length > 1 ? 's' : ''}
                   </span>
                 </div>
                 
@@ -363,7 +469,7 @@ export const TeamsManagementTab = () => {
                   ))}
                 </div>
 
-                {team.members.length < 4 && unassignedMembers.length > 0 && (
+                {unassignedMembers.length > 0 && (
                   <select
                     className="w-full p-2 border rounded text-sm"
                     onChange={(e) => {
